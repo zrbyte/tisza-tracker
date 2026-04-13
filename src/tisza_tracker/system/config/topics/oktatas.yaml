@@ -3,15 +3,22 @@ description: "Oktatási reform, pedagógusbérek, egyetemek, iskolák, tanárszt
 
 feeds:
   - "telex"
-  - "hvg"
-  - "index_belfold"
   - "444"
-  - "24hu"
+  - "hvg"
   - "nepszava"
-  - "rtl"
+  - "index"
+  - "24hu"
   - "origo"
+  - "origo_itthon"
+  - "rtl"
+  - "portfolio"
+  - "vg"
+  - "g7"
   - "magyarnemzet"
-  - "hirado"
+  - "mandiner"
+  - "168hu"
+  - "hungarytoday"
+  - "budapesttimes"
   - "kormany"
 
 filter:

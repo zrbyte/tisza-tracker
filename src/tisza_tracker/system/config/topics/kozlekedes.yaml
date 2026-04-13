@@ -3,14 +3,22 @@ description: "Közlekedési infrastruktúra, vasút, autópálya, tömegközleke
 
 feeds:
   - "telex"
-  - "hvg"
-  - "index_belfold"
-  - "index_gazdasag"
-  - "portfolio"
   - "444"
+  - "hvg"
+  - "nepszava"
+  - "index"
   - "24hu"
   - "origo"
+  - "origo_itthon"
+  - "rtl"
+  - "portfolio"
+  - "vg"
+  - "g7"
   - "magyarnemzet"
+  - "mandiner"
+  - "168hu"
+  - "hungarytoday"
+  - "budapesttimes"
   - "kormany"
 
 filter:

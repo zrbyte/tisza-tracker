@@ -3,16 +3,22 @@ description: "EU, NATO, orosz-ukrán háború, diplomácia, szankciók, nemzetk�
 
 feeds:
   - "telex"
-  - "hvg"
-  - "index_belfold"
   - "444"
-  - "24hu"
+  - "hvg"
   - "nepszava"
-  - "rtl"
+  - "index"
+  - "24hu"
   - "origo"
+  - "origo_itthon"
+  - "rtl"
+  - "portfolio"
+  - "vg"
+  - "g7"
   - "magyarnemzet"
   - "mandiner"
-  - "hirado"
+  - "168hu"
+  - "hungarytoday"
+  - "budapesttimes"
   - "kormany"
 
 filter:
