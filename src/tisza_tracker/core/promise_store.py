@@ -310,6 +310,44 @@ class PromiseStore:
             """, (article_entry_id,)).fetchall()
             return [dict(r) for r in rows]
 
+    # ---- Enriched queries ----
+
+    def get_promises_with_articles(
+        self,
+        papers_db_path: str,
+        category: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
+        """Return all promises with their linked articles enriched with title/link.
+
+        Attaches the papers database to resolve article entry IDs into
+        human-readable titles and URLs.  Each returned dict has the promise
+        fields plus an ``articles`` list of ``{title, link, relevance_score}``
+        dicts (deduplicated, ordered by descending score).
+        """
+        with self._connection() as conn:
+            conn.execute("ATTACH ? AS papers", (papers_db_path,))
+            try:
+                query = "SELECT * FROM promises WHERE 1=1"
+                params: list = []
+                if category:
+                    query += " AND category = ?"
+                    params.append(category)
+                query += " ORDER BY category, id"
+                promises = [dict(r) for r in conn.execute(query, params).fetchall()]
+
+                for promise in promises:
+                    rows = conn.execute("""
+                        SELECT DISTINCT e.title, e.link, pal.relevance_score
+                        FROM promise_article_links pal
+                        JOIN papers.entries e ON pal.article_entry_id = e.id
+                        WHERE pal.promise_id = ?
+                        ORDER BY pal.relevance_score DESC
+                    """, (promise["id"],)).fetchall()
+                    promise["articles"] = [dict(r) for r in rows]
+            finally:
+                conn.execute("DETACH papers")
+        return promises
+
     # ---- Statistics ----
 
     def get_stats(self) -> Dict[str, Any]:

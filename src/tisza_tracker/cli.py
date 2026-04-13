@@ -20,6 +20,7 @@ from .commands import generate_html as html_cmd
 from .commands import match as match_cmd
 from .commands import query as query_cmd
 from .commands import rank as rank_cmd
+from .commands import report as report_cmd
 from .commands import status as status_cmd
 from .commands import topic_cmd
 from .core.config import ConfigManager, DEFAULT_CONFIG_PATH
@@ -167,6 +168,27 @@ def match(ctx: click.Context, topic: str | None, threshold: float, output_json: 
             click.echo("Promise matching completed")
     except Exception as exc:
         click.echo(f"Promise matching failed: {exc}", err=True)
+        sys.exit(ERR_RUNTIME)
+
+
+@cli.command("report")
+@click.option("--format", "fmt", type=click.Choice(["md", "html"]), default="md",
+              help="Output format (default: md)")
+@click.option("--readme", type=click.Path(), default=None,
+              help="Update the README at this path (md format only)")
+@click.option("--output", "-o", type=click.Path(), default=None,
+              help="Write output to file (html defaults to data_dir/html/promise_report.html)")
+@click.pass_context
+def report(ctx: click.Context, fmt: str, readme: str | None, output: str | None) -> None:
+    """Generate promise tracker table (markdown or HTML) from the database."""
+    try:
+        report_cmd.run(ctx.obj["config_path"], fmt=fmt, readme=readme, output=output)
+        if fmt == "html":
+            click.echo(f"HTML promise report generated")
+        elif readme:
+            click.echo(f"README updated at {readme}")
+    except Exception as exc:
+        click.echo(f"Report generation failed: {exc}", err=True)
         sys.exit(ERR_RUNTIME)
 
 
