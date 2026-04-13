@@ -1,0 +1,101 @@
+# Promises mapped to the "oktatas" topic — education, culture.
+
+promises:
+  # --- OKTATÁS (education) ---
+  - id: OKT-001
+    text: "Önálló Oktatási Minisztériumot hozunk létre."
+    text_en: "Create independent Ministry of Education."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(Oktatási.?Minisztérium|oktatási.?tárca|oktatási.?miniszter)"
+    ranking_query: "Oktatási Minisztérium önálló tárca miniszter létrehozás"
+
+  - id: OKT-002
+    text: "Tanköteles kor emelése 18 évre."
+    text_en: "Raise compulsory education age to 18."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(tanköteles.?kor|tankötelezettség.?18|iskolakötelez|tanköteles.?emel)"
+    ranking_query: "tanköteles kor tankötelezettség 18 év emelés iskolakötelezettség"
+
+  - id: OKT-003
+    text: "25%-os béremelés a nevelést segítő dolgozóknak."
+    text_en: "25% pay raise for educational support staff."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(nevelést.?segítő|pedagógiai.?asszisztens|dajka.?bér|iskolai.?dolgozó.?bér)"
+    ranking_query: "nevelést segítő dolgozó bér emelés pedagógiai asszisztens dajka"
+
+  - id: OKT-004
+    text: "Megszüntetjük az állami tankönyv-monopóliumot."
+    text_en: "Abolish state textbook monopoly."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(tankönyv.?monopólium|tankönyv.?piac|tankönyv.?szabad|OH.?tankönyv)"
+    ranking_query: "tankönyv monopólium megszüntetés állami szabad piac"
+
+  - id: OKT-005
+    text: "Visszaállítjuk az egyetemek autonómiáját, megszüntetjük a KEKVA-modellt."
+    text_en: "Restore university autonomy, abolish KEKVA model."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(egyetemi.?autonóm|KEKVA|alapítványi.?egyetem|modellváltás.?egyetem|kuratórium.?egyetem)"
+    ranking_query: "egyetem autonómia KEKVA alapítványi modellváltás visszaállítás"
+
+  - id: OKT-006
+    text: "2035-ig legalább egy magyar egyetemet a globális TOP 200-ba juttatunk."
+    text_en: "Place at least one Hungarian university in global TOP 200 by 2035."
+    source: "Tisza program 2026"
+    category: oktatas
+    deadline: "2035"
+    filter_pattern: "(egyetem.?TOP.?200|világranglista.?egyetem|egyetem.?rangsor|felsőoktatás.?rangsor)"
+    ranking_query: "egyetem TOP 200 világranglista rangsor felsőoktatás"
+
+  - id: OKT-007
+    text: "Visszaszerezzük az MCC-nek juttatott állami vagyont."
+    text_en: "Recover state assets transferred to MCC."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(MCC.?vagyon|Mathias.?Corvinus|MCC.?visszaszerzés|MCC.?állami)"
+    ranking_query: "MCC Mathias Corvinus Collegium vagyon visszaszerzés állami"
+
+  - id: OKT-008
+    text: "Az első alapdiploma megszerzését a lehető legszélesebb körben tandíjmentessé tesszük."
+    text_en: "Make first bachelor's degree tuition-free for the broadest population."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(tandíjmentes|tandíj.?eltörl|ingyenes.?felsőoktatás|alapdiploma.?ingyenes)"
+    ranking_query: "tandíjmentes ingyenes felsőoktatás alapdiploma első diploma"
+
+  - id: OKT-009
+    text: "Magyar diákok újra részt vehessenek Erasmus és Horizon programokban."
+    text_en: "Re-enable Erasmus and Horizon participation for Hungarian students."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(Erasmus|Horizon|Erasmus.?részvétel|Horizon.?program|EU.?kutatási.?program)"
+    ranking_query: "Erasmus Horizon program magyar diák kutató részvétel visszaállítás"
+
+  # --- KULTÚRA ---
+  - id: KULT-001
+    text: "25%-os általános béremelés és lakhatási program a kulturális dolgozóknak."
+    text_en: "25% general raise and housing programme for cultural workers."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(kulturális.?dolgozó.?bér|kultúra.?béremelés|kulturális.?szektor.?fizetés)"
+    ranking_query: "kulturális dolgozó bér emelés lakhatás kultúra szektor"
+
+  - id: KULT-002
+    text: "Politikamentes kulturális irányítást biztosítunk."
+    text_en: "Depoliticize cultural governance."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(NKA.?függetlenség|Filmintézet.?függetlenség|kulturális.?irányítás|kultúra.?depolitizál)"
+    ranking_query: "NKA Filmintézet kulturális irányítás függetlenség depolitizálás"
+
+  - id: KULT-003
+    text: "Pártsemleges Nemzeti Sajtóalapot hozunk létre."
+    text_en: "Create politically neutral National Press Fund."
+    source: "Tisza program 2026"
+    category: oktatas
+    filter_pattern: "(Nemzeti.?Sajtóalap|sajtótámogatás|médiaalap|sajtó.?alap.?független)"
+    ranking_query: "Nemzeti Sajtóalap sajtó támogatás médiaalap pártsemleges"

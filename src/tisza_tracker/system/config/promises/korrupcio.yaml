@@ -1,0 +1,58 @@
+# Promises mapped to the "korrupcio" topic — anti-corruption, transparency.
+
+promises:
+  - id: KOR-001
+    text: "Csatlakozunk az Európai Ügyészséghez (EPPO)."
+    text_en: "Join the European Public Prosecutor's Office."
+    source: "Tisza program 2026"
+    category: korrupcio
+    filter_pattern: "(EPPO|Európai.?Ügyészség|európai.?ügyész|uniós.?ügyészség)"
+    ranking_query: "EPPO Európai Ügyészség csatlakozás uniós ügyész"
+
+  - id: KOR-002
+    text: "Létrehozzuk a Nemzeti Vagyonvisszaszerzési Hivatalt."
+    text_en: "Establish National Asset Recovery Office."
+    source: "Tisza program 2026"
+    category: korrupcio
+    filter_pattern: "(Vagyonvisszaszerzési|vagyon.?visszaszerzés|ellopott.?vagyon|állami.?vagyon.?visszaszerzés)"
+    ranking_query: "Nemzeti Vagyonvisszaszerzési Hivatal vagyon visszaszerzés korrupció"
+
+  - id: KOR-003
+    text: "Kivizsgáljuk az elmúlt évek korrupciós botrányait (Paks II, MNB-alapítványok, MCC, Hatvanpuszta stb.)."
+    text_en: "Investigate past corruption scandals."
+    source: "Tisza program 2026"
+    category: korrupcio
+    filter_pattern: "(korrupciós.?botrány|Paks.?II.?korrupció|MNB.?alapítvány|MCC.?vagyon|Hatvanpuszta|korrupció.?vizsgál)"
+    ranking_query: "korrupció botrány vizsgálat Paks MNB alapítvány MCC Hatvanpuszta"
+
+  - id: KOR-004
+    text: "20 évre visszamenőleg vagyonosodási vizsgálat képviselőkre, politikusokra és családtagjaikra."
+    text_en: "20-year retroactive wealth audits for politicians and families."
+    source: "Tisza program 2026"
+    category: korrupcio
+    filter_pattern: "(vagyonosodási.?vizsgálat|politikus.?vagyon|képviselő.?vagyon|vagyonnyilatkoz)"
+    ranking_query: "vagyonosodási vizsgálat politikus képviselő családtag vagyon nyilatkozat"
+
+  - id: KOR-005
+    text: "Független Korrupciómegelőzési Felügyeletet hozunk létre."
+    text_en: "Create independent Anti-Corruption Supervisory Authority."
+    source: "Tisza program 2026"
+    category: korrupcio
+    filter_pattern: "(Korrupciómegelőzési|antikorrupciós.?hatóság|korrupció.?felügyelet|korrupció.?megelőzés)"
+    ranking_query: "korrupciómegelőzés felügyelet hatóság független antikorrupciós"
+
+  - id: KOR-006
+    text: "Jogi védelmet biztosítunk a bejelentőknek (whistleblower-védelem)."
+    text_en: "Legal protection for whistleblowers."
+    source: "Tisza program 2026"
+    category: korrupcio
+    filter_pattern: "(whistleblower|bejelentő.?védel|visszaélés.?bejelent|közérdekű.?bejelent)"
+    ranking_query: "whistleblower bejelentő védelem visszaélés közérdekű bejelentés"
+
+  - id: KOR-007
+    text: "Nemzeti Szerződéstárat hozunk létre (online, kereshető)."
+    text_en: "National Contract Registry — all state contracts public and searchable online."
+    source: "Tisza program 2026"
+    category: korrupcio
+    filter_pattern: "(Nemzeti.?Szerződéstár|szerződés.?nyilvános|állami.?szerződés.?keres|közbeszerzés.?átláth)"
+    ranking_query: "Nemzeti Szerződéstár állami szerződés nyilvánosság kereshető online átláthatóság"

@@ -1,0 +1,110 @@
+# Promises mapped to the "igazsagszolgaltatas" topic — rule of law, justice,
+# civil society.
+
+promises:
+  # --- JOGÁLLAM (rule of law, justice) ---
+  - id: JOG-001
+    text: "Két ciklusra korlátozzuk a miniszterelnöki mandátumot."
+    text_en: "Limit PM mandate to two terms."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(miniszterelnök.?mandátum|két.?ciklus|hivatali.?idő.?korlát|cikluskorlát)"
+    ranking_query: "miniszterelnök mandátum két ciklus korlát hivatali idő"
+
+  - id: JOG-002
+    text: "Megszüntetjük a rendeleti kormányzást."
+    text_en: "End governance by decree."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(rendeleti.?kormányzás|kormányrendelet.?megszüntet|különleges.?jogrend|felhatalmazási)"
+    ranking_query: "rendeleti kormányzás megszüntetés kormányrendelet különleges jogrend"
+
+  - id: JOG-003
+    text: "Visszaállítjuk a közmédia függetlenségét, új médiatörvényt alkotunk."
+    text_en: "Restore public media independence, enact new media law."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(közmédia.?függetlenség|médiatörvény|MTVA|sajtószabadság|köztévé.?reform)"
+    ranking_query: "közmédia függetlenség médiatörvény MTVA sajtószabadság reform"
+
+  - id: JOG-004
+    text: "Kormányváltás után azonnal felfüggesztjük a közmédia hírszolgáltatását."
+    text_en: "Immediately suspend public media news after government change until objective conditions are met."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(közmédia.?felfüggeszt|híradó.?leáll|köztévé.?megszüntet|MTVA.?hír)"
+    ranking_query: "közmédia hírszolgáltatás felfüggesztés kormányváltás köztévé"
+
+  - id: JOG-005
+    text: "Kivizsgáljuk a Pegasus-lehallgatási botrányt."
+    text_en: "Investigate the Pegasus wiretapping scandal."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(Pegasus|lehallgatás|kémprogram|megfigyelés.?botrány|NSO)"
+    ranking_query: "Pegasus lehallgatás kémprogram megfigyelés botrány vizsgálat"
+
+  - id: JOG-006
+    text: "Megszüntetjük a Szuverenitásvédelmi Hivatalt."
+    text_en: "Abolish the Sovereignty Protection Office."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(Szuverenitásvédelmi|szuverenitás.?hivatal|szuverenitás.?védelm)"
+    ranking_query: "Szuverenitásvédelmi Hivatal megszüntetés szuverenitás"
+
+  - id: JOG-007
+    text: "Átláthatóbb, arányosabb választási rendszert alkotunk."
+    text_en: "Reform electoral system to be more transparent and proportional."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(választási.?rendszer|választási.?reform|választójog|arányos.?rendszer|mandátum.?eloszt)"
+    ranking_query: "választási rendszer reform arányos átlátható választójog"
+
+  - id: JOG-008
+    text: "Feloldjuk a titkosított 2000-es és 3000-es kormányhatározatokat."
+    text_en: "Declassify secret government resolutions."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(titkosított.?kormányhatározat|titkosítás.?felold|titkos.?határozat|minősített.?adat)"
+    ranking_query: "titkosított kormányhatározat feloldás titkosítás minősített adat nyilvánosság"
+
+  - id: JOG-009
+    text: "Létrehozzuk a Gyermekvédelmi Ombudsmant és a Betegjogi Ombudsmant."
+    text_en: "Create Children's Rights and Patient Rights Ombudsmen."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(Gyermekvédelmi.?Ombudsma|Betegjogi.?Ombudsma|ombudsman.?létrehoz|gyermek.?ombuds)"
+    ranking_query: "Gyermekvédelmi Ombudsman Betegjogi Ombudsman létrehozás"
+
+  - id: JOG-010
+    text: "Államivá és nonprofit-tá tesszük a végrehajtást, megszüntetjük a végrehajtói kamarát."
+    text_en: "Nationalize judicial enforcement as non-profit, abolish enforcement chamber."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(végrehajtó.?kamara|végrehajtás.?állami|végrehajtó.?reform|bírósági.?végrehajtás)"
+    ranking_query: "végrehajtó kamara megszüntetés állami nonprofit bírósági végrehajtás"
+
+  # --- CIVIL TÁRSADALOM ---
+  - id: CIV-001
+    text: "Az álcivil szervezetek finanszírozását azonnal leállítjuk."
+    text_en: "Immediately stop financing fake-civil organizations."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(álcivil|GONGO|kormány.?közeli.?civil|CÖF|civil.?finanszíroz.?leáll)"
+    ranking_query: "álcivil szervezet finanszírozás leállítás GONGO kormányközeli"
+
+  - id: CIV-002
+    text: "2027-től jelentősen emeljük a civil szervezeteknek juttatott forrásokat."
+    text_en: "Significantly increase civil organization funding from 2027."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    deadline: "2027"
+    filter_pattern: "(civil.?szervezet.?támogatás|civil.?alap|NEA|civil.?finanszírozás)"
+    ranking_query: "civil szervezet támogatás finanszírozás NEA forrás emelés"
+
+  - id: CIV-003
+    text: "Nyilvános, kereshető online adatbázis a megítélt és elutasított támogatásokról."
+    text_en: "Public searchable database of all funding decisions with justifications."
+    source: "Tisza program 2026"
+    category: igazsagszolgaltatas
+    filter_pattern: "(támogatás.?adatbázis|pályázat.?nyilvánosság|civil.?pályázat.?keres|támogatás.?átláth)"
+    ranking_query: "támogatás adatbázis nyilvános kereshető pályázat átláthatóság"

@@ -1,29 +1,148 @@
-# Sample promise definitions — replace with actual promises from the
-# Tisza party election programme and public statements by PM Magyar Péter.
-#
-# Each promise needs:
-#   id: unique identifier (CATEGORY-NNN)
-#   text: promise text in Hungarian
-#   category: must match a topic name (e.g. gazdasag, egeszsegugy)
-#   source: where the promise was made
-#
-# Optional: text_en, source_url, date_made, deadline, keywords, ranking_query
+# Promises mapped to the "altalanos" topic — general political, defence,
+# migration, demographics, public admin, digital, civil society.
 
 promises:
-  - id: "ALT-001"
-    text: "A kormány teljes átláthatóságot biztosít a közpénzek felhasználásában"
-    text_en: "The government will ensure full transparency in public spending"
-    source: "Tisza párt választási program"
-    date_made: "2025-01-01"
-    category: "korrupcio"
-    keywords: ["átláthatóság", "közpénz", "korrupció", "elszámoltathatóság"]
-    ranking_query: "kormány átláthatóság közpénz felhasználás elszámoltathatóság"
+  # --- KÖZIGAZGATÁS (public admin) ---
+  - id: ALL-001
+    text: "Megszüntetjük a vármegye elnevezést és a főispáni pozíciót."
+    text_en: "Abolish 'county' (vármegye) name and lord-lieutenant (főispán) position."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(vármegye|főispán|közigazgatás.?reform|megye.?elnevez)"
+    ranking_query: "vármegye megszüntetés főispán közigazgatási reform megye"
 
-  - id: "ALT-002"
-    text: "Az EU-s forrásokhoz való hozzáférés helyreállítása"
-    text_en: "Restore access to EU funds"
-    source: "Tisza párt választási program"
-    date_made: "2025-01-01"
-    category: "kulpolitika"
-    keywords: ["EU", "uniós források", "jogállamiság", "Brüsszel"]
-    ranking_query: "EU források helyreállítás jogállamisági mechanizmus uniós pénzek"
+  - id: ALL-002
+    text: "2030-ra nullára csökkentjük a közigazgatási és piaci bérek közötti különbséget."
+    text_en: "Eliminate public-private salary gap by 2030."
+    source: "Tisza program 2026"
+    category: altalanos
+    deadline: "2030"
+    filter_pattern: "(közigazgatás.?bér|köztisztviselő.?fizetés|közszféra.?bér|piaci.?bér.?különbség)"
+    ranking_query: "közigazgatási bérek köztisztviselő fizetés közszféra piaci bér különbség"
+
+  - id: ALL-003
+    text: "Budapest-törvényt alkotunk a kormány-főváros partnerség kereteiről."
+    text_en: "Enact a Budapest Law for government-capital partnership."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(Budapest.?törvény|főváros.?partnerség|kormány.?Budapest|főváros.?önkormányzat)"
+    ranking_query: "Budapest törvény főváros partnerség kormány önkormányzat együttműködés"
+
+  - id: ALL-004
+    text: "Visszaadjuk az elvont feladatokat, hatásköröket és forrásokat az önkormányzatoknak."
+    text_en: "Return withdrawn powers and resources to local governments."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(önkormányzat.?(hatáskör|forrás|feladat)|decentralizá|helyi.?önkormányzat.?jogkör)"
+    ranking_query: "önkormányzat hatáskör forrás visszaadás decentralizáció helyi feladatok"
+
+  # --- HONVÉDELEM, BIZTONSÁG (defence, security) ---
+  - id: BIZ-001
+    text: "Nem küldünk katonát az orosz-ukrán háborúba."
+    text_en: "No soldiers sent to the Russia-Ukraine war."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(katona.?küld|háború.?katona|orosz.?ukrán.?háború|katonai.?részvétel)"
+    ranking_query: "katona küldés orosz ukrán háború katonai részvétel"
+
+  - id: BIZ-002
+    text: "Nem állítjuk vissza a sorkötelezettséget."
+    text_en: "No conscription reinstatement."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(sorkötele|sorozás|katonai.?szolgálat.?kötelez|hadkötele)"
+    ranking_query: "sorkötelezettség katonai szolgálat kötelező sorozás hadkötelezettség"
+
+  - id: BIZ-003
+    text: "2035-ig a védelmi kiadásokat a NATO 5%-os szintjére emeljük."
+    text_en: "Increase defence spending to NATO 5% of GDP by 2035."
+    source: "Tisza program 2026"
+    category: altalanos
+    deadline: "2035"
+    filter_pattern: "(védelmi.?kiadás|NATO.?százalék|honvédelmi.?költségvetés|GDP.?honvédelem)"
+    ranking_query: "védelmi kiadás NATO GDP honvédelmi költségvetés emelés"
+
+  - id: BIZ-004
+    text: "Fokozatosan 150 ezer alá csökkentjük a regisztrált bűnesetek számát."
+    text_en: "Reduce registered crimes below 150,000."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(bűneset|bűnözés.?csökken|közbiztonság|bűnmegelőzés|regisztrált.?bűn)"
+    ranking_query: "bűncselekmény bűnözés csökkentés közbiztonság bűnmegelőzés regisztrált bűneset"
+
+  # --- BEVÁNDORLÁS (migration) ---
+  - id: MIG-001
+    text: "Fenntartjuk a déli határkerítést, megerősítjük a határvédelmet."
+    text_en: "Maintain southern border fence, strengthen border protection."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(határkerítés|határvédelem|déli.?határ|illegális.?bevándorl|határsértő)"
+    ranking_query: "határkerítés határvédelem déli határ illegális bevándorlás"
+
+  - id: MIG-002
+    text: "2026. június 1-től megtiltjuk új munkavállalási engedélyek kiadását nem EU-s vendégmunkásoknak."
+    text_en: "Ban new work permits for non-EU guest workers from June 1, 2026."
+    source: "Tisza program 2026"
+    category: altalanos
+    deadline: "2026-06-01"
+    filter_pattern: "(vendégmunkás|munkavállalási.?engedély|nem.?EU.?munka|külföldi.?munkás)"
+    ranking_query: "vendégmunkás munkavállalási engedély nem EU külföldi munkás felfüggesztés"
+
+  - id: MIG-003
+    text: "Felszámoljuk a letelepedési kötvények rendszerét."
+    text_en: "Abolish the residency bond system."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(letelepedési.?kötvény|aranymandátum|rezidencia.?kötvény|befektetői.?vízum)"
+    ranking_query: "letelepedési kötvény felszámolás aranymandátum rezidencia befektetői vízum"
+
+  # --- DEMOGRÁFIA (demographics) ---
+  - id: DEM-001
+    text: "2035-ig megállítjuk a népességfogyást, 2050-re tízmillió fölé."
+    text_en: "Halt population decline by 2035, exceed 10 million by 2050."
+    source: "Tisza program 2026"
+    category: altalanos
+    deadline: "2035"
+    filter_pattern: "(népességfogyás|demográfi|születésszám|népesedés|lakosság.?csökken)"
+    ranking_query: "népességfogyás demográfia születésszám népesedési politika lakosságszám"
+
+  - id: DEM-002
+    text: "\"Vár a hazád!\" program: 8 éven belül hazahozunk 200 ezer külföldi magyart."
+    text_en: "\"Your Homeland Awaits\": bring back 200,000 Hungarians within 8 years."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(hazahív|külföldi.?magyar.?haza|kivándorl|visszavándorl|Vár.?a.?hazád)"
+    ranking_query: "külföldön élő magyar hazahívás kivándorlás visszavándorlás Vár a hazád"
+
+  - id: DEM-003
+    text: "Születéskor várható élettartam 80 évre emelése."
+    text_en: "Raise life expectancy at birth to 80 years."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(várható.?élettartam|életkor.?emel|halandóság|élettartam)"
+    ranking_query: "várható élettartam emelés halandóság születéskor életkor"
+
+  # --- DIGITALIZÁCIÓ (digital, AI) ---
+  - id: DIG-001
+    text: "Minden magyar állampolgárnak személyes MI-asszisztenst fejlesztünk."
+    text_en: "Develop personal AI assistant for every citizen."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(MI.?asszisztens|mesterséges.?intelligencia.?állampolgár|AI.?közszolgálat|digitális.?asszisztens)"
+    ranking_query: "mesterséges intelligencia AI asszisztens állampolgár közszolgáltatás digitális"
+
+  - id: DIG-002
+    text: "Magyar nyelvi modellt építünk MI-alkalmazások fejlesztéséhez."
+    text_en: "Build comprehensive Hungarian language model for AI applications."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(magyar.?nyelvi.?modell|magyar.?MI|magyar.?AI|nyelvi.?modell|nagy.?nyelvi)"
+    ranking_query: "magyar nyelvi modell mesterséges intelligencia AI fejlesztés"
+
+  - id: DIG-003
+    text: "50 ezer közszolgálati dolgozót képzünk gyakorlati MI-használatra."
+    text_en: "Train 50,000 public employees in practical AI use."
+    source: "Tisza program 2026"
+    category: altalanos
+    filter_pattern: "(közszolgálat.?MI|MI.?képzés|mesterséges.?intelligencia.?képzés|AI.?oktatás.?köz)"
+    ranking_query: "közszolgálati dolgozó mesterséges intelligencia képzés AI oktatás"

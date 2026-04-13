@@ -1,0 +1,77 @@
+# Promises mapped to the "egeszsegugy" topic — healthcare.
+
+promises:
+  - id: EGU-001
+    text: "Az állami egészségügyre fordított kiadásokat 2030-ra a GDP 7%-ára emeljük."
+    text_en: "Raise public health spending to 7% of GDP by 2030, adding 500bn HUF/year."
+    source: "Tisza program 2026"
+    category: egeszsegugy
+    deadline: "2030"
+    filter_pattern: "(egészségügy.?kiadás|egészségügy.?GDP|egészségügy.?költségvetés|egészségügy.?finanszíroz)"
+    ranking_query: "egészségügy kiadás GDP százalék költségvetés finanszírozás emelés"
+
+  - id: EGU-002
+    text: "Minden régióban szuperkórházat fejlesztünk."
+    text_en: "Develop a super-hospital in every region."
+    source: "Tisza program 2026"
+    category: egeszsegugy
+    filter_pattern: "(szuperkórház|regionális.?kórház|kórház.?fejlesztés|kórház.?építés)"
+    ranking_query: "szuperkórház regionális kórház fejlesztés építés egészségügy"
+
+  - id: EGU-003
+    text: "Várólistákat 2027 végére csökkentjük: fekvőbeteg max 6 hó, járóbeteg max 2 hó."
+    text_en: "Reduce waiting lists by end 2027."
+    source: "Tisza program 2026"
+    category: egeszsegugy
+    deadline: "2027"
+    filter_pattern: "(várólista|várakozási.?idő|fekvőbeteg.?várólista|járóbeteg.?várakoz)"
+    ranking_query: "várólista csökkentés várakozási idő fekvőbeteg járóbeteg"
+
+  - id: EGU-004
+    text: "2027 végére minden régióban a mentő 15 percen belül a helyszínre érkezik."
+    text_en: "Ambulance arrives within 15 minutes everywhere by end 2027."
+    source: "Tisza program 2026"
+    category: egeszsegugy
+    deadline: "2027"
+    filter_pattern: "(mentő.?(15|tizenöt).?perc|mentőszolgálat|mentő.?kiérkezés|mentő.?idő)"
+    ranking_query: "mentő kiérkezési idő 15 perc mentőszolgálat fejlesztés"
+
+  - id: EGU-005
+    text: "Nővér-orvos arányt 1,6-ról 2,5-re emeljük."
+    text_en: "Raise nurse-to-doctor ratio from 1.6 to 2.5."
+    source: "Tisza program 2026"
+    category: egeszsegugy
+    filter_pattern: "(nővér.?orvos.?arány|nővérhiány|ápolóhiány|egészségügyi.?személyzet)"
+    ranking_query: "nővér orvos arány ápolóhiány nővérhiány egészségügyi személyzet"
+
+  - id: EGU-006
+    text: "Önálló Egészségügyi Minisztériumot hozunk létre."
+    text_en: "Create independent Ministry of Health."
+    source: "Tisza program 2026"
+    category: egeszsegugy
+    filter_pattern: "(Egészségügyi.?Minisztérium|egészségügyi.?tárca|egészségügyi.?miniszter)"
+    ranking_query: "Egészségügyi Minisztérium önálló tárca miniszter létrehozás"
+
+  - id: EGU-007
+    text: "4 éven belül 10%-kal csökkentjük a daganatos megbetegedések számát."
+    text_en: "Reduce cancer incidence by 10% within 4 years."
+    source: "Tisza program 2026"
+    category: egeszsegugy
+    filter_pattern: "(daganat|rák.?megelőzés|onkológ|rákszűrés|rák.?csökken)"
+    ranking_query: "daganat rák megelőzés onkológia szűrés csökkentés"
+
+  - id: EGU-008
+    text: "Minden vidéki kórházat megtartunk."
+    text_en: "Keep every rural hospital open."
+    source: "Tisza program 2026"
+    category: egeszsegugy
+    filter_pattern: "(vidéki.?kórház|kórház.?bezár|kórház.?megtart|kistelepülés.?kórház)"
+    ranking_query: "vidéki kórház megtartás bezárás megmentés kistelepülés"
+
+  - id: EGU-009
+    text: "30 Mrd Ft/év egészségügyi ösztöndíjprogram hiányszakmákban."
+    text_en: "30bn HUF/year healthcare scholarship programme for shortage specialties."
+    source: "Tisza program 2026"
+    category: egeszsegugy
+    filter_pattern: "(egészségügyi.?ösztöndíj|orvos.?ösztöndíj|hiányszakma.?egészségügy|orvos.?hiány)"
+    ranking_query: "egészségügyi ösztöndíj hiányszakma orvos nővér képzés"

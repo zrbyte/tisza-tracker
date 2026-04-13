@@ -1,0 +1,147 @@
+# Promises mapped to the "kornyezetvedelem" topic — environment, waste, water,
+# animal welfare.
+
+promises:
+  # --- KÖRNYEZETVÉDELEM (environment) ---
+  - id: KRN-001
+    text: "Önálló környezetvédelmi minisztériumot hozunk létre."
+    text_en: "Create independent environment ministry."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(környezetvédelmi.?minisztérium|környezetvédelem.?tárca|zöld.?minisztérium)"
+    ranking_query: "környezetvédelmi minisztérium önálló tárca létrehozás"
+
+  - id: KRN-002
+    text: "Megduplázzuk a természetvédelmi kezelés és ellenőrzés kapacitását."
+    text_en: "Double nature conservation management/inspection capacity."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(természetvédelem.?kapacitás|természetvédelmi.?őr|nemzeti.?park.?kezelés|természetvédelem.?ellenőrz)"
+    ranking_query: "természetvédelem kapacitás kezelés ellenőrzés nemzeti park duplázás"
+
+  - id: KRN-003
+    text: "Felülvizsgáljuk az akkumulátorgyárak működését."
+    text_en: "Review battery factory operations and environmental compliance."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(akkumulátorgyár|akkumulátor.?üzem|Samsung.?gyár|CATL|EV.?gyár|lítium.?gyár)"
+    ranking_query: "akkumulátorgyár felülvizsgálat környezetvédelem Samsung CATL"
+
+  - id: KRN-004
+    text: "2030-ra minden településen az egészségügyi határérték alá szorítjuk a légszennyezést."
+    text_en: "Air quality below health limits 95% of the year everywhere by 2030."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    deadline: "2030"
+    filter_pattern: "(légszennyez|levegő.?minőség|szálló.?por|PM10|PM2|légszennyezettség)"
+    ranking_query: "légszennyezés levegő minőség szálló por határérték település"
+
+  - id: KRN-005
+    text: "Évente 1 millió tonnával növeljük a szén-dioxid-nyelő kapacitást."
+    text_en: "Increase CO2 sink capacity by 1 million tonnes/year."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(szén-dioxid.?nyelő|CO2.?nyelő|erdősítés|karbon.?semleg|szén.?megkötés)"
+    ranking_query: "szén-dioxid nyelő CO2 erdősítés karbon megkötés kapacitás"
+
+  - id: KRN-006
+    text: "Zéró tolerancia a védett és Natura 2000 területeken történő jogellenes beépítésekre."
+    text_en: "Zero tolerance for illegal construction in protected/Natura 2000 areas."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(Natura.?2000|védett.?terület.?beépít|illegális.?építés.?védett|természetvédelmi.?terület.?építés)"
+    ranking_query: "Natura 2000 védett terület illegális építés beépítés zéró tolerancia"
+
+  # --- HULLADÉK (waste) ---
+  - id: HUL-001
+    text: "Felülvizsgáljuk a MOHU 35 éves hulladékkoncessziós szerződését."
+    text_en: "Review 35-year MOHU waste concession contract."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(MOHU|hulladék.?koncesszió|hulladékgazdálkodás.?szerződés|MOHU.?felülvizsg)"
+    ranking_query: "MOHU hulladék koncesszió szerződés felülvizsgálat hulladékgazdálkodás"
+
+  - id: HUL-002
+    text: "2030-ra legalább 55%-ra növeljük a települési hulladék újrahasznosítási arányát."
+    text_en: "Municipal waste recycling rate at least 55% by 2030."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    deadline: "2030"
+    filter_pattern: "(újrahasznosítás|hulladék.?újrahaszn|szelektív.?gyűjtés|hulladék.?arány)"
+    ranking_query: "hulladék újrahasznosítás szelektív gyűjtés települési arány"
+
+  - id: HUL-003
+    text: "3 éven belül kitakarítjuk az országot (illegális lerakók felszámolása)."
+    text_en: "Clean up illegal dumps within 3 years."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(illegális.?lerakó|illegális.?szemétlerakó|hulladéklerakó.?felszámol|szemét.?kitakarít)"
+    ranking_query: "illegális lerakó szemétlerakó felszámolás kitakarítás hulladék"
+
+  # --- VÍZVÉDELEM (water) ---
+  - id: VIZ-001
+    text: "Programot indítunk a Balaton megmentéséért."
+    text_en: "Launch programme to save Lake Balaton."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(Balaton.?megment|Balaton.?víz.?minőség|Balaton.?védel|Balaton.?program)"
+    ranking_query: "Balaton megmentés vízminőség védelem program"
+
+  - id: VIZ-002
+    text: "2030-ig javítjuk vizeink minőségét, egyenlő hozzáférést biztosítunk."
+    text_en: "Improve water quality by 2030, ensure equal access."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    deadline: "2030"
+    filter_pattern: "(víz.?minőség|ivóvíz.?minőség|víztisztítás|vízhozzáférés|csatornázás)"
+    ranking_query: "víz minőség ivóvíz javítás hozzáférés csatornázás"
+
+  - id: VIZ-003
+    text: "A vízhálózati veszteséget 15-20%-ra csökkentjük."
+    text_en: "Reduce water network losses to 15-20%."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(vízhálózat.?veszteség|vízveszteség|csőtörés|vízvezeték.?felújít|vízhálózat.?korszerűsít)"
+    ranking_query: "vízhálózat veszteség csökkentés csőtörés felújítás korszerűsítés"
+
+  # --- ÁLLATVÉDELEM (animal welfare) ---
+  - id: ALV-001
+    text: "Országos hatáskörű állatjóléti hatóságot hozunk létre."
+    text_en: "Create national animal welfare authority."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(állatjóléti.?hatóság|állatvédelmi.?hatóság|állatvédelem.?országos)"
+    ranking_query: "állatjóléti hatóság állatvédelem országos létrehozás"
+
+  - id: ALV-002
+    text: "Minden megyeszékhelyen minősített állatmenhelyet hozunk létre."
+    text_en: "Certified animal shelter in every county seat."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(állatmenhely|állatotthon|minősített.?menhely|állatmenhely.?megye)"
+    ranking_query: "állatmenhely minősített megyeszékhely állatotthon"
+
+  - id: ALV-003
+    text: "Országos ivartalanítási program."
+    text_en: "National neutering/spaying programme."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(ivartalanítás|ivartalanít.?program|állat.?sterilizá|kóbor.?állat)"
+    ranking_query: "ivartalanítás program sterilizálás kóbor állat országos"
+
+  # --- VIDÉKFEJLESZTÉS ---
+  - id: VID-001
+    text: "10 falunként évente 1 milliárd Ft közösségi fejlesztési keret."
+    text_en: "1 billion HUF/year per 10 villages as community development fund."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(falu.?fejlesztés|vidékfejlesztés.?alap|közösségi.?fejlesztés.?falu|kistelepülés.?fejleszt)"
+    ranking_query: "falu vidékfejlesztés közösségi fejlesztés alap kistelepülés"
+
+  - id: VID-002
+    text: "Önálló Vidékfejlesztési Minisztériumot hozunk létre."
+    text_en: "Create independent Ministry of Rural Development."
+    source: "Tisza program 2026"
+    category: kornyezetvedelem
+    filter_pattern: "(Vidékfejlesztési.?Minisztérium|vidékfejlesztés.?tárca|vidék.?minisztérium)"
+    ranking_query: "Vidékfejlesztési Minisztérium önálló tárca vidék"

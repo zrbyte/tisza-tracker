@@ -14,6 +14,7 @@ from .commands import config_cmd
 from .commands import email_list as email_cmd
 from .commands import promise_cmd
 from .commands import export_recent as export_recent_cmd
+from .commands import fetch as fetch_cmd
 from .commands import filter as filter_cmd
 from .commands import generate_html as html_cmd
 from .commands import match as match_cmd
@@ -121,6 +122,32 @@ def rank(ctx: click.Context, topic: str | None, output_json: bool) -> None:
         sys.exit(ERR_CONFIG)
     except Exception as exc:  # pragma: no cover
         click.echo(f"Rank command failed: {exc}", err=True)
+        sys.exit(ERR_RUNTIME)
+
+
+@cli.command("fetch")
+@click.option("--topic", help="Fetch for a specific topic only")
+@click.option("--threshold", type=float, help="Minimum rank score to fetch (overrides config)")
+@click.option("--force", is_flag=True, help="Re-fetch entries that already have text")
+@click.option("--json", "output_json", is_flag=True, help="Output results as JSON")
+@click.pass_context
+def fetch(ctx: click.Context, topic: str | None, threshold: float | None,
+          force: bool, output_json: bool) -> None:
+    """Fetch full article text for high-ranking entries into article_text.db."""
+    try:
+        result = fetch_cmd.run(
+            ctx.obj["config_path"], topic,
+            threshold=threshold, force=force, output_json=output_json,
+        )
+        if output_json and result:
+            click.echo(json.dumps(result, indent=2, default=str))
+        else:
+            click.echo("Fetch command completed successfully")
+    except ValueError as exc:
+        click.echo(f"Fetch command failed: {exc}", err=True)
+        sys.exit(ERR_CONFIG)
+    except Exception as exc:  # pragma: no cover
+        click.echo(f"Fetch command failed: {exc}", err=True)
         sys.exit(ERR_RUNTIME)
 
 

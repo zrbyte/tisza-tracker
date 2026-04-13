@@ -87,13 +87,14 @@ def _copy_tree(src: Path, dest: Path) -> bool:
 # Known configuration keys — anything not listed here triggers a warning.
 # Top-level keys map to sets of allowed sub-keys (None = no sub-key check).
 _KNOWN_MAIN_KEYS: Dict[str, Optional[Dict[str, Any]]] = {
-    "database": {"path", "all_feeds_path", "history_path", "promises_path"},
+    "database": {"path", "all_feeds_path", "history_path", "promises_path", "article_text_path"},
     "feeds": None,  # dynamic feed names, each checked separately
     "defaults": {
         "time_window_days": None,
         "top_n_per_topic": None,
         "rank_threshold": None,
         "ranking_negative_penalty": None,
+        "fetch_threshold": None,
     },
     "email": {
         "recipients_file": None,

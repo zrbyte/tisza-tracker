@@ -1,0 +1,193 @@
+# Promises mapped to the "kozlekedes" topic — transport, infrastructure,
+# energy, housing.
+
+promises:
+  # --- KÖZLEKEDÉS (transport) ---
+  - id: KOZ-001
+    text: "10 éven belül megfelezzük a vasúti járművek átlagéletkorát."
+    text_en: "Halve average age of rolling stock within 10 years."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(vasúti.?jármű|mozdony|vonat.?átlagéletkor|vasúti.?gördülőállomány|szerelvény.?csere)"
+    ranking_query: "vasúti jármű átlagéletkor gördülőállomány mozdony korszerűsítés"
+
+  - id: KOZ-002
+    text: "Vasúti fővonalakon legalább 100 km/h átlagsebesség."
+    text_en: "At least 100 km/h average speed on main rail lines."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(vasúti.?fővonal|vasút.?sebesség|pálya.?fejleszt|vasút.?korszerűsít|vasút.?100)"
+    ranking_query: "vasúti fővonal sebesség pályafejlesztés korszerűsítés 100 km"
+
+  - id: KOZ-003
+    text: "50%-ra növeljük a villamosított vasúti pályák arányát."
+    text_en: "Increase electrified rail track to 50%."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(villamosított.?vasút|vasút.?villamosítás|felsővezeték|elektromos.?vasút)"
+    ranking_query: "vasút villamosítás elektromos pálya felsővezeték arány"
+
+  - id: KOZ-004
+    text: "Országos kátyúmentesítési program, megduplázzuk a közútfenntartási kiadásokat."
+    text_en: "National pothole programme, double road maintenance spending."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(kátyú|közút.?fenntart|útfelújítás|útjavítás|útburkolat)"
+    ranking_query: "kátyú közút fenntartás útfelújítás útjavítás program"
+
+  - id: KOZ-005
+    text: "Megépítjük az M200-M8-as és megkezdjük az M9-es déli gyorsforgalmi utat."
+    text_en: "Build M200-M8 expressways, begin M9 southern ring."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(M200|M8.?autópálya|M9.?gyorsforgalm|autópálya.?épít|gyorsforgalmi.?út)"
+    ranking_query: "M200 M8 M9 autópálya gyorsforgalmi út építés"
+
+  - id: KOZ-006
+    text: "Galvani-híd és Soroksári-Duna-híd Budapesten, új Tisza-híd Szegeden."
+    text_en: "Build Galvani Bridge and Soroksári Bridge (Budapest), new Tisza bridge (Szeged)."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(Galvani.?híd|Soroksári.?híd|Tisza.?híd.?Szeged|Duna.?híd.?Budapest|új.?híd)"
+    ranking_query: "Galvani híd Soroksári Duna híd Tisza Szeged Budapest építés"
+
+  - id: KOZ-007
+    text: "A 35 éves autópálya-koncessziós szerződést felülvizsgáljuk, csökkentjük az útdíjakat."
+    text_en: "Review 35-year motorway concession, reduce tolls."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(autópálya.?koncesszió|útdíj|matricadíj|autópálya.?szerződés|koncesszió.?felülvizsg)"
+    ranking_query: "autópálya koncesszió útdíj matrica felülvizsgálat csökkentés"
+
+  - id: KOZ-008
+    text: "Egész napos, óránkénti InterCity 6 fő vonalon."
+    text_en: "All-day hourly InterCity on 6 main lines."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(InterCity|IC.?vonat|óránkénti.?vonat|vasúti.?menetrend|fővonal.?közleked)"
+    ranking_query: "InterCity óránkénti vonat fővonal menetrend Győr Szeged Debrecen Miskolc Pécs"
+
+  - id: KOZ-009
+    text: "Minden 500 fő feletti településen legalább napi 5 tömegközlekedési járat."
+    text_en: "At least 5 daily public transport connections for settlements above 500."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(kistelepülés.?közleked|vidéki.?busz|falusi.?közleked|tömegközleked.?vidék)"
+    ranking_query: "kistelepülés közlekedés vidéki busz tömegközlekedés település járat"
+
+  - id: KOZ-010
+    text: "Repülőtéri vasúti kapcsolat kiépítése Budapest belvárosával."
+    text_en: "Build rail link between Budapest Airport and city centre."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(repülőtér.?vasút|Liszt.?Ferenc.?vasút|ferihegy.?vasút|airport.?rail|reptér.?vonat)"
+    ranking_query: "repülőtér vasút Liszt Ferenc Budapest belváros összeköttetés vonat"
+
+  # --- ENERGIA (energy) ---
+  - id: ENR-001
+    text: "Megtartjuk és szociális alapon kiterjesztjük a rezsicsökkentést."
+    text_en: "Maintain utility price cap, extend on social/means-tested basis."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(rezsicsökken|rezsi.?támogatás|energia.?ár.?szociális|közüzemi.?ár|rezsi.?védelem)"
+    ranking_query: "rezsicsökkentés közüzemi ár szociális támogatás energia rezsi"
+
+  - id: ENR-002
+    text: "A magyar otthonok legalább 25%-ánál javítjuk az energiahatékonyságot 10 éven belül."
+    text_en: "Upgrade at least 25% of homes to higher energy efficiency within 10 years."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(energiahatékonyság|lakás.?felújítás.?energia|hőszigetelés|épület.?korszerűsít)"
+    ranking_query: "energiahatékonyság lakás felújítás hőszigetelés épület korszerűsítés"
+
+  - id: ENR-003
+    text: "2035-ig megszüntetjük az orosz energiafüggőséget."
+    text_en: "Eliminate Russian energy dependence by 2035."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    deadline: "2035"
+    filter_pattern: "(orosz.?energi|energiafüggőség|orosz.?gáz|orosz.?olaj|energiadiverzifik)"
+    ranking_query: "orosz energia függőség gáz olaj diverzifikáció megszüntetés"
+
+  - id: ENR-004
+    text: "2040-ig megduplázzuk a megújuló energia arányát."
+    text_en: "Double share of renewables in energy mix by 2040."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    deadline: "2040"
+    filter_pattern: "(megújuló.?energia|napenergia|szélenergia|zöld.?energia|megújuló.?arány)"
+    ranking_query: "megújuló energia napenergia szélenergia zöld arány duplázás"
+
+  - id: ENR-005
+    text: "~1000 milliárd Ft-ot fordítunk lakossági és vállalati energiakorszerűsítésre."
+    text_en: "Spend ~HUF 1,000 billion on energy efficiency programmes."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(energiakorszerűsít|energetikai.?program|energia.?pályázat|energia.?felújítás)"
+    ranking_query: "energiakorszerűsítés energetikai program pályázat lakossági vállalati"
+
+  - id: ENR-006
+    text: "Évente 100 ezer lakás energetikai korszerűsítése."
+    text_en: "100,000 home energy retrofits per year."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(lakás.?energetikai|otthonfelújítás.?energia|lakás.?szigetelés|Családi.?Energetikai)"
+    ranking_query: "lakás energetikai korszerűsítés felújítás szigetelés Családi Energetikai Program"
+
+  - id: ENR-007
+    text: "Eltöröljük a szélerőművek telepítését akadályozó korlátozásokat."
+    text_en: "Abolish restrictions blocking new wind power installations."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(szélerőmű|szélenergia.?korlátozás|szélerőmű.?tilalom|szélturbin)"
+    ranking_query: "szélerőmű szélenergia korlátozás tilalom telepítés feloldás"
+
+  - id: ENR-008
+    text: "Teljes körűen felülvizsgáljuk a PAKS II. projektet és finanszírozását."
+    text_en: "Full review of Paks II nuclear project and its financing."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(Paks.?II|Paks.?atomerőmű|Paks.?felülvizsg|atomerőmű.?bővítés|nukleáris.?projekt)"
+    ranking_query: "Paks II atomerőmű felülvizsgálat finanszírozás nukleáris projekt"
+
+  # --- LAKHATÁS (housing) ---
+  - id: LAK-001
+    text: "Megduplázzuk a lakásépítések számát."
+    text_en: "Double the number of new housing units built."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(lakásépítés|új.?lakás.?épít|lakásszám|építési.?engedély.?lakás)"
+    ranking_query: "lakásépítés új lakás építés duplázás lakásszám"
+
+  - id: LAK-002
+    text: "Több tízezer új bérlakást építünk."
+    text_en: "Build tens of thousands of new rental units."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(bérlakás|szociális.?lakás|önkormányzati.?lakás|bérlakás.?program)"
+    ranking_query: "bérlakás szociális lakás önkormányzati lakás program építés"
+
+  - id: LAK-003
+    text: "Fiatalok számára legalább 50%-kal növeljük a kollégiumi férőhelyeket."
+    text_en: "Increase dormitory places by at least 50%."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(kollégium|diákszállás|kollégiumi.?férőhely|diáklakás)"
+    ranking_query: "kollégium férőhely diákszállás fiatal lakhatás"
+
+  - id: LAK-004
+    text: "20 ezer új férőhely korszerű nyugdíjasotthonokban."
+    text_en: "20,000 new places in modern retirement homes."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    filter_pattern: "(nyugdíjasotthon|idősek.?otthona|gondozóház|idősotthon)"
+    ranking_query: "nyugdíjasotthon idősek otthona gondozóház új férőhely korszerű"
+
+  - id: LAK-005
+    text: "Az évtized végére senki lakhelye ne legyen komfort nélküli."
+    text_en: "No permanent residence without basic comfort by end of decade."
+    source: "Tisza program 2026"
+    category: kozlekedes
+    deadline: "2030"
+    filter_pattern: "(komfort.?nélküli|szubstandard.?lakás|lakás.?felújít.?program|lakhatás.?minőség)"
+    ranking_query: "komfort nélküli lakás felújítás program szubstandard lakhatás"

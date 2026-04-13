@@ -12,6 +12,7 @@ database:
   all_feeds_path: "all_feed_entries.db"
   history_path: "matched_entries_history.db"
   promises_path: "promises.db"
+  article_text_path: "article_text.db"
 
 feeds:
   # --- Independent / opposition-leaning ---
@@ -100,6 +101,7 @@ defaults:
   top_n_per_topic: 20
   rank_threshold: 0.25
   ranking_negative_penalty: 0.20
+  fetch_threshold: 0.40
 
 promises:
   yaml_dir: "promises"

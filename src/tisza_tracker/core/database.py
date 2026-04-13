@@ -31,6 +31,7 @@ class DatabaseManager:
             'all_feeds': str(resolve_data_file(config['database']['all_feeds_path'], ensure_parent=True)),
             'history': str(resolve_data_file(config['database']['history_path'], ensure_parent=True)),
             'current': str(resolve_data_file(config['database']['path'], ensure_parent=True)),
+            'article_text': str(resolve_data_file(config['database'].get('article_text_path', 'article_text.db'), ensure_parent=True)),
         }
         
         self._init_databases()
@@ -45,6 +46,9 @@ class DatabaseManager:
 
         # Initialize papers.db (current run)
         self._init_current_db()
+
+        # Initialize article_text.db
+        self._init_article_text_db()
 
     @staticmethod
     def _apply_pragmas(conn: sqlite3.Connection) -> None:
@@ -426,6 +430,88 @@ class DatabaseManager:
         self._create_fts5_keyword(conn, 'entries', ['title', 'summary', 'abstract', 'authors'])
         conn.commit()
         conn.close()
+
+    def _init_article_text_db(self):
+        """Initialize the article full-text database.
+
+        Stores extracted article body text separately from the main DBs
+        so they stay lean.  Keyed by the same ``entry_id`` SHA-1 used
+        everywhere else.
+        """
+        conn = sqlite3.connect(self.db_paths['article_text'])
+        self._apply_pragmas(conn)
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS article_text (
+                entry_id TEXT PRIMARY KEY,
+                title TEXT,
+                url TEXT NOT NULL,
+                summary TEXT,
+                full_text TEXT,
+                fetched_date TEXT DEFAULT (datetime('now')),
+                fetch_status TEXT DEFAULT 'ok'
+                    CHECK(fetch_status IN ('ok', 'failed', 'paywall', 'empty'))
+            )
+        ''')
+
+        # Lightweight migration: add columns if missing
+        cursor.execute("PRAGMA table_info(article_text)")
+        columns = {row[1] for row in cursor.fetchall()}
+        for col in ('title', 'summary'):
+            if col not in columns:
+                try:
+                    cursor.execute(f"ALTER TABLE article_text ADD COLUMN {col} TEXT")
+                except Exception as e:
+                    logger.debug("Column %s may already exist in article_text: %s", col, e)
+
+        cursor.execute('''
+            CREATE INDEX IF NOT EXISTS idx_article_text_fetch_status
+            ON article_text(fetch_status)
+        ''')
+
+        self._create_fts5_trigram(conn, 'article_text', ['title', 'summary', 'full_text'])
+        self._create_fts5_keyword(conn, 'article_text', ['title', 'summary', 'full_text'])
+        conn.commit()
+        conn.close()
+
+    # ------------------------------------------------------------------
+    # article_text.db helpers
+    # ------------------------------------------------------------------
+
+    def has_article_text(self, entry_id: str) -> bool:
+        """Return True if article_text.db already has a row for *entry_id*."""
+        with self.get_connection('article_text', row_factory=False) as conn:
+            row = conn.execute(
+                "SELECT 1 FROM article_text WHERE entry_id = ?", (entry_id,)
+            ).fetchone()
+            return row is not None
+
+    def save_article_text(
+        self,
+        entry_id: str,
+        url: str,
+        full_text: Optional[str],
+        fetch_status: str = 'ok',
+        title: Optional[str] = None,
+        summary: Optional[str] = None,
+    ) -> None:
+        """Insert or replace a row in article_text.db."""
+        with self.get_connection('article_text', row_factory=False) as conn:
+            conn.execute(
+                """INSERT OR REPLACE INTO article_text
+                   (entry_id, title, url, summary, full_text, fetched_date, fetch_status)
+                   VALUES (?, ?, ?, ?, ?, datetime('now'), ?)""",
+                (entry_id, title, url, summary, full_text, fetch_status),
+            )
+
+    def get_article_text(self, entry_id: str) -> Optional[Dict[str, Any]]:
+        """Return the article_text row for *entry_id*, or None."""
+        with self.get_connection('article_text', row_factory=True) as conn:
+            row = conn.execute(
+                "SELECT * FROM article_text WHERE entry_id = ?", (entry_id,)
+            ).fetchone()
+            return dict(row) if row else None
 
     def compute_entry_id(self, entry: Dict[str, Any]) -> str:
         """Generate a stable SHA-1 based ID for a feed entry."""

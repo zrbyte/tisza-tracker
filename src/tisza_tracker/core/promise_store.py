@@ -51,6 +51,7 @@ class PromiseStore:
                 deadline TEXT,
                 keywords TEXT,
                 ranking_query TEXT,
+                filter_pattern TEXT,
                 current_status TEXT DEFAULT 'made'
                     CHECK(current_status IN (
                         'made','in_progress','kept','broken',
@@ -86,6 +87,15 @@ class PromiseStore:
                 PRIMARY KEY (promise_id, article_entry_id)
             )
         """)
+
+        # Lightweight migration: add filter_pattern if missing
+        cursor.execute("PRAGMA table_info(promises)")
+        columns = {row[1] for row in cursor.fetchall()}
+        if 'filter_pattern' not in columns:
+            try:
+                cursor.execute("ALTER TABLE promises ADD COLUMN filter_pattern TEXT")
+            except Exception as e:
+                logger.debug("Column filter_pattern may already exist: %s", e)
 
         cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_promises_category
@@ -162,8 +172,8 @@ class PromiseStore:
             conn.execute("""
                 INSERT INTO promises (id, text, text_en, source, source_url,
                     date_made, category, subcategory, deadline, keywords,
-                    ranking_query, notes)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ranking_query, filter_pattern, notes)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(id) DO UPDATE SET
                     text = excluded.text,
                     text_en = excluded.text_en,
@@ -175,13 +185,14 @@ class PromiseStore:
                     deadline = excluded.deadline,
                     keywords = excluded.keywords,
                     ranking_query = excluded.ranking_query,
+                    filter_pattern = excluded.filter_pattern,
                     notes = COALESCE(promises.notes, excluded.notes),
                     updated_at = datetime('now')
             """, (
                 p["id"], p["text"], p.get("text_en"), p.get("source"),
                 p.get("source_url"), p.get("date_made"), p.get("category", ""),
                 p.get("subcategory"), p.get("deadline"), keywords,
-                p.get("ranking_query"), p.get("notes"),
+                p.get("ranking_query"), p.get("filter_pattern"), p.get("notes"),
             ))
 
     # ---- CRUD ----
