@@ -315,17 +315,24 @@ class PromiseStore:
     def get_promises_with_articles(
         self,
         papers_db_path: str,
+        history_db_path: Optional[str] = None,
         category: Optional[str] = None,
     ) -> List[Dict[str, Any]]:
         """Return all promises with their linked articles enriched with title/link.
 
-        Attaches the papers database to resolve article entry IDs into
-        human-readable titles and URLs.  Each returned dict has the promise
-        fields plus an ``articles`` list of ``{title, link, relevance_score}``
-        dicts (deduplicated, ordered by descending score).
+        Attaches the papers database (current run) and optionally the history
+        database to resolve article entry IDs into human-readable titles and
+        URLs.  Articles found in papers.db take precedence; any remaining
+        unresolved links are looked up in matched_entries_history.db.
+
+        Each returned dict has the promise fields plus an ``articles`` list of
+        ``{title, link, relevance_score}`` dicts (deduplicated, ordered by
+        descending score).
         """
         with self._connection() as conn:
             conn.execute("ATTACH ? AS papers", (papers_db_path,))
+            if history_db_path:
+                conn.execute("ATTACH ? AS history", (history_db_path,))
             try:
                 query = "SELECT * FROM promises WHERE 1=1"
                 params: list = []
@@ -336,6 +343,7 @@ class PromiseStore:
                 promises = [dict(r) for r in conn.execute(query, params).fetchall()]
 
                 for promise in promises:
+                    # Try papers.db first (current run entries)
                     rows = conn.execute("""
                         SELECT DISTINCT e.title, e.link, pal.relevance_score
                         FROM promise_article_links pal
@@ -343,8 +351,47 @@ class PromiseStore:
                         WHERE pal.promise_id = ?
                         ORDER BY pal.relevance_score DESC
                     """, (promise["id"],)).fetchall()
-                    promise["articles"] = [dict(r) for r in rows]
+                    articles = [dict(r) for r in rows]
+                    resolved_ids = {r["article_entry_id"] for r in conn.execute(
+                        "SELECT article_entry_id FROM promise_article_links pal "
+                        "JOIN papers.entries e ON pal.article_entry_id = e.id "
+                        "WHERE pal.promise_id = ?",
+                        (promise["id"],),
+                    ).fetchall()} if articles else set()
+
+                    # Fall back to history DB for any unresolved links
+                    if history_db_path:
+                        if resolved_ids:
+                            placeholders = ",".join("?" for _ in resolved_ids)
+                            hist_rows = conn.execute(f"""
+                                SELECT DISTINCT h.title, h.link, pal.relevance_score
+                                FROM promise_article_links pal
+                                JOIN history.matched_entries h
+                                    ON pal.article_entry_id = h.entry_id
+                                WHERE pal.promise_id = ?
+                                  AND pal.article_entry_id NOT IN ({placeholders})
+                                ORDER BY pal.relevance_score DESC
+                            """, (promise["id"], *resolved_ids)).fetchall()
+                        else:
+                            hist_rows = conn.execute("""
+                                SELECT DISTINCT h.title, h.link, pal.relevance_score
+                                FROM promise_article_links pal
+                                JOIN history.matched_entries h
+                                    ON pal.article_entry_id = h.entry_id
+                                WHERE pal.promise_id = ?
+                                ORDER BY pal.relevance_score DESC
+                            """, (promise["id"],)).fetchall()
+                        articles.extend(dict(r) for r in hist_rows)
+
+                    # Re-sort combined results by score
+                    articles.sort(
+                        key=lambda a: a.get("relevance_score", 0) or 0,
+                        reverse=True,
+                    )
+                    promise["articles"] = articles
             finally:
+                if history_db_path:
+                    conn.execute("DETACH history")
                 conn.execute("DETACH papers")
         return promises
 

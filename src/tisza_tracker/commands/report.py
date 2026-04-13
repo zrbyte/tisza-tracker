@@ -61,7 +61,8 @@ def _load_promises(config_path: str) -> List[Dict[str, Any]]:
     db = DatabaseManager(config)
     ps = PromiseStore(config)
     papers_path = db.db_paths["current"]
-    promises = ps.get_promises_with_articles(papers_path)
+    history_path = db.db_paths["history"]
+    promises = ps.get_promises_with_articles(papers_path, history_db_path=history_path)
     db.close_all_connections()
     return promises
 
