@@ -1,38 +1,35 @@
-name: "Gazdaság"
-description: "Gazdaságpolitika, adók, bérek, nyugdíjak, infláció, munkaerőpiac"
-
+name: Gazdaság
+description: Gazdaságpolitika, adók, bérek, nyugdíjak, infláció, munkaerőpiac
 feeds:
-  - "telex"
-  - "444"
-  - "hvg"
-  - "nepszava"
-  - "index"
-  - "24hu"
-  - "origo"
-  - "origo_itthon"
-  - "rtl"
-  - "portfolio"
-  - "vg"
-  - "g7"
-  - "magyarnemzet"
-  - "mandiner"
-  - "168hu"
-  - "hungarytoday"
-  - "budapesttimes"
-  - "kormany"
-
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
 filter:
-  pattern: '(ado|adozas|afa|szja|ber|fizetes|nyugdij|inflaci|munka(hely|ero|nelkul)|gazdasag|koltsegvetes|gdp|beremelesemeles|minimálbér|lakás(hitel|támogatás)|csok|babaváró|foglalkoztat|vállalkoz|befektet).*'
-  fields: ["title", "summary"]
-
+  pattern: (ado|adozas|afa|szja|ber|fizetes|nyugdij|inflaci|munka(hely|ero|nelkul)|gazdasag|koltsegvetes|gdp|beremelesemeles|minimálbér|lakás(hitel|támogatás)|csok|babaváró|foglalkoztat|vállalkoz|befektet).*
+  fields:
+  - title
+  - summary
 ranking:
-  query: >
-    gazdaságpolitika adócsökkentés béremelés nyugdíjemelés minimálbér munkahelyteremtés
+  query: 'gazdaságpolitika adócsökkentés béremelés nyugdíjemelés minimálbér munkahelyteremtés
     költségvetés államadósság infláció gazdasági növekedés
-  model: "paraphrase-multilingual-MiniLM-L12-v2"
-  negative_queries: ["sport", "időjárás", "bulvár"]
 
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
+  negative_queries:
+  - sport
+  - időjárás
+  - bulvár
 output:
-  filename: "gazdasag_filtered.html"
-  filename_ranked: "gazdasag_ranked.html"
+  filename: gazdasag_filtered.html
+  filename_ranked: gazdasag_ranked.html
   archive: true

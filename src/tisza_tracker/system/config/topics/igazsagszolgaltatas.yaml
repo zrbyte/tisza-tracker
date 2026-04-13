@@ -1,37 +1,31 @@
-name: "Igazságszolgáltatás"
-description: "Jogállamiság, bíróságok, ügyészség, alkotmánybíróság, jogalkotás"
-
+name: Igazságszolgáltatás
+description: Jogállamiság, bíróságok, ügyészség, alkotmánybíróság, jogalkotás
 feeds:
-  - "telex"
-  - "444"
-  - "hvg"
-  - "nepszava"
-  - "index"
-  - "24hu"
-  - "origo"
-  - "origo_itthon"
-  - "rtl"
-  - "portfolio"
-  - "vg"
-  - "g7"
-  - "magyarnemzet"
-  - "mandiner"
-  - "168hu"
-  - "hungarytoday"
-  - "budapesttimes"
-  - "kormany"
-
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
 filter:
-  pattern: '(birosag|ugyeszseg|jogallam|alkotmany|torveny|igazsag|buntet|itelet|nyomoz|rendorseg|ügyész|ítélőtábla|kúria|alapjog|törvényjavas).*'
-  fields: ["title", "summary"]
-
+  pattern: (birosag|ugyeszseg|jogallam|alkotmany|torveny|igazsag|buntet|itelet|nyomoz|rendorseg|ügyész|ítélőtábla|kúria|alapjog|törvényjavas).*
+  fields:
+  - title
+  - summary
 ranking:
-  query: >
-    jogállamiság bírósági reform ügyészség függetlenség alkotmánybíróság
-    törvényhozás jogalkotás igazságszolgáltatás
-  model: "paraphrase-multilingual-MiniLM-L12-v2"
+  query: 'jogállamiság bírósági reform ügyészség függetlenség alkotmánybíróság törvényhozás
+    jogalkotás igazságszolgáltatás
 
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
 output:
-  filename: "igazsagszolgaltatas_filtered.html"
-  filename_ranked: "igazsagszolgaltatas_ranked.html"
+  filename: igazsagszolgaltatas_filtered.html
+  filename_ranked: igazsagszolgaltatas_ranked.html
   archive: true

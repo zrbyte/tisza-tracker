@@ -1,37 +1,31 @@
-name: "Szociálpolitika"
-description: "Szociális ellátás, lakhatás, családpolitika, szegénység, roma integráció"
-
+name: Szociálpolitika
+description: Szociális ellátás, lakhatás, családpolitika, szegénység, roma integráció
 feeds:
-  - "telex"
-  - "444"
-  - "hvg"
-  - "nepszava"
-  - "index"
-  - "24hu"
-  - "origo"
-  - "origo_itthon"
-  - "rtl"
-  - "portfolio"
-  - "vg"
-  - "g7"
-  - "magyarnemzet"
-  - "mandiner"
-  - "168hu"
-  - "hungarytoday"
-  - "budapesttimes"
-  - "kormany"
-
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
 filter:
-  pattern: '(szocialis|lakhat|lakas(tamogatas|hitel|piac)|hajlektalan|szegenyseg|segely|szociális.?ellatas|gyermekvedel|csaladtamogat|roma|eselyegyenloseg|idos|gondoz|fogyatek).*'
-  fields: ["title", "summary"]
-
+  pattern: (szocialis|lakhat|lakas(tamogatas|hitel|piac)|hajlektalan|szegenyseg|segely|szociális.?ellatas|gyermekvedel|csaladtamogat|roma|eselyegyenloseg|idos|gondoz|fogyatek).*
+  fields:
+  - title
+  - summary
 ranking:
-  query: >
-    szociálpolitika lakhatás lakástámogatás hajléktalanság szegénység
-    családtámogatás gyermekvédelem esélyegyenlőség idősek gondozás
-  model: "paraphrase-multilingual-MiniLM-L12-v2"
+  query: 'szociálpolitika lakhatás lakástámogatás hajléktalanság szegénység családtámogatás
+    gyermekvédelem esélyegyenlőség idősek gondozás
 
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
 output:
-  filename: "szocialis_filtered.html"
-  filename_ranked: "szocialis_ranked.html"
+  filename: szocialis_filtered.html
+  filename_ranked: szocialis_ranked.html
   archive: true

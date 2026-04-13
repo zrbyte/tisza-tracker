@@ -1,38 +1,33 @@
-name: "Oktatás"
-description: "Oktatási reform, pedagógusbérek, egyetemek, iskolák, tanársztrájk"
-
+name: Oktatás
+description: Oktatási reform, pedagógusbérek, egyetemek, iskolák, tanársztrájk
 feeds:
-  - "telex"
-  - "444"
-  - "hvg"
-  - "nepszava"
-  - "index"
-  - "24hu"
-  - "origo"
-  - "origo_itthon"
-  - "rtl"
-  - "portfolio"
-  - "vg"
-  - "g7"
-  - "magyarnemzet"
-  - "mandiner"
-  - "168hu"
-  - "hungarytoday"
-  - "budapesttimes"
-  - "kormany"
-
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
 filter:
-  pattern: '(oktatas|iskola|egyetem|tanar|pedagogus|tankotel|diakhitel|ovoda|bolcsode|felsooktatas|kozoktat|tanev|erettsegi|felvételi|ösztöndíj).*'
-  fields: ["title", "summary"]
-
+  pattern: (oktatas|iskola|egyetem|tanar|pedagogus|tankotel|diakhitel|ovoda|bolcsode|felsooktatas|kozoktat|tanev|erettsegi|felvételi|ösztöndíj).*
+  fields:
+  - title
+  - summary
 ranking:
-  query: >
-    oktatási reform pedagógus béremelés egyetem iskola tanárhiány
-    közoktatás felsőoktatás diák tanév tankönyv
-  model: "paraphrase-multilingual-MiniLM-L12-v2"
-  negative_queries: ["sport"]
+  query: 'oktatási reform pedagógus béremelés egyetem iskola tanárhiány közoktatás
+    felsőoktatás diák tanév tankönyv
 
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
+  negative_queries:
+  - sport
 output:
-  filename: "oktatas_filtered.html"
-  filename_ranked: "oktatas_ranked.html"
+  filename: oktatas_filtered.html
+  filename_ranked: oktatas_ranked.html
   archive: true

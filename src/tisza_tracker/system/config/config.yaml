@@ -1,5 +1,10 @@
 # Tisza Tracker — Hungarian government promise tracker
 # Main configuration file
+#
+# Feed status verified 2026-04-13:
+#   Working (13): telex, 444, hvg, nepszava, index, 24hu, portfolio, vg,
+#                 magyarnemzet, mandiner, 168hu, hungarytoday, budapesttimes
+#   Disabled:     origo (404), rtl (404), g7 (redirects to telex), kormany (404)
 
 database:
   path: "papers.db"
@@ -19,7 +24,7 @@ feeds:
     enabled: true
   hvg:
     name: "HVG"
-    url: "https://hvg.hu/rss/rss.hvg/hirek"
+    url: "https://hvg.hu/rss"
     enabled: true
   nepszava:
     name: "Népszava"
@@ -38,15 +43,11 @@ feeds:
   origo:
     name: "Origo"
     url: "https://www.origo.hu/contentpartner/rss/hircentrum/origo.xml"
-    enabled: true
-  origo_itthon:
-    name: "Origo Itthon"
-    url: "https://www.origo.hu/contentpartner/rss/itthon/origo.rss"
-    enabled: true
+    enabled: false  # 404 as of 2026-04-13 — RSS discontinued?
   rtl:
     name: "RTL.hu"
     url: "https://rtl.hu/rss"
-    enabled: true
+    enabled: false  # 404 as of 2026-04-13 — RSS discontinued?
 
   # --- Business / economics ---
   portfolio:
@@ -57,10 +58,7 @@ feeds:
     name: "Világgazdaság"
     url: "https://vg.hu/feed"
     enabled: true
-  g7:
-    name: "G7"
-    url: "https://g7.hu/feed/"
-    enabled: true
+  # g7 removed — redirects to telex.hu/rss (G7 merged into Telex)
 
   # --- Government-aligned / right-leaning ---
   magyarnemzet:
@@ -73,7 +71,7 @@ feeds:
     enabled: true
   168hu:
     name: "168.hu"
-    url: "https://168.hu/feed"
+    url: "https://168.hu/rss"
     enabled: true
 
   # --- English-language ---
@@ -90,7 +88,7 @@ feeds:
   kormany:
     name: "Kormány.hu"
     url: "https://kormany.hu/api/rss"
-    enabled: true
+    enabled: false  # 404 as of 2026-04-13 — no RSS endpoint found
 
 defaults:
   time_window_days: 30

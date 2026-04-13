@@ -1,37 +1,32 @@
-name: "Környezetvédelem"
-description: "Környezetvédelem, energiapolitika, klímaváltozás, megújuló energia, paksi bővítés"
-
+name: Környezetvédelem
+description: Környezetvédelem, energiapolitika, klímaváltozás, megújuló energia, paksi
+  bővítés
 feeds:
-  - "telex"
-  - "444"
-  - "hvg"
-  - "nepszava"
-  - "index"
-  - "24hu"
-  - "origo"
-  - "origo_itthon"
-  - "rtl"
-  - "portfolio"
-  - "vg"
-  - "g7"
-  - "magyarnemzet"
-  - "mandiner"
-  - "168hu"
-  - "hungarytoday"
-  - "budapesttimes"
-  - "kormany"
-
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
 filter:
-  pattern: '(kornyezet|klima|energia|megujulo|nap(elem|erőmű)|szel(erőmű|energia)|atomer|paks|kibocsát|széndioxid|zöld|hulladek|ujrahasznosit|szennyez|vizvéd).*'
-  fields: ["title", "summary"]
-
+  pattern: (kornyezet|klima|energia|megujulo|nap(elem|erőmű)|szel(erőmű|energia)|atomer|paks|kibocsát|széndioxid|zöld|hulladek|ujrahasznosit|szennyez|vizvéd).*
+  fields:
+  - title
+  - summary
 ranking:
-  query: >
-    környezetvédelem klímaváltozás megújuló energia atomerőmű Paks
-    energiapolitika zöld átállás hulladékkezelés széndioxid kibocsátás
-  model: "paraphrase-multilingual-MiniLM-L12-v2"
+  query: 'környezetvédelem klímaváltozás megújuló energia atomerőmű Paks energiapolitika
+    zöld átállás hulladékkezelés széndioxid kibocsátás
 
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
 output:
-  filename: "kornyezetvedelem_filtered.html"
-  filename_ranked: "kornyezetvedelem_ranked.html"
+  filename: kornyezetvedelem_filtered.html
+  filename_ranked: kornyezetvedelem_ranked.html
   archive: true

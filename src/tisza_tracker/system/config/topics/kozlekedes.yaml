@@ -1,37 +1,31 @@
-name: "Közlekedés"
-description: "Közlekedési infrastruktúra, vasút, autópálya, tömegközlekedés, útépítés"
-
+name: Közlekedés
+description: Közlekedési infrastruktúra, vasút, autópálya, tömegközlekedés, útépítés
 feeds:
-  - "telex"
-  - "444"
-  - "hvg"
-  - "nepszava"
-  - "index"
-  - "24hu"
-  - "origo"
-  - "origo_itthon"
-  - "rtl"
-  - "portfolio"
-  - "vg"
-  - "g7"
-  - "magyarnemzet"
-  - "mandiner"
-  - "168hu"
-  - "hungarytoday"
-  - "budapesttimes"
-  - "kormany"
-
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
 filter:
-  pattern: '(kozleked|vasut|autopalya|tomegkozleked|metro|villamos|busz|vonat|MAV|BKK|utepites|hid|repulot|infrastruktur).*'
-  fields: ["title", "summary"]
-
+  pattern: (kozleked|vasut|autopalya|tomegkozleked|metro|villamos|busz|vonat|MAV|BKK|utepites|hid|repulot|infrastruktur).*
+  fields:
+  - title
+  - summary
 ranking:
-  query: >
-    közlekedés infrastruktúra vasút fejlesztés autópálya tömegközlekedés
-    MÁV BKK metró felújítás útépítés
-  model: "paraphrase-multilingual-MiniLM-L12-v2"
+  query: 'közlekedés infrastruktúra vasút fejlesztés autópálya tömegközlekedés MÁV
+    BKK metró felújítás útépítés
 
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
 output:
-  filename: "kozlekedes_filtered.html"
-  filename_ranked: "kozlekedes_ranked.html"
+  filename: kozlekedes_filtered.html
+  filename_ranked: kozlekedes_ranked.html
   archive: true

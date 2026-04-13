@@ -1,37 +1,31 @@
-name: "Külpolitika"
-description: "EU, NATO, orosz-ukrán háború, diplomácia, szankciók, nemzetközi kapcsolatok"
-
+name: Külpolitika
+description: EU, NATO, orosz-ukrán háború, diplomácia, szankciók, nemzetközi kapcsolatok
 feeds:
-  - "telex"
-  - "444"
-  - "hvg"
-  - "nepszava"
-  - "index"
-  - "24hu"
-  - "origo"
-  - "origo_itthon"
-  - "rtl"
-  - "portfolio"
-  - "vg"
-  - "g7"
-  - "magyarnemzet"
-  - "mandiner"
-  - "168hu"
-  - "hungarytoday"
-  - "budapesttimes"
-  - "kormany"
-
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
 filter:
-  pattern: '(eu.?(csatlak|tag|penz|forras|bizottsag)|nato|ukrajna|orosz|haboru|szankci|diplomaci|kulpolitik|kulugyminist|brüsszel|europai.?(unio|parlament|tanacs)|veto|jogallamisag.?mechanizmus).*'
-  fields: ["title", "summary"]
-
+  pattern: (eu.?(csatlak|tag|penz|forras|bizottsag)|nato|ukrajna|orosz|haboru|szankci|diplomaci|kulpolitik|kulugyminist|brüsszel|europai.?(unio|parlament|tanacs)|veto|jogallamisag.?mechanizmus).*
+  fields:
+  - title
+  - summary
 ranking:
-  query: >
-    EU kapcsolatok NATO Ukrajna Oroszország szankciók külpolitika
-    Brüsszel európai integráció jogállamisági mechanizmus
-  model: "paraphrase-multilingual-MiniLM-L12-v2"
+  query: 'EU kapcsolatok NATO Ukrajna Oroszország szankciók külpolitika Brüsszel európai
+    integráció jogállamisági mechanizmus
 
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
 output:
-  filename: "kulpolitika_filtered.html"
-  filename_ranked: "kulpolitika_ranked.html"
+  filename: kulpolitika_filtered.html
+  filename_ranked: kulpolitika_ranked.html
   archive: true

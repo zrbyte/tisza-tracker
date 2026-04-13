@@ -1,38 +1,34 @@
-name: "Egészségügy"
-description: "Egészségügyi reform, kórházak, orvoshiány, gyógyszerárak, betegellátás"
-
+name: Egészségügy
+description: Egészségügyi reform, kórházak, orvoshiány, gyógyszerárak, betegellátás
 feeds:
-  - "telex"
-  - "444"
-  - "hvg"
-  - "nepszava"
-  - "index"
-  - "24hu"
-  - "origo"
-  - "origo_itthon"
-  - "rtl"
-  - "portfolio"
-  - "vg"
-  - "g7"
-  - "magyarnemzet"
-  - "mandiner"
-  - "168hu"
-  - "hungarytoday"
-  - "budapesttimes"
-  - "kormany"
-
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
 filter:
-  pattern: '(egeszseg|korhaz|orvos|beteg|gyogyszer|mento|haziorvos|szuleszet|onkologia|varolista|egeszsegugy|nover|ápolo|klinika|járóbeteg|fekvőbeteg|tb|taj).*'
-  fields: ["title", "summary"]
-
+  pattern: (egeszseg|korhaz|orvos|beteg|gyogyszer|mento|haziorvos|szuleszet|onkologia|varolista|egeszsegugy|nover|ápolo|klinika|járóbeteg|fekvőbeteg|tb|taj).*
+  fields:
+  - title
+  - summary
 ranking:
-  query: >
-    egészségügyi reform kórház orvoshiány betegellátás várolista
-    gyógyszer nővér ápoló mentőszolgálat háziorvos
-  model: "paraphrase-multilingual-MiniLM-L12-v2"
-  negative_queries: ["sport", "bulvár"]
+  query: 'egészségügyi reform kórház orvoshiány betegellátás várolista gyógyszer nővér
+    ápoló mentőszolgálat háziorvos
 
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
+  negative_queries:
+  - sport
+  - bulvár
 output:
-  filename: "egeszsegugy_filtered.html"
-  filename_ranked: "egeszsegugy_ranked.html"
+  filename: egeszsegugy_filtered.html
+  filename_ranked: egeszsegugy_ranked.html
   archive: true
