@@ -1,0 +1,29 @@
+name: "Környezetvédelem"
+description: "Környezetvédelem, energiapolitika, klímaváltozás, megújuló energia, paksi bővítés"
+
+feeds:
+  - "telex"
+  - "hvg"
+  - "index_belfold"
+  - "index_gazdasag"
+  - "portfolio"
+  - "444"
+  - "24hu"
+  - "origo"
+  - "magyarnemzet"
+  - "kormany"
+
+filter:
+  pattern: '(kornyezet|klima|energia|megujulo|nap(elem|erőmű)|szel(erőmű|energia)|atomer|paks|kibocsát|széndioxid|zöld|hulladek|ujrahasznosit|szennyez|vizvéd).*'
+  fields: ["title", "summary"]
+
+ranking:
+  query: >
+    környezetvédelem klímaváltozás megújuló energia atomerőmű Paks
+    energiapolitika zöld átállás hulladékkezelés széndioxid kibocsátás
+  model: "paraphrase-multilingual-MiniLM-L12-v2"
+
+output:
+  filename: "kornyezetvedelem_filtered.html"
+  filename_ranked: "kornyezetvedelem_ranked.html"
+  archive: true

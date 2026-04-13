@@ -1,0 +1,29 @@
+# Sample promise definitions — replace with actual promises from the
+# Tisza party election programme and public statements by PM Magyar Péter.
+#
+# Each promise needs:
+#   id: unique identifier (CATEGORY-NNN)
+#   text: promise text in Hungarian
+#   category: must match a topic name (e.g. gazdasag, egeszsegugy)
+#   source: where the promise was made
+#
+# Optional: text_en, source_url, date_made, deadline, keywords, ranking_query
+
+promises:
+  - id: "ALT-001"
+    text: "A kormány teljes átláthatóságot biztosít a közpénzek felhasználásában"
+    text_en: "The government will ensure full transparency in public spending"
+    source: "Tisza párt választási program"
+    date_made: "2025-01-01"
+    category: "korrupcio"
+    keywords: ["átláthatóság", "közpénz", "korrupció", "elszámoltathatóság"]
+    ranking_query: "kormány átláthatóság közpénz felhasználás elszámoltathatóság"
+
+  - id: "ALT-002"
+    text: "Az EU-s forrásokhoz való hozzáférés helyreállítása"
+    text_en: "Restore access to EU funds"
+    source: "Tisza párt választási program"
+    date_made: "2025-01-01"
+    category: "kulpolitika"
+    keywords: ["EU", "uniós források", "jogállamiság", "Brüsszel"]
+    ranking_query: "EU források helyreállítás jogállamisági mechanizmus uniós pénzek"

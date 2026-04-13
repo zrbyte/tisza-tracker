@@ -1,0 +1,31 @@
+name: "Egészségügy"
+description: "Egészségügyi reform, kórházak, orvoshiány, gyógyszerárak, betegellátás"
+
+feeds:
+  - "telex"
+  - "hvg"
+  - "index_belfold"
+  - "444"
+  - "24hu"
+  - "nepszava"
+  - "rtl"
+  - "origo"
+  - "magyarnemzet"
+  - "hirado"
+  - "kormany"
+
+filter:
+  pattern: '(egeszseg|korhaz|orvos|beteg|gyogyszer|mento|haziorvos|szuleszet|onkologia|varolista|egeszsegugy|nover|ápolo|klinika|járóbeteg|fekvőbeteg|tb|taj).*'
+  fields: ["title", "summary"]
+
+ranking:
+  query: >
+    egészségügyi reform kórház orvoshiány betegellátás várolista
+    gyógyszer nővér ápoló mentőszolgálat háziorvos
+  model: "paraphrase-multilingual-MiniLM-L12-v2"
+  negative_queries: ["sport", "bulvár"]
+
+output:
+  filename: "egeszsegugy_filtered.html"
+  filename_ranked: "egeszsegugy_ranked.html"
+  archive: true

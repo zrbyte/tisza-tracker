@@ -1,0 +1,29 @@
+name: "Közlekedés"
+description: "Közlekedési infrastruktúra, vasút, autópálya, tömegközlekedés, útépítés"
+
+feeds:
+  - "telex"
+  - "hvg"
+  - "index_belfold"
+  - "index_gazdasag"
+  - "portfolio"
+  - "444"
+  - "24hu"
+  - "origo"
+  - "magyarnemzet"
+  - "kormany"
+
+filter:
+  pattern: '(kozleked|vasut|autopalya|tomegkozleked|metro|villamos|busz|vonat|MAV|BKK|utepites|hid|repulot|infrastruktur).*'
+  fields: ["title", "summary"]
+
+ranking:
+  query: >
+    közlekedés infrastruktúra vasút fejlesztés autópálya tömegközlekedés
+    MÁV BKK metró felújítás útépítés
+  model: "paraphrase-multilingual-MiniLM-L12-v2"
+
+output:
+  filename: "kozlekedes_filtered.html"
+  filename_ranked: "kozlekedes_ranked.html"
+  archive: true

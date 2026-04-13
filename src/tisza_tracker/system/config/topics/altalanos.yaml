@@ -1,0 +1,32 @@
+name: "Általános - Magyar Péter / Tisza párt"
+description: "Általános hírek Magyar Péterről, a Tisza pártról, kormányzati nyilatkozatok"
+
+feeds:
+  - "telex"
+  - "hvg"
+  - "index_belfold"
+  - "444"
+  - "24hu"
+  - "nepszava"
+  - "rtl"
+  - "origo"
+  - "magyarnemzet"
+  - "mandiner"
+  - "hirado"
+  - "kormany"
+
+filter:
+  pattern: '(Magyar.?Peter|Tisza.?part|miniszterelnok|kormany(fo|program|ules|szoviv)|Tisza.?frakci|kabinet|parlamenti.?vita).*'
+  fields: ["title", "summary"]
+
+ranking:
+  query: >
+    Magyar Péter miniszterelnök Tisza párt kormányprogram kormányülés
+    parlamenti vita politikai nyilatkozat ígéret
+  model: "paraphrase-multilingual-MiniLM-L12-v2"
+  negative_queries: ["sport", "időjárás", "sztár", "celebek"]
+
+output:
+  filename: "altalanos_filtered.html"
+  filename_ranked: "altalanos_ranked.html"
+  archive: true

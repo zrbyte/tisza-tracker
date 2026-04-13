@@ -1,0 +1,34 @@
+name: "Gazdaság"
+description: "Gazdaságpolitika, adók, bérek, nyugdíjak, infláció, munkaerőpiac"
+
+feeds:
+  - "telex"
+  - "hvg"
+  - "index_belfold"
+  - "index_gazdasag"
+  - "portfolio"
+  - "444"
+  - "24hu"
+  - "nepszava"
+  - "rtl"
+  - "origo"
+  - "magyarnemzet"
+  - "mandiner"
+  - "hirado"
+  - "kormany"
+
+filter:
+  pattern: '(ado|adozas|afa|szja|ber|fizetes|nyugdij|inflaci|munka(hely|ero|nelkul)|gazdasag|koltsegvetes|gdp|beremelesemeles|minimálbér|lakás(hitel|támogatás)|csok|babaváró|foglalkoztat|vállalkoz|befektet).*'
+  fields: ["title", "summary"]
+
+ranking:
+  query: >
+    gazdaságpolitika adócsökkentés béremelés nyugdíjemelés minimálbér munkahelyteremtés
+    költségvetés államadósság infláció gazdasági növekedés
+  model: "paraphrase-multilingual-MiniLM-L12-v2"
+  negative_queries: ["sport", "időjárás", "bulvár"]
+
+output:
+  filename: "gazdasag_filtered.html"
+  filename_ranked: "gazdasag_ranked.html"
+  archive: true

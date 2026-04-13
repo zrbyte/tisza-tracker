@@ -1,0 +1,31 @@
+name: "Oktatás"
+description: "Oktatási reform, pedagógusbérek, egyetemek, iskolák, tanársztrájk"
+
+feeds:
+  - "telex"
+  - "hvg"
+  - "index_belfold"
+  - "444"
+  - "24hu"
+  - "nepszava"
+  - "rtl"
+  - "origo"
+  - "magyarnemzet"
+  - "hirado"
+  - "kormany"
+
+filter:
+  pattern: '(oktatas|iskola|egyetem|tanar|pedagogus|tankotel|diakhitel|ovoda|bolcsode|felsooktatas|kozoktat|tanev|erettsegi|felvételi|ösztöndíj).*'
+  fields: ["title", "summary"]
+
+ranking:
+  query: >
+    oktatási reform pedagógus béremelés egyetem iskola tanárhiány
+    közoktatás felsőoktatás diák tanév tankönyv
+  model: "paraphrase-multilingual-MiniLM-L12-v2"
+  negative_queries: ["sport"]
+
+output:
+  filename: "oktatas_filtered.html"
+  filename_ranked: "oktatas_ranked.html"
+  archive: true

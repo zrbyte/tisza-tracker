@@ -1,0 +1,31 @@
+name: "Külpolitika"
+description: "EU, NATO, orosz-ukrán háború, diplomácia, szankciók, nemzetközi kapcsolatok"
+
+feeds:
+  - "telex"
+  - "hvg"
+  - "index_belfold"
+  - "444"
+  - "24hu"
+  - "nepszava"
+  - "rtl"
+  - "origo"
+  - "magyarnemzet"
+  - "mandiner"
+  - "hirado"
+  - "kormany"
+
+filter:
+  pattern: '(eu.?(csatlak|tag|penz|forras|bizottsag)|nato|ukrajna|orosz|haboru|szankci|diplomaci|kulpolitik|kulugyminist|brüsszel|europai.?(unio|parlament|tanacs)|veto|jogallamisag.?mechanizmus).*'
+  fields: ["title", "summary"]
+
+ranking:
+  query: >
+    EU kapcsolatok NATO Ukrajna Oroszország szankciók külpolitika
+    Brüsszel európai integráció jogállamisági mechanizmus
+  model: "paraphrase-multilingual-MiniLM-L12-v2"
+
+output:
+  filename: "kulpolitika_filtered.html"
+  filename_ranked: "kulpolitika_ranked.html"
+  archive: true

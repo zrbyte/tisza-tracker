@@ -1,0 +1,31 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Runtime data (local databases, config)
+*.db
+*.db-journal
+*.backup.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+src/tisza_tracker/system/config/secrets/email_password.env

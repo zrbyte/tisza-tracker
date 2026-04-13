@@ -1,0 +1,59 @@
+[build-system]
+requires = [
+    "setuptools>=68",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tisza_tracker"
+version = "0.1.0"
+description = "Track Hungarian government promises against daily media coverage."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Peter Nemes-Incze" },
+]
+requires-python = ">=3.10"
+dependencies = [
+    "feedparser==6.0.12",
+    "PyYAML==6.0.3",
+    "click==8.3.1",
+    "sentence-transformers==5.3.0",
+    "requests==2.32.5",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+keywords = ["rss", "politics", "hungary", "promises", "tracker", "media"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.0.2",
+    "pytest-cov==7.1.0",
+]
+
+[project.scripts]
+tt = "tisza_tracker.cli:cli"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning:importlib._legacy",
+    "ignore:open_text is deprecated:DeprecationWarning",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+tisza_tracker = [
+    "system/**/*",
+]

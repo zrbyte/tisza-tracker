@@ -1,0 +1,80 @@
+# Tisza Tracker — Hungarian government promise tracker
+# Main configuration file
+
+database:
+  path: "papers.db"
+  all_feeds_path: "all_feed_entries.db"
+  history_path: "matched_entries_history.db"
+  promises_path: "promises.db"
+
+feeds:
+  # --- Independent / centrist ---
+  telex:
+    name: "Telex"
+    url: "https://telex.hu/rss"
+    enabled: true
+  hvg:
+    name: "HVG"
+    url: "https://hvg.hu/rss"
+    enabled: true
+  index_belfold:
+    name: "Index Belföld"
+    url: "https://index.hu/belfold/rss/"
+    enabled: true
+  index_gazdasag:
+    name: "Index Gazdaság"
+    url: "https://index.hu/gazdasag/rss/"
+    enabled: true
+  portfolio:
+    name: "Portfolio"
+    url: "https://www.portfolio.hu/rss/all.xml"
+    enabled: true
+  "444":
+    name: "444.hu"
+    url: "https://444.hu/feed"
+    enabled: true
+  24hu:
+    name: "24.hu"
+    url: "https://24.hu/feed/"
+    enabled: true
+  nepszava:
+    name: "Népszava"
+    url: "https://nepszava.hu/feed/"
+    enabled: true
+  rtl:
+    name: "RTL.hu"
+    url: "https://rtl.hu/rss"
+    enabled: true
+
+  # --- Government-aligned / conservative (for comparison) ---
+  origo:
+    name: "Origo"
+    url: "https://www.origo.hu/contentpartner/rss/origo/origo.xml"
+    enabled: true
+  magyarnemzet:
+    name: "Magyar Nemzet"
+    url: "https://magyarnemzet.hu/feed/"
+    enabled: true
+  mandiner:
+    name: "Mandiner"
+    url: "https://mandiner.hu/rss"
+    enabled: true
+  hirado:
+    name: "Híradó.hu"
+    url: "https://hirado.hu/feed/"
+    enabled: true
+
+  # --- Government official ---
+  kormany:
+    name: "Kormány.hu"
+    url: "https://kormany.hu/api/rss"
+    enabled: true
+
+defaults:
+  time_window_days: 30
+  top_n_per_topic: 20
+  rank_threshold: 0.25
+  ranking_negative_penalty: 0.20
+
+promises:
+  yaml_dir: "promises"
