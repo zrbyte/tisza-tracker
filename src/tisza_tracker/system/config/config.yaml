@@ -4,6 +4,7 @@
 # Feed status verified 2026-04-13:
 #   Working (13): telex, 444, hvg, nepszava, index, 24hu, portfolio, vg,
 #                 magyarnemzet, mandiner, 168hu, hungarytoday, budapesttimes
+#   Flaky:        hirado (HTTP 500 — server issue, keep trying)
 #   Disabled:     origo (404), rtl (404), g7 (redirects to telex), kormany (404)
 
 database:
@@ -40,6 +41,10 @@ feeds:
     name: "24.hu"
     url: "https://24.hu/feed/"
     enabled: true
+  hirado:
+    name: "Híradó.hu"
+    url: "https://hirado.hu/feed/"
+    enabled: true  # HTTP 500 as of 2026-04-13 — server issue, keep trying
   origo:
     name: "Origo"
     url: "https://www.origo.hu/contentpartner/rss/hircentrum/origo.xml"

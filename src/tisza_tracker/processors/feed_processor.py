@@ -59,9 +59,33 @@ class FeedProcessor:
             try:
                 # Fetch and parse RSS feed
                 feed = feedparser.parse(feed_url)
-                if feed.bozo:
-                    logger.warning(f"Feed '{feed_display_name}' has parsing issues: {feed.bozo_exception}")
-                
+
+                # Detect unavailable feeds: HTTP errors, HTML responses, empty results
+                http_status = feed.get('status', 0)
+                if http_status and http_status >= 400:
+                    logger.warning(
+                        "Feed '%s' returned HTTP %d — feed may be unavailable (%s)",
+                        feed_display_name, http_status, feed_url,
+                    )
+                elif feed.bozo:
+                    exc = feed.bozo_exception
+                    exc_name = type(exc).__name__ if exc else "unknown"
+                    if not feed.entries:
+                        logger.warning(
+                            "Feed '%s' is unavailable or returned invalid data (%s: %s) — URL: %s",
+                            feed_display_name, exc_name, exc, feed_url,
+                        )
+                    else:
+                        logger.debug(
+                            "Feed '%s' has minor parsing issues (%s) but returned %d entries",
+                            feed_display_name, exc_name, len(feed.entries),
+                        )
+                elif not feed.entries:
+                    logger.warning(
+                        "Feed '%s' returned 0 entries — feed may be empty or broken (%s)",
+                        feed_display_name, feed_url,
+                    )
+
                 feed_entries = feed.entries
                 logger.debug(f"Feed '{feed_display_name}' returned {len(feed_entries)} raw entries")
                 feed_title = getattr(feed.feed, 'title', feed_display_name)
