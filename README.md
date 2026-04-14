@@ -2,103 +2,6 @@
 
 Hungarian government promise tracker. Monitors daily media coverage via RSS feeds, ranks articles by relevance using semantic similarity, and links them to specific campaign promises made by the Tisza party.
 
-## Pipeline
-
-```
-tt filter  →  tt rank  →  tt fetch  →  tt match  →  tt classify  →  tt html / tt report / tt email
-  (RSS)      (scoring)   (full text)  (promises)    (LLM verdict)     (output)
-```
-
-- **filter** — fetch RSS feeds, apply per-topic regex patterns to title + summary
-- **rank** — compute semantic similarity (Sentence-Transformers) between topic query and article titles
-- **fetch** — store RSS summaries for all ranked entries; download full article text (via trafilatura) for entries above `fetch_threshold`
-- **match** — link articles to government promises using per-promise regex pre-filter + semantic scoring against title + summary
-- **classify** — two-pass LLM verdict on each matched article (see below)
-- **html / email** — generate HTML reports or send digests via SMTP
-
-### LLM classification (`tt classify`)
-
-Semantic similarity catches *topically related* articles, but many of those only
-glance off the promise. A cheap OpenAI-compatible model (default `gpt-5-nano`)
-reads each match and assigns a verdict.
-
-Two-pass cascade, idempotent per `prompt_version`:
-
-1. **Relevance gate** — title + summary only. Returns `{relevant, confidence, reason}`.
-   Articles that fail the gate are marked `irrelevant` without calling pass 2.
-2. **Verdict** — full article text (from `article_text.db`) if available.
-   Returns `{verdict, confidence, evidence_quote, reasoning}` where verdict ∈
-   `kept | in_progress | broken | irrelevant`.
-
-Results are cached in `promises.db` (`llm_classifications` table). Re-running
-`tt classify` only processes new links or ones whose `prompt_version` is stale.
-Use `--force` to reclassify everything, `--limit N` for testing, or
-`--promise ID` to scope to one promise.
-
-After classification, a **rollup** aggregates verdicts per promise and updates
-`current_status` (broken wins on any confident broken vote; ≥N confident kept
-votes → kept; any confident in-progress/kept → in_progress).
-
-### Report behaviour
-
-`tt report` only shows the top **`top_n_in_report`** articles per promise
-(default 3), ranked by LLM confidence then semantic score. Articles classified
-as `irrelevant` are excluded entirely. Each article row gets a verdict badge
-(`✓ kept`, `→ in_progress`, `✗ broken`) and — when available — the verbatim
-Hungarian sentence the model cited as evidence.
-
-## Databases
-
-- `all_feed_entries.db` — global RSS archive for deduplication
-- `papers.db` — current run processing (filter → rank → match)
-- `matched_entries_history.db` — long-term archive of matched articles
-- `article_text.db` — extracted article body text (separate to keep main DBs lean)
-- `promises.db` — promise definitions, status tracking, article-promise links, LLM verdicts
-
-## Configuration
-
-Main config: `config.yaml` (feeds, defaults, database paths)
-
-Topic configs: `topics/*.yaml` (per-topic regex patterns, ranking queries, feed selection)
-
-Promise configs: `promises/*.yaml` (per-promise regex filter + semantic ranking query)
-
-### Key defaults
-
-- `rank_threshold: 0.25` — minimum score to display in output
-- `fetch_threshold: 0.40` — minimum score to download full article text
-- `ranking_negative_penalty: 0.20` — penalty for negative query terms (sport, weather, celebrity)
-- `time_window_days: 30` — RSS entry age filter
-
-### LLM classification config (`llm_classification:` block)
-
-- `model` — OpenAI-compatible model name (default `gpt-5-nano`)
-- `base_url` — override to point at a local endpoint; falls back to `OPENAI_BASE_URL` env or OpenAI
-- `api_key_env` / `api_key_file` — key source; defaults to `OPENAI_API_KEY` env var
-- `max_candidates_per_promise: 20` — cap links sent to the LLM per promise (cost control)
-- `top_n_in_report: 3` — articles shown per promise in the tracker table
-- `prompt_version: "v1"` — bump to invalidate the classification cache
-- `pass1_enabled` / `pass2_enabled` — toggle either pass independently
-- `rollup.broken_min_confidence: 0.7` — any broken verdict above this flips the promise
-- `rollup.kept_min_votes: 2`, `rollup.kept_min_confidence: 0.6` — quorum for `kept`
-- `rollup.in_progress_min_confidence: 0.5`
-
-## RSS feeds
-
-13 active Hungarian media sources across the political spectrum:
-
-- Independent: Telex, 444.hu, HVG, Nepszava
-- Large portals: Index, 24.hu, Hirado.hu
-- Business: Portfolio, Vilaggazdasag
-- Right-leaning: Magyar Nemzet, Mandiner, 168.hu
-- English-language: Hungary Today, Budapest Times
-
-## Promise tracking
-
-148 promises extracted from the Tisza party election programme ("A mukodo es embersages Magyarorszag alapjai", 2026), organized into 10 policy categories mapped to monitoring topics.
-
-Each promise has a `filter_pattern` (regex for fast pre-filtering against title + summary) and a `ranking_query` (semantic similarity query for scoring).
-
 <!-- PROMISES_START -->
 ### Promise tracker
 
@@ -305,6 +208,97 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | MIG-003 | Felszámoljuk a letelepedési kötvények rendszerét. | :black_square_button: |  |
 
 <!-- PROMISES_END -->
+
+## Pipeline
+
+```
+tt filter  →  tt rank  →  tt fetch  →  tt match  →  tt classify  →  tt html / tt report / tt email
+  (RSS)      (scoring)   (full text)  (promises)    (LLM verdict)     (output)
+```
+
+- **filter** — fetch RSS feeds, apply per-topic regex patterns to title + summary
+- **rank** — compute semantic similarity (Sentence-Transformers) between topic query and article titles
+- **fetch** — store RSS summaries for all ranked entries; download full article text (via trafilatura) for entries above `fetch_threshold`
+- **match** — link articles to government promises using per-promise regex pre-filter + semantic scoring against title + summary
+- **classify** — two-pass LLM verdict on each matched article (see below)
+- **html / email** — generate HTML reports or send digests via SMTP
+
+### LLM classification (`tt classify`)
+
+Semantic similarity catches *topically related* articles, but many of those only
+glance off the promise. A cheap OpenAI-compatible model (default `gpt-5-nano`)
+reads each match and assigns a verdict.
+
+Two-pass cascade, idempotent per `prompt_version`:
+
+1. **Relevance gate** — title + summary only. Returns `{relevant, confidence, reason}`.
+   Articles that fail the gate are marked `irrelevant` without calling pass 2.
+2. **Verdict** — full article text (from `article_text.db`) if available.
+   Returns `{verdict, confidence, evidence_quote, reasoning}` where verdict ∈
+   `kept | in_progress | broken | irrelevant`.
+
+Results are cached in `promises.db` (`llm_classifications` table). Re-running
+`tt classify` only processes new links or ones whose `prompt_version` is stale.
+Use `--force` to reclassify everything, `--limit N` for testing, or
+`--promise ID` to scope to one promise.
+
+After classification, a **rollup** aggregates verdicts per promise and updates
+`current_status` (broken wins on any confident broken vote; ≥N confident kept
+votes → kept; any confident in-progress/kept → in_progress).
+
+### Report behaviour
+
+`tt report` only shows the top **`top_n_in_report`** articles per promise
+(default 3), ranked by LLM confidence then semantic score. Articles classified
+as `irrelevant` are excluded entirely. Each article row gets a verdict badge
+(`✓ kept`, `→ in_progress`, `✗ broken`) and — when available — the verbatim
+Hungarian sentence the model cited as evidence.
+
+## Databases
+
+- `all_feed_entries.db` — global RSS archive for deduplication
+- `papers.db` — current run processing (filter → rank → match)
+- `matched_entries_history.db` — long-term archive of matched articles
+- `article_text.db` — extracted article body text (separate to keep main DBs lean)
+- `promises.db` — promise definitions, status tracking, article-promise links, LLM verdicts
+
+## Configuration
+
+Main config: `config.yaml` (feeds, defaults, database paths)
+
+Topic configs: `topics/*.yaml` (per-topic regex patterns, ranking queries, feed selection)
+
+Promise configs: `promises/*.yaml` (per-promise regex filter + semantic ranking query)
+
+### Key defaults
+
+- `rank_threshold: 0.25` — minimum score to display in output
+- `fetch_threshold: 0.40` — minimum score to download full article text
+- `ranking_negative_penalty: 0.20` — penalty for negative query terms (sport, weather, celebrity)
+- `time_window_days: 30` — RSS entry age filter
+
+### LLM classification config (`llm_classification:` block)
+
+- `model` — OpenAI-compatible model name (default `gpt-5-nano`)
+- `base_url` — override to point at a local endpoint; falls back to `OPENAI_BASE_URL` env or OpenAI
+- `api_key_env` / `api_key_file` — key source; defaults to `OPENAI_API_KEY` env var
+- `max_candidates_per_promise: 20` — cap links sent to the LLM per promise (cost control)
+- `top_n_in_report: 3` — articles shown per promise in the tracker table
+- `prompt_version: "v1"` — bump to invalidate the classification cache
+- `pass1_enabled` / `pass2_enabled` — toggle either pass independently
+- `rollup.broken_min_confidence: 0.7` — any broken verdict above this flips the promise
+- `rollup.kept_min_votes: 2`, `rollup.kept_min_confidence: 0.6` — quorum for `kept`
+- `rollup.in_progress_min_confidence: 0.5`
+
+## RSS feeds
+
+13 active Hungarian media sources across the political spectrum:
+
+- Independent: Telex, 444.hu, HVG, Nepszava
+- Large portals: Index, 24.hu, Hirado.hu
+- Business: Portfolio, Vilaggazdasag
+- Right-leaning: Magyar Nemzet, Mandiner, 168.hu
+- English-language: Hungary Today, Budapest Times
 
 ### Promise status lifecycle
 
