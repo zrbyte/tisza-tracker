@@ -14,7 +14,10 @@ echo "=== match ==="
 tt match
 
 echo "=== classify ==="
-PROMISES_DB="${HOME}/.tisza_tracker/promises.db"
+# Resolve the promises.db path the same way tisza_tracker does: honour
+# TISZA_TRACKER_DATA_DIR when set, otherwise fall back to ~/.tisza_tracker.
+TT_DATA_DIR="${TISZA_TRACKER_DATA_DIR:-${HOME}/.tisza_tracker}"
+PROMISES_DB="${TT_DATA_DIR}/promises.db"
 
 if [[ -z "${OPENAI_API_KEY:-}" ]]; then
     echo "  skipped: OPENAI_API_KEY is not set"

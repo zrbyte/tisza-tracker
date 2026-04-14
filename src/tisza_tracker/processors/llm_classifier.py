@@ -106,7 +106,13 @@ class LLMClassifier:
             )
 
         base_url = llm_cfg.get("base_url") or os.environ.get("OPENAI_BASE_URL")
-        kwargs: Dict[str, Any] = {"api_key": api_key, "timeout": self.timeout}
+        # max_retries=0: we manage retries ourselves (see _chat_json) so we
+        # don't stack exponential SDK retries on top of our per-call retries.
+        kwargs: Dict[str, Any] = {
+            "api_key": api_key,
+            "timeout": self.timeout,
+            "max_retries": 0,
+        }
         if base_url:
             kwargs["base_url"] = base_url
         self._client = OpenAI(**kwargs)
@@ -114,8 +120,15 @@ class LLMClassifier:
     # ---- low-level ----
 
     def _chat_json(self, system: str, user: str) -> Dict[str, Any]:
-        """Single JSON-mode chat call with retry on transient errors."""
+        """Single JSON-mode chat call with retry on transient errors.
+
+        Retries both network/API errors and JSON-decode errors, with linear
+        backoff; the OpenAI SDK's own retry is disabled (see ``__init__``) to
+        avoid double-retry stacking.  The last bad-response snippet is kept
+        on the exception message for easier debugging.
+        """
         last_exc: Optional[Exception] = None
+        last_content: Optional[str] = None
         for attempt in range(self.max_retries + 1):
             try:
                 resp = self._client.chat.completions.create(
@@ -126,17 +139,28 @@ class LLMClassifier:
                     ],
                     response_format={"type": "json_object"},
                 )
-                content = resp.choices[0].message.content or "{}"
-                return json.loads(content)
+                last_content = resp.choices[0].message.content
+                return json.loads(last_content or "{}")
             except json.JSONDecodeError as exc:
                 last_exc = exc
-                logger.warning("LLM returned non-JSON (attempt %d): %s", attempt + 1, exc)
+                logger.warning(
+                    "LLM returned non-JSON (attempt %d/%d): %s",
+                    attempt + 1, self.max_retries + 1, exc,
+                )
             except Exception as exc:  # network / API errors
                 last_exc = exc
-                logger.warning("LLM call failed (attempt %d): %s", attempt + 1, exc)
-                if attempt < self.max_retries:
-                    time.sleep(1.5 * (attempt + 1))
-        raise RuntimeError(f"LLM call failed after {self.max_retries + 1} attempts: {last_exc}")
+                logger.warning(
+                    "LLM call failed (attempt %d/%d): %s",
+                    attempt + 1, self.max_retries + 1, exc,
+                )
+            if attempt < self.max_retries:
+                time.sleep(1.5 * (attempt + 1))
+
+        snippet = (last_content or "")[:200]
+        raise RuntimeError(
+            f"LLM call failed after {self.max_retries + 1} attempts: "
+            f"{last_exc}" + (f" | last response: {snippet!r}" if snippet else "")
+        )
 
     # ---- passes ----
 

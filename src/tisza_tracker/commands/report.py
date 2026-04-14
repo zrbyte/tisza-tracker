@@ -258,13 +258,12 @@ def _render_html(promises: List[Dict[str, Any]]) -> str:
                 if len(t) > 80:
                     t = t[:77] + "..."
                 verdict = a.get("verdict") or ""
-                badge = ""
-                if verdict in {"kept", "in_progress", "broken"}:
-                    badge = (
-                        f'<span class="v v-{verdict}" '
-                        f'title="{html_mod.escape(verdict)}">'
-                        f'{_VERDICT_BADGE_MD[verdict]}</span> '
-                    )
+                badge_char = _VERDICT_BADGE_MD.get(verdict)
+                badge = (
+                    f'<span class="v v-{verdict}" '
+                    f'title="{html_mod.escape(verdict)}">'
+                    f'{badge_char}</span> '
+                ) if badge_char else ""
                 link_html = (
                     f'{badge}<a href="{html_mod.escape(a["link"])}" target="_blank" '
                     f'rel="noopener noreferrer">{t}</a>'

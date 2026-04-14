@@ -399,6 +399,9 @@ class PromiseStore:
         A link qualifies if it has no classification row OR the stored row has
         a different prompt_version (stale cache).  Results are ordered by
         promise_id, descending relevance_score.
+
+        ``lc.prompt_version IS NOT ?`` is NULL-safe: it is TRUE when the stored
+        value is NULL *or* differs from ``prompt_version``.
         """
         with self._connection() as conn:
             rows = conn.execute("""
@@ -411,9 +414,8 @@ class PromiseStore:
                  AND lc.article_entry_id = pal.article_entry_id
                 WHERE lc.promise_id IS NULL
                    OR lc.prompt_version IS NOT ?
-                   OR lc.prompt_version != ?
                 ORDER BY pal.promise_id, pal.relevance_score DESC
-            """, (prompt_version, prompt_version)).fetchall()
+            """, (prompt_version,)).fetchall()
             links = [dict(r) for r in rows]
 
         if max_per_promise is None:
@@ -438,6 +440,38 @@ class PromiseStore:
                 GROUP BY verdict
             """, (promise_id,)).fetchall()
             return {r["verdict"]: r["cnt"] for r in rows}
+
+    def iter_nonirrelevant_classifications(
+        self,
+    ) -> List[tuple[str, List[Dict[str, Any]]]]:
+        """Group non-irrelevant classifications by promise_id.
+
+        Returns a list of ``(promise_id, [{"verdict":..., "confidence":...}])``
+        entries.  One DB query total; callers can iterate without reopening
+        connections per promise.
+        """
+        with self._connection() as conn:
+            rows = conn.execute("""
+                SELECT promise_id, verdict, confidence
+                FROM llm_classifications
+                WHERE verdict IS NOT NULL AND verdict != 'irrelevant'
+                ORDER BY promise_id
+            """).fetchall()
+
+        groups: List[tuple[str, List[Dict[str, Any]]]] = []
+        current_pid: Optional[str] = None
+        bucket: List[Dict[str, Any]] = []
+        for r in rows:
+            pid = r["promise_id"]
+            if pid != current_pid:
+                if current_pid is not None:
+                    groups.append((current_pid, bucket))
+                current_pid = pid
+                bucket = []
+            bucket.append({"verdict": r["verdict"], "confidence": r["confidence"]})
+        if current_pid is not None and bucket:
+            groups.append((current_pid, bucket))
+        return groups
 
     # ---- Enriched queries ----
 
@@ -481,6 +515,10 @@ class PromiseStore:
                 promises = [dict(r) for r in conn.execute(query, params).fetchall()]
 
                 for promise in promises:
+                    # DISTINCT: papers.entries has PK (id, topic) so an
+                    # article matched to multiple topics appears N times in
+                    # the JOIN.  The selected columns are identical for all
+                    # copies, so DISTINCT collapses them.
                     rows = conn.execute("""
                         SELECT DISTINCT e.title, e.link, pal.relevance_score,
                                pal.article_entry_id AS entry_id,

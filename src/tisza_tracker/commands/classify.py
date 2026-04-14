@@ -15,6 +15,7 @@ After all candidates are classified, run the roll-up: update
 from __future__ import annotations
 
 import logging
+from collections import Counter
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
 
@@ -68,38 +69,33 @@ def _load_llm_config(config: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def _rollup_status(
-    verdicts: Dict[str, int],
     rollup_cfg: Dict[str, Any],
     classifications: list[Dict[str, Any]],
 ) -> Optional[str]:
     """Decide the new promise status from aggregated verdicts.
 
-    *classifications* is the list of full classification rows for this
-    promise (to consult per-verdict confidence).  Returns None if no change
-    is implied.
+    *classifications* is the list of per-link classification rows for one
+    promise (``verdict`` + ``confidence``).  Returns None if no change is
+    implied.
     """
     broken_min = float(rollup_cfg.get("broken_min_confidence", 0.7))
     kept_min_votes = int(rollup_cfg.get("kept_min_votes", 2))
     kept_min_conf = float(rollup_cfg.get("kept_min_confidence", 0.6))
     inprog_min_conf = float(rollup_cfg.get("in_progress_min_confidence", 0.5))
 
-    # Pull confidences per verdict
     by_verdict: Dict[str, list[float]] = {"kept": [], "broken": [], "in_progress": []}
     for row in classifications:
         v = row.get("verdict")
         if v in by_verdict:
             by_verdict[v].append(float(row.get("confidence") or 0.0))
 
-    # broken wins if any high-confidence broken vote
     if any(c >= broken_min for c in by_verdict["broken"]):
         return "broken"
 
-    # kept if enough high-confidence kept votes
     kept_strong = [c for c in by_verdict["kept"] if c >= kept_min_conf]
     if len(kept_strong) >= kept_min_votes:
         return "kept"
 
-    # in_progress if any confident in_progress or kept vote
     if any(c >= inprog_min_conf for c in by_verdict["in_progress"]):
         return "in_progress"
     if any(c >= inprog_min_conf for c in by_verdict["kept"]):
@@ -196,13 +192,10 @@ def run(
             irrelevant += 1
         classified += 1
 
-    db.close_all_connections()
-
-    summary_msg = (
-        f"Classified {classified} links "
-        f"(irrelevant={irrelevant}, errors={errors})"
+    logger.info(
+        "Classified %d links (irrelevant=%d, errors=%d)",
+        classified, irrelevant, errors,
     )
-    logger.info(summary_msg)
 
     _maybe_rollup(ps, llm_cfg, skip_rollup)
 
@@ -214,45 +207,30 @@ def run(
     }
 
 
+def _format_evidence(counts: Counter) -> str:
+    """Render verdict counts as ``kept=2, in_progress=1`` for the status log."""
+    parts = [f"{v}={n}" for v, n in sorted(counts.items())]
+    return "llm-rollup: " + ", ".join(parts) if parts else "llm-rollup"
+
+
 def _maybe_rollup(ps: PromiseStore, llm_cfg: Dict[str, Any], skip: bool) -> None:
     rollup_cfg = llm_cfg.get("rollup") or {}
     if skip or not rollup_cfg.get("enabled", True):
         return
 
-    # For each promise with at least one classification, recompute status
-    with ps._connection() as conn:
-        rows = conn.execute("""
-            SELECT promise_id FROM llm_classifications
-            WHERE verdict IS NOT NULL AND verdict != 'irrelevant'
-            GROUP BY promise_id
-        """).fetchall()
-        promise_ids = [r["promise_id"] for r in rows]
-
     updated = 0
-    for pid in promise_ids:
-        verdict_counts = ps.get_verdict_counts(pid)
-        with ps._connection() as conn:
-            classifications = [dict(r) for r in conn.execute(
-                "SELECT verdict, confidence FROM llm_classifications "
-                "WHERE promise_id = ? AND verdict IS NOT NULL",
-                (pid,),
-            ).fetchall()]
-
-        new_status = _rollup_status(verdict_counts, rollup_cfg, classifications)
+    for pid, classifications in ps.iter_nonirrelevant_classifications():
+        new_status = _rollup_status(rollup_cfg, classifications)
         if not new_status:
             continue
 
         current = ps.get_promise(pid)
-        if not current:
-            continue
-        if current["current_status"] == new_status:
+        if not current or current["current_status"] == new_status:
             continue
 
+        counts = Counter(r["verdict"] for r in classifications)
         try:
-            ps.update_status(
-                pid, new_status,
-                evidence=f"llm-rollup: {verdict_counts}",
-            )
+            ps.update_status(pid, new_status, evidence=_format_evidence(counts))
             updated += 1
         except ValueError as exc:
             logger.warning("Rollup: could not update %s: %s", pid, exc)
