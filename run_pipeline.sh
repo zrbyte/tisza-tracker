@@ -20,4 +20,14 @@ echo "=== report ==="
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 tt report --readme "$SCRIPT_DIR/README.md"
 
+echo "=== git sync ==="
+cd "$SCRIPT_DIR"
+git add -A
+if ! git diff --cached --quiet; then
+    git commit -m "Update promise tracker from pipeline run"
+    git push
+else
+    echo "No changes to commit"
+fi
+
 echo "=== done ==="
