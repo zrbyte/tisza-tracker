@@ -5,15 +5,47 @@ Hungarian government promise tracker. Monitors daily media coverage via RSS feed
 ## Pipeline
 
 ```
-tt filter   →  tt rank   →  tt fetch   →  tt match   →  tt html / tt report / tt email
-  (RSS)       (scoring)    (full text)   (promises)     (output)
+tt filter  →  tt rank  →  tt fetch  →  tt match  →  tt classify  →  tt html / tt report / tt email
+  (RSS)      (scoring)   (full text)  (promises)    (LLM verdict)     (output)
 ```
 
 - **filter** — fetch RSS feeds, apply per-topic regex patterns to title + summary
 - **rank** — compute semantic similarity (Sentence-Transformers) between topic query and article titles
 - **fetch** — store RSS summaries for all ranked entries; download full article text (via trafilatura) for entries above `fetch_threshold`
 - **match** — link articles to government promises using per-promise regex pre-filter + semantic scoring against title + summary
+- **classify** — two-pass LLM verdict on each matched article (see below)
 - **html / email** — generate HTML reports or send digests via SMTP
+
+### LLM classification (`tt classify`)
+
+Semantic similarity catches *topically related* articles, but many of those only
+glance off the promise. A cheap OpenAI-compatible model (default `gpt-5-nano`)
+reads each match and assigns a verdict.
+
+Two-pass cascade, idempotent per `prompt_version`:
+
+1. **Relevance gate** — title + summary only. Returns `{relevant, confidence, reason}`.
+   Articles that fail the gate are marked `irrelevant` without calling pass 2.
+2. **Verdict** — full article text (from `article_text.db`) if available.
+   Returns `{verdict, confidence, evidence_quote, reasoning}` where verdict ∈
+   `kept | in_progress | broken | irrelevant`.
+
+Results are cached in `promises.db` (`llm_classifications` table). Re-running
+`tt classify` only processes new links or ones whose `prompt_version` is stale.
+Use `--force` to reclassify everything, `--limit N` for testing, or
+`--promise ID` to scope to one promise.
+
+After classification, a **rollup** aggregates verdicts per promise and updates
+`current_status` (broken wins on any confident broken vote; ≥N confident kept
+votes → kept; any confident in-progress/kept → in_progress).
+
+### Report behaviour
+
+`tt report` only shows the top **`top_n_in_report`** articles per promise
+(default 3), ranked by LLM confidence then semantic score. Articles classified
+as `irrelevant` are excluded entirely. Each article row gets a verdict badge
+(`✓ kept`, `→ in_progress`, `✗ broken`) and — when available — the verbatim
+Hungarian sentence the model cited as evidence.
 
 ## Databases
 
@@ -21,7 +53,7 @@ tt filter   →  tt rank   →  tt fetch   →  tt match   →  tt html / tt rep
 - `papers.db` — current run processing (filter → rank → match)
 - `matched_entries_history.db` — long-term archive of matched articles
 - `article_text.db` — extracted article body text (separate to keep main DBs lean)
-- `promises.db` — promise definitions, status tracking, article-promise links
+- `promises.db` — promise definitions, status tracking, article-promise links, LLM verdicts
 
 ## Configuration
 
@@ -37,6 +69,19 @@ Promise configs: `promises/*.yaml` (per-promise regex filter + semantic ranking 
 - `fetch_threshold: 0.40` — minimum score to download full article text
 - `ranking_negative_penalty: 0.20` — penalty for negative query terms (sport, weather, celebrity)
 - `time_window_days: 30` — RSS entry age filter
+
+### LLM classification config (`llm_classification:` block)
+
+- `model` — OpenAI-compatible model name (default `gpt-5-nano`)
+- `base_url` — override to point at a local endpoint; falls back to `OPENAI_BASE_URL` env or OpenAI
+- `api_key_env` / `api_key_file` — key source; defaults to `OPENAI_API_KEY` env var
+- `max_candidates_per_promise: 20` — cap links sent to the LLM per promise (cost control)
+- `top_n_in_report: 3` — articles shown per promise in the tracker table
+- `prompt_version: "v1"` — bump to invalidate the classification cache
+- `pass1_enabled` / `pass2_enabled` — toggle either pass independently
+- `rollup.broken_min_confidence: 0.7` — any broken verdict above this flips the promise
+- `rollup.kept_min_votes: 2`, `rollup.kept_min_confidence: 0.6` — quorum for `kept`
+- `rollup.in_progress_min_confidence: 0.5`
 
 ## RSS feeds
 
@@ -59,6 +104,8 @@ Each promise has a `filter_pattern` (regex for fast pre-filtering against title 
 
 Status legend: :white_check_mark: kept | :hourglass_flowing_sand: in progress | :x: broken | :black_square_button: not yet started
 
+Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence quote in italics)
+
 ### Gazdasag (economy, tax, budget, agriculture)
 
 | ID | Promise | Status | Articles |
@@ -74,12 +121,12 @@ Status legend: :white_check_mark: kept | :hourglass_flowing_sand: in progress | 
 | AGR-002 | Visszaállítjuk az élelmiszer-biztonsági hatóságok függetlenségét. | :black_square_button: |  |
 | AGR-003 | Nem engedjük csökkenteni a magyar gazdáknak járó EU-támogatásokat. | :black_square_button: |  |
 | AGR-004 | Felülvizsgáljuk a Földtörvényt, előnyben részesítjük a ténylegesen gazdálkodó fiatalokat. | :black_square_button: |  |
-| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :black_square_button: |  |
+| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :hourglass_flowing_sand: | → [Magyar Péter az EU-s források feloldásáról egyeztetett telefonon Ursula von d...](https://444.hu/2026/04/14/magyar-peter-az-eu-s-forrasok-feloldasarol-egyeztetett-telefonon-ursula-von-der-leyennel?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication) — "Egyetértettünk abban, hogy a magyar embereknek járó, de az Orbán-kormány korrupciója miatt befagyasztott sok ezer milliárd forintos uniós...", → [Brutális mennyiségű pénz zúdulhat Magyarországra Magyar Péter győzelme után –...](https://www.portfolio.hu/gazdasag/20260414/brutalis-mennyisegu-penz-zudulhat-magyarorszagra-magyar-peter-gyozelme-utan-beindultak-a-befektetok-830534) — "Eközben az uniós források zárolásának feloldása önmagában akár 1-1,5 százalékponttal is növelheti a GDP-t – állítja elemzésében a Reuters." |
 | GAZ-002 | Megfelezzük a vállalkozások adminisztrációs terheit. | :black_square_button: |  |
 | GAZ-003 | Négy év alatt legalább másfélszeresére emeljük az innovációra fordított forrásokat. | :black_square_button: |  |
 | GAZ-004 | 2026. június 1-től felfüggesztjük az Európán kívüli vendégmunkások behozatalát. | :black_square_button: |  |
 | GAZ-005 | A K+F kiadást 2030-ra a GDP 2%-ára emeljük, majd közelítjük a 3%-ot. | :black_square_button: |  |
-| GAZ-006 | Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert. | :black_square_button: | [A mérnöki kamara elnöke a Lázár-féle építési minisztériumot és a közbeszerzés...](https://hvg.hu/gazdasag/20260414_lazar-janos-epitesi-kozlekedesi-miniszterium-kamara-kozbeszerzes-valasztas) |
+| GAZ-006 | Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert. | :black_square_button: |  |
 | GAZ-007 | A diplomások arányát legalább az EU átlagára (43%) emeljük. | :black_square_button: |  |
 | KOL-001 | 2030-ra teljesítjük a maastrichti kritériumokat. | :black_square_button: |  |
 | KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :black_square_button: |  |
@@ -90,11 +137,11 @@ Status legend: :white_check_mark: kept | :hourglass_flowing_sand: in progress | 
 
 | ID | Promise | Status | Articles |
 |---|---|---|---|
-| ALT-001 | A kormány teljes átláthatóságot biztosít a közpénzek felhasználásában | :black_square_button: | [Merre tovább, Magyarország!?](https://mandiner.hu/belfold/2026/04/merre-tovabb-magyarorszag-2), [Karácsony az elszámoltatásról: Úgy nem lesz ebben az országban béke, hogyha n...](https://telex.hu/belfold/2026/04/13/karacsony-gergely-interju-osszefoglalo-telex-elo-musor), [Gyors döntésekre készül a Tisza Párt, akár 4-5 év múlva jöhet a magyar euró](https://nepszava.hu/3318794_tisza-part-gazdasag-politika-magyarorszag-korrupcioeelenes-intezkedesek-euro) |
+| ALT-001 | A kormány teljes átláthatóságot biztosít a közpénzek felhasználásában | :hourglass_flowing_sand: | → [Vagyonosodási vizsgálatok és szabályozások, így lehet fellépni a gyanús megga...](https://index.hu/belfold/2026/04/14/magyar-peter-valasztas-2026-egyenes-beszed-barandy-peter-zamecsnik-peter-vagyonnyilatkozat/) — "Magyar Péter korábban úgy nyilatkozott, hogy lesz egy 20 évre visszamenőleg érvényes vagyonnyilatkozati eljárás, ami nemcsak a politikuso..." |
 | KOR-001 | Csatlakozunk az Európai Ügyészséghez (EPPO). | :black_square_button: |  |
 | KOR-002 | Létrehozzuk a Nemzeti Vagyonvisszaszerzési Hivatalt. | :black_square_button: |  |
 | KOR-003 | Kivizsgáljuk az elmúlt évek korrupciós botrányait (Paks II, MNB-alapítványok, MCC, Hatvanpuszta stb.). | :black_square_button: |  |
-| KOR-004 | 20 évre visszamenőleg vagyonosodási vizsgálat képviselőkre, politikusokra és családtagjaikra. | :black_square_button: |  |
+| KOR-004 | 20 évre visszamenőleg vagyonosodási vizsgálat képviselőkre, politikusokra és családtagjaikra. | :hourglass_flowing_sand: | → [Vagyonosodási vizsgálatok és szabályozások, így lehet fellépni a gyanús megga...](https://index.hu/belfold/2026/04/14/magyar-peter-valasztas-2026-egyenes-beszed-barandy-peter-zamecsnik-peter-vagyonnyilatkozat/) — "lesz egy 20 évre visszamenőleg érvényes vagyonnyilatkozati eljárás, ami nemcsak a politikusokra, hanem a családtagjaikra is vonatkozna." |
 | KOR-005 | Független Korrupciómegelőzési Felügyeletet hozunk létre. | :black_square_button: |  |
 | KOR-006 | Jogi védelmet biztosítunk a bejelentőknek (whistleblower-védelem). | :black_square_button: |  |
 | KOR-007 | Nemzeti Szerződéstárat hozunk létre (online, kereshető). | :black_square_button: |  |
@@ -229,7 +276,7 @@ Status legend: :white_check_mark: kept | :hourglass_flowing_sand: in progress | 
 
 | ID | Promise | Status | Articles |
 |---|---|---|---|
-| ALT-002 | Az EU-s forrásokhoz való hozzáférés helyreállítása | :black_square_button: | [Szivárognak a titkos dokumentumok: hirtelen óriási uniós pénzosztásra készül ...](https://www.portfolio.hu/unios-forrasok/20260414/szivarognak-a-titkos-dokumentumok-hirtelen-oriasi-unios-penzosztasra-keszul-brusszel-830408), [Rövid pórázon tartja Brüsszel Magyar Pétert, már be is nyújtották a 27 pontos...](https://magyarnemzet.hu/kulfold/2026/04/brusszel-diktal-magyar-peternek-a-penzert-cserebe?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator), [Brüsszel nem tétlenkedett: alig egy nappal a magyar választások után már az u...](https://mandiner.hu/kulfold/2026/04/brusszel-nem-tetlenkedett-alig-egy-nappal-a-magyar-valasztasok-utan-mar-az-ukrajnai-hitel-folyositasat-targyaljak), [Gigantikus per készül Oroszország és Európa között: 201 milliárd eurót követe...](https://www.vg.hu/nemzetkozi-gazdasag/2026/04/orosz-kozponti-bank-beperelte-eu?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator), [Lengeti a vörös zászlót a világszervezet az Európai Bizottságnál – ebből a te...](https://www.portfolio.hu/unios-forrasok/20260414/lengeti-a-voros-zaszlot-a-vilagszervezet-az-europai-bizottsagnal-ebbol-a-tervbol-nagy-baj-lesz-830416), [Magyar Péter győzelme után Ukrajnában már az eurómilliárdokat várják](https://magyarnemzet.hu/kulfold/2026/04/magyar-peter-gyozelme-utan-ukrajnaban?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator), [Még úgy is, ha nem lövünk – elárulta Ursula von der Leyen, mennyibe kerül az ...](https://www.vg.hu/nemzetkozi-gazdasag/2026/04/irani-haboru-koltsege-von-der-leyen?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator), [Megjött az elemzés Londonból: ezt várják a befektetők az új magyar kormánytól](https://mandiner.hu/gazdasag/2026/04/megjott-az-elemzes-londonbol-ezt-varjak-a-befektetok-az-uj-magyar-kormanytol), [Brüsszel máris lépett az ukrán hitel ügyében](https://magyarnemzet.hu/kulfold/2026/04/ukrajna-hitel-europai-unio?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator), [Árulkodó jelek: ez jöhet majd a Tisza Párt alatt](https://mandiner.hu/belfold/2026/04/arulkodo-jelek-ez-johet-majd-a-tisza-part-alatt), [Tíz fontos állítás a kormányozni készülő Magyar Pétertől](https://hvg.hu/itthon/20260413_tiz-fontos-allitas-magyar-peter-nemzetkozi-sajtotajekoztatojarol-ebx), [Európa Orbán után: megkönnyebbülés, nagy remények és nagyon konkrét elvárások...](https://hvg.hu/eurologus/20260413_europa-orban-utan-megkonnyebbules-nagy-remenyek-es-nagyon-konkret-elvarasok-a-tisza-kormannyal-szemben), [Brutális sarcot vet ki Brüsszel, ezt sokan nyögik majd – van három kivételeze...](https://www.vg.hu/nemzetkozi-gazdasag/2026/04/acelipar-vam-tultermeles-kinai-domping-europai-unio?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator), [Indul a brüsszeli forgatókönyv: Magyar Péter már be is jelentette, hogy támog...](https://magyarnemzet.hu/belfold/2026/04/indul-a-brusszeli-forgatokonyv-magyar-peter-mar-be-is-jelentette-hogy-tamogatja-az-ukranok-hadikolcsonet?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator), [Nagy a baj a magyar benzinnel: pillanatok alatt elpárolgott a stratégiai tart...](https://www.portfolio.hu/gazdasag/20260414/nagy-a-baj-a-magyar-benzinnel-pillanatok-alatt-elparolgott-a-strategiai-tartalekok-80-szazaleka-830400), [Az ukrán médiában kimondták: a magyar választás nagy győztese Ukrajna és az EU](https://mandiner.hu/kulfold/2026/04/tisza-part-gyozelem-europai-unio-ukrajna), [Óvatosságot javasol Magyar Péternek az alkotmányjogász](https://nepszava.hu/3318815_magyar-peter-alkotmanymodositas-sulyok-tamas-szemelcsere-tisza-part-ketharmad), [„A Patrióták egységesebbek, mint valaha” – fontos üzenetet küldött a pártcsal...](https://mandiner.hu/kulfold/2026/04/a-patriotak-egysegesebbek-mint-valaha-fontos-uzenetet-kuldott-a-partcsalad-orban-viktornak), [Politikai elemző: Magyar Péter nem blokkolja Ukrajna 90 milliárdos hitelét](https://mandiner.hu/belfold/2026/04/politikai-elemzo-magyar-peter-nem-blokkolja-ukrajna-90-milliardos-hitelet), [Litván elnök Orbán Viktorról: Frusztráló volt látni, hogy egyetlen politikus ...](https://hvg.hu/itthon/20260413_litvan-elnok-orban-magyar-ukrajna-valasztasok), [Nem kérnek Trump blokádjából a NATO-tagok, nő a feszültség a szövetségen belül](https://444.hu/2026/04/14/nem-kernek-trump-blokadjabol-a-nato-tagok-no-a-feszultseg-a-szovetsegen-belul?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication), [Azonnali fordulat, a németek kimondták: Magyarország megindíthatja Ukrajna tá...](https://www.vg.hu/kozelet/2026/04/unios-hadikolcson-ukrajna-magyar-peter-berlin-vilnius?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator) |
+| ALT-002 | Az EU-s forrásokhoz való hozzáférés helyreállítása | :hourglass_flowing_sand: | → [EU-s források: nincs biankó csekk, bizonyítania kell az új magyar kormánynak](https://hvg.hu/eurologus/20260414_unios-forrasok-daniel-freund-moritz-korner-jogallamisag-ep2026) — "Kérdéses, hogy az új magyar kormány képes lesz-e rövid időn belül teljesíteni a szükséges feltételeket és lehívni a rendelkezésre álló ös...", → [Rövid pórázon tartja Brüsszel Magyar Pétert, már be is nyújtották a 27 pontos...](https://magyarnemzet.hu/kulfold/2026/04/brusszel-diktal-magyar-peternek-a-penzert-cserebe?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator) — "Nincsenek azonnali tervek és hosszú lista van azokról a dolgokról, amelyeket az új kormánynak meg kell tennie ahhoz, hogy hozzáférjen eze...", → [Zelenszkij április végéig újraindítaná a Barátság kőolajvezetéket](https://444.hu/2026/04/14/zelenszkij-aprilis-vegeig-ujrainditana-a-baratsag-koolajvezeteket?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication) — "Arra számít, hogy Ukrajna Magyar Péter választási győzelme után megkaphatja az Európai Uniótól a 90 milliárd eurós hitelt." |
 | KUL-001 | Brüsszelből hazahozzuk a befagyasztott uniós ezermilliárdokat. | :black_square_button: |  |
 | KUL-002 | Megállítjuk az ICC-ből való kilépést. | :black_square_button: |  |
 | KUL-003 | Nem támogatjuk Ukrajna gyorsított EU-felvételét; népszavazást tartunk róla. | :black_square_button: |  |

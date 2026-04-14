@@ -88,6 +88,25 @@ class PromiseStore:
             )
         """)
 
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS llm_classifications (
+                promise_id TEXT NOT NULL,
+                article_entry_id TEXT NOT NULL,
+                verdict TEXT
+                    CHECK(verdict IN ('kept','in_progress','broken','irrelevant')),
+                confidence REAL,
+                evidence_quote TEXT,
+                reasoning TEXT,
+                model TEXT,
+                prompt_version TEXT,
+                pass1_relevant INTEGER,
+                pass1_confidence REAL,
+                error TEXT,
+                classified_at TEXT DEFAULT (datetime('now')),
+                PRIMARY KEY (promise_id, article_entry_id)
+            )
+        """)
+
         # Lightweight migration: add filter_pattern if missing
         cursor.execute("PRAGMA table_info(promises)")
         columns = {row[1] for row in cursor.fetchall()}
@@ -112,6 +131,14 @@ class PromiseStore:
         cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_promise_links_article
             ON promise_article_links(article_entry_id)
+        """)
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_llm_verdict
+            ON llm_classifications(verdict)
+        """)
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_llm_promise
+            ON llm_classifications(promise_id)
         """)
 
         conn.commit()
@@ -310,6 +337,108 @@ class PromiseStore:
             """, (article_entry_id,)).fetchall()
             return [dict(r) for r in rows]
 
+    # ---- LLM classifications ----
+
+    def upsert_classification(
+        self,
+        promise_id: str,
+        article_entry_id: str,
+        *,
+        verdict: Optional[str] = None,
+        confidence: Optional[float] = None,
+        evidence_quote: Optional[str] = None,
+        reasoning: Optional[str] = None,
+        model: Optional[str] = None,
+        prompt_version: Optional[str] = None,
+        pass1_relevant: Optional[bool] = None,
+        pass1_confidence: Optional[float] = None,
+        error: Optional[str] = None,
+    ) -> None:
+        with self._connection() as conn:
+            conn.execute("""
+                INSERT INTO llm_classifications (
+                    promise_id, article_entry_id, verdict, confidence,
+                    evidence_quote, reasoning, model, prompt_version,
+                    pass1_relevant, pass1_confidence, error, classified_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                ON CONFLICT(promise_id, article_entry_id) DO UPDATE SET
+                    verdict = excluded.verdict,
+                    confidence = excluded.confidence,
+                    evidence_quote = excluded.evidence_quote,
+                    reasoning = excluded.reasoning,
+                    model = excluded.model,
+                    prompt_version = excluded.prompt_version,
+                    pass1_relevant = excluded.pass1_relevant,
+                    pass1_confidence = excluded.pass1_confidence,
+                    error = excluded.error,
+                    classified_at = datetime('now')
+            """, (
+                promise_id, article_entry_id, verdict, confidence,
+                evidence_quote, reasoning, model, prompt_version,
+                int(pass1_relevant) if pass1_relevant is not None else None,
+                pass1_confidence, error,
+            ))
+
+    def get_classification(
+        self, promise_id: str, article_entry_id: str,
+    ) -> Optional[Dict[str, Any]]:
+        with self._connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM llm_classifications WHERE promise_id = ? AND article_entry_id = ?",
+                (promise_id, article_entry_id),
+            ).fetchone()
+            return dict(row) if row else None
+
+    def list_unclassified_links(
+        self,
+        prompt_version: str,
+        max_per_promise: Optional[int] = None,
+    ) -> List[Dict[str, Any]]:
+        """Return promise_article_links lacking a current-version classification.
+
+        A link qualifies if it has no classification row OR the stored row has
+        a different prompt_version (stale cache).  Results are ordered by
+        promise_id, descending relevance_score.
+        """
+        with self._connection() as conn:
+            rows = conn.execute("""
+                SELECT pal.promise_id,
+                       pal.article_entry_id,
+                       pal.relevance_score
+                FROM promise_article_links pal
+                LEFT JOIN llm_classifications lc
+                  ON lc.promise_id = pal.promise_id
+                 AND lc.article_entry_id = pal.article_entry_id
+                WHERE lc.promise_id IS NULL
+                   OR lc.prompt_version IS NOT ?
+                   OR lc.prompt_version != ?
+                ORDER BY pal.promise_id, pal.relevance_score DESC
+            """, (prompt_version, prompt_version)).fetchall()
+            links = [dict(r) for r in rows]
+
+        if max_per_promise is None:
+            return links
+
+        trimmed: List[Dict[str, Any]] = []
+        counts: Dict[str, int] = {}
+        for link in links:
+            pid = link["promise_id"]
+            if counts.get(pid, 0) >= max_per_promise:
+                continue
+            counts[pid] = counts.get(pid, 0) + 1
+            trimmed.append(link)
+        return trimmed
+
+    def get_verdict_counts(self, promise_id: str) -> Dict[str, int]:
+        with self._connection() as conn:
+            rows = conn.execute("""
+                SELECT verdict, COUNT(*) AS cnt
+                FROM llm_classifications
+                WHERE promise_id = ? AND verdict IS NOT NULL
+                GROUP BY verdict
+            """, (promise_id,)).fetchall()
+            return {r["verdict"]: r["cnt"] for r in rows}
+
     # ---- Enriched queries ----
 
     def get_promises_with_articles(
@@ -317,6 +446,8 @@ class PromiseStore:
         papers_db_path: str,
         history_db_path: Optional[str] = None,
         category: Optional[str] = None,
+        max_per_promise: Optional[int] = None,
+        drop_irrelevant: bool = True,
     ) -> List[Dict[str, Any]]:
         """Return all promises with their linked articles enriched with title/link.
 
@@ -325,9 +456,16 @@ class PromiseStore:
         URLs.  Articles found in papers.db take precedence; any remaining
         unresolved links are looked up in matched_entries_history.db.
 
-        Each returned dict has the promise fields plus an ``articles`` list of
-        ``{title, link, relevance_score}`` dicts (deduplicated, ordered by
-        descending score).
+        Each article dict contains: title, link, relevance_score, and if an
+        LLM classification exists: verdict, confidence, evidence_quote.
+
+        When ``drop_irrelevant`` is True (default), articles whose LLM verdict
+        is ``'irrelevant'`` are excluded.  Articles with no classification row
+        pass through unchanged.
+
+        When ``max_per_promise`` is set, only the top-N articles per promise
+        are kept, ranked by LLM confidence (descending, NULLs last) then by
+        relevance_score.
         """
         with self._connection() as conn:
             conn.execute("ATTACH ? AS papers", (papers_db_path,))
@@ -343,51 +481,66 @@ class PromiseStore:
                 promises = [dict(r) for r in conn.execute(query, params).fetchall()]
 
                 for promise in promises:
-                    # Try papers.db first (current run entries)
                     rows = conn.execute("""
-                        SELECT DISTINCT e.title, e.link, pal.relevance_score
+                        SELECT DISTINCT e.title, e.link, pal.relevance_score,
+                               pal.article_entry_id AS entry_id,
+                               lc.verdict, lc.confidence, lc.evidence_quote
                         FROM promise_article_links pal
                         JOIN papers.entries e ON pal.article_entry_id = e.id
+                        LEFT JOIN llm_classifications lc
+                          ON lc.promise_id = pal.promise_id
+                         AND lc.article_entry_id = pal.article_entry_id
                         WHERE pal.promise_id = ?
-                        ORDER BY pal.relevance_score DESC
                     """, (promise["id"],)).fetchall()
                     articles = [dict(r) for r in rows]
-                    resolved_ids = {r["article_entry_id"] for r in conn.execute(
-                        "SELECT article_entry_id FROM promise_article_links pal "
-                        "JOIN papers.entries e ON pal.article_entry_id = e.id "
-                        "WHERE pal.promise_id = ?",
-                        (promise["id"],),
-                    ).fetchall()} if articles else set()
+                    resolved_ids = {a["entry_id"] for a in articles}
 
-                    # Fall back to history DB for any unresolved links
                     if history_db_path:
                         if resolved_ids:
                             placeholders = ",".join("?" for _ in resolved_ids)
                             hist_rows = conn.execute(f"""
-                                SELECT DISTINCT h.title, h.link, pal.relevance_score
+                                SELECT DISTINCT h.title, h.link, pal.relevance_score,
+                                       pal.article_entry_id AS entry_id,
+                                       lc.verdict, lc.confidence, lc.evidence_quote
                                 FROM promise_article_links pal
                                 JOIN history.matched_entries h
                                     ON pal.article_entry_id = h.entry_id
+                                LEFT JOIN llm_classifications lc
+                                  ON lc.promise_id = pal.promise_id
+                                 AND lc.article_entry_id = pal.article_entry_id
                                 WHERE pal.promise_id = ?
                                   AND pal.article_entry_id NOT IN ({placeholders})
-                                ORDER BY pal.relevance_score DESC
                             """, (promise["id"], *resolved_ids)).fetchall()
                         else:
                             hist_rows = conn.execute("""
-                                SELECT DISTINCT h.title, h.link, pal.relevance_score
+                                SELECT DISTINCT h.title, h.link, pal.relevance_score,
+                                       pal.article_entry_id AS entry_id,
+                                       lc.verdict, lc.confidence, lc.evidence_quote
                                 FROM promise_article_links pal
                                 JOIN history.matched_entries h
                                     ON pal.article_entry_id = h.entry_id
+                                LEFT JOIN llm_classifications lc
+                                  ON lc.promise_id = pal.promise_id
+                                 AND lc.article_entry_id = pal.article_entry_id
                                 WHERE pal.promise_id = ?
-                                ORDER BY pal.relevance_score DESC
                             """, (promise["id"],)).fetchall()
                         articles.extend(dict(r) for r in hist_rows)
 
-                    # Re-sort combined results by score
+                    if drop_irrelevant:
+                        articles = [a for a in articles if a.get("verdict") != "irrelevant"]
+
+                    # Sort: LLM confidence first (None treated as -1), then score
                     articles.sort(
-                        key=lambda a: a.get("relevance_score", 0) or 0,
+                        key=lambda a: (
+                            a.get("confidence") if a.get("confidence") is not None else -1.0,
+                            a.get("relevance_score") or 0,
+                        ),
                         reverse=True,
                     )
+
+                    if max_per_promise is not None:
+                        articles = articles[:max_per_promise]
+
                     promise["articles"] = articles
             finally:
                 if history_db_path:

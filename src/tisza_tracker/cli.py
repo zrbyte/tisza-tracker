@@ -10,6 +10,7 @@ import sys
 import click
 
 from . import __version__
+from .commands import classify as classify_cmd
 from .commands import config_cmd
 from .commands import email_list as email_cmd
 from .commands import promise_cmd
@@ -168,6 +169,40 @@ def match(ctx: click.Context, topic: str | None, threshold: float, output_json: 
             click.echo("Promise matching completed")
     except Exception as exc:
         click.echo(f"Promise matching failed: {exc}", err=True)
+        sys.exit(ERR_RUNTIME)
+
+
+@cli.command("classify")
+@click.option("--force", is_flag=True, help="Reclassify all links regardless of cached prompt_version")
+@click.option("--limit", type=int, default=None, help="Max links to process (for testing)")
+@click.option("--promise", "promise_id", default=None, help="Restrict to a single promise ID")
+@click.option("--skip-rollup", is_flag=True, help="Skip updating promise status from verdicts")
+@click.option("--json", "output_json", is_flag=True, help="Output results as JSON")
+@click.pass_context
+def classify(ctx: click.Context, force: bool, limit: int | None,
+             promise_id: str | None, skip_rollup: bool, output_json: bool) -> None:
+    """Classify matched articles as kept/in_progress/broken/irrelevant via LLM."""
+    try:
+        result = classify_cmd.run(
+            ctx.obj["config_path"],
+            force=force,
+            limit=limit,
+            promise_id_filter=promise_id,
+            skip_rollup=skip_rollup,
+        )
+        if output_json:
+            click.echo(json.dumps(result, indent=2, default=str))
+        else:
+            if result.get("skipped_disabled"):
+                click.echo("Classification skipped (llm_classification.enabled=false)")
+            else:
+                click.echo(
+                    f"Classified {result.get('classified', 0)} links "
+                    f"(irrelevant={result.get('irrelevant', 0)}, "
+                    f"errors={result.get('errors', 0)})"
+                )
+    except Exception as exc:
+        click.echo(f"Classify command failed: {exc}", err=True)
         sys.exit(ERR_RUNTIME)
 
 

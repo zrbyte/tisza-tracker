@@ -105,3 +105,26 @@ defaults:
 
 promises:
   yaml_dir: "promises"
+
+# LLM classification: a cheap model reads each matched article and assigns a
+# verdict (kept / in_progress / broken / irrelevant).  Runs after `tt match`,
+# before `tt report`.  Top N verdicts per promise feed the tracker table.
+llm_classification:
+  enabled: true
+  model: "gpt-5-nano"                # overrides OPENAI_MODEL env
+  base_url: null                     # null → use OPENAI_BASE_URL env or OpenAI default
+  api_key_env: "OPENAI_API_KEY"
+  api_key_file: null                 # alternative: read from secrets dir
+  max_candidates_per_promise: 20     # cap links per promise sent to the LLM
+  top_n_in_report: 3                 # how many articles appear per promise row
+  prompt_version: "v1"               # bump to invalidate cached classifications
+  request_timeout: 30
+  max_retries: 2
+  pass1_enabled: true                # cheap relevance gate (title + summary)
+  pass2_enabled: true                # full verdict (uses article full_text)
+  rollup:
+    enabled: true
+    broken_min_confidence: 0.7       # any broken vote above this → status=broken
+    kept_min_votes: 2                # ≥N kept votes → status=kept
+    kept_min_confidence: 0.6
+    in_progress_min_confidence: 0.5

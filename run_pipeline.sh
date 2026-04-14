@@ -13,6 +13,34 @@ tt fetch
 echo "=== match ==="
 tt match
 
+echo "=== classify ==="
+PROMISES_DB="${HOME}/.tisza_tracker/promises.db"
+
+if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    echo "  skipped: OPENAI_API_KEY is not set"
+else
+    # Non-fatal: an LLM outage should not sink the report stage.
+    if ! tt classify; then
+        echo "  WARN: tt classify failed — continuing with existing verdicts"
+    fi
+fi
+
+if command -v sqlite3 >/dev/null 2>&1 && [[ -f "$PROMISES_DB" ]]; then
+    echo "  --- verdict summary ---"
+    sqlite3 -column -header "$PROMISES_DB" \
+        "SELECT verdict, COUNT(*) AS count
+         FROM llm_classifications
+         WHERE verdict IS NOT NULL
+         GROUP BY verdict
+         ORDER BY count DESC;"
+    echo "  --- promise status summary ---"
+    sqlite3 -column -header "$PROMISES_DB" \
+        "SELECT current_status, COUNT(*) AS count
+         FROM promises
+         GROUP BY current_status
+         ORDER BY count DESC;"
+fi
+
 echo "=== html ==="
 tt html
 

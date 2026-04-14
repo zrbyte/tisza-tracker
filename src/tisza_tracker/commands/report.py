@@ -62,7 +62,20 @@ def _load_promises(config_path: str) -> List[Dict[str, Any]]:
     ps = PromiseStore(config)
     papers_path = db.db_paths["current"]
     history_path = db.db_paths["history"]
-    promises = ps.get_promises_with_articles(papers_path, history_db_path=history_path)
+
+    llm_cfg = config.get("llm_classification") or {}
+    top_n = llm_cfg.get("top_n_in_report")
+    if top_n is not None:
+        try:
+            top_n = int(top_n)
+        except (TypeError, ValueError):
+            top_n = None
+
+    promises = ps.get_promises_with_articles(
+        papers_path,
+        history_db_path=history_path,
+        max_per_promise=top_n,
+    )
     db.close_all_connections()
     return promises
 
@@ -71,15 +84,33 @@ def _load_promises(config_path: str) -> List[Dict[str, Any]]:
 # Markdown
 # ---------------------------------------------------------------------------
 
+_VERDICT_BADGE_MD = {
+    "kept": "✓",
+    "in_progress": "→",
+    "broken": "✗",
+}
+
+
 def _article_md(article: Dict[str, Any]) -> str:
-    """Render a single article as a markdown link."""
+    """Render a single article as a markdown link with optional evidence."""
     title = article["title"]
-    # Truncate very long titles for table readability
     if len(title) > 80:
         title = title[:77] + "..."
-    # Escape pipe characters which break markdown tables
     title = title.replace("|", "\\|")
-    return f"[{title}]({article['link']})"
+    link_md = f"[{title}]({article['link']})"
+
+    verdict = article.get("verdict")
+    badge = _VERDICT_BADGE_MD.get(verdict or "")
+    if badge:
+        link_md = f"{badge} {link_md}"
+
+    quote = (article.get("evidence_quote") or "").strip()
+    if quote:
+        if len(quote) > 140:
+            quote = quote[:137] + "..."
+        quote = quote.replace("|", "\\|").replace("\n", " ")
+        link_md = f'{link_md} — "{quote}"'
+    return link_md
 
 
 def _render_md(promises: List[Dict[str, Any]]) -> str:
@@ -95,6 +126,11 @@ def _render_md(promises: List[Dict[str, Any]]) -> str:
     lines.append(
         "Status legend: :white_check_mark: kept | :hourglass_flowing_sand: in progress "
         "| :x: broken | :black_square_button: not yet started"
+    )
+    lines.append("")
+    lines.append(
+        "Article badges: ✓ kept | → in progress | ✗ broken "
+        "(LLM verdict; evidence quote in italics)"
     )
 
     for cat in CATEGORY_ORDER:
@@ -216,16 +252,33 @@ def _render_html(promises: List[Dict[str, Any]]) -> str:
             pid = html_mod.escape(p["id"])
             text = html_mod.escape(p["text"])
             status_html = STATUS_HTML.get(p["current_status"], html_mod.escape(p["current_status"]))
-            art_links = []
+            art_items = []
             for a in p["articles"]:
                 t = html_mod.escape(a["title"])
                 if len(t) > 80:
                     t = t[:77] + "..."
-                art_links.append(
-                    f'<a href="{html_mod.escape(a["link"])}" target="_blank" '
+                verdict = a.get("verdict") or ""
+                badge = ""
+                if verdict in {"kept", "in_progress", "broken"}:
+                    badge = (
+                        f'<span class="v v-{verdict}" '
+                        f'title="{html_mod.escape(verdict)}">'
+                        f'{_VERDICT_BADGE_MD[verdict]}</span> '
+                    )
+                link_html = (
+                    f'{badge}<a href="{html_mod.escape(a["link"])}" target="_blank" '
                     f'rel="noopener noreferrer">{t}</a>'
                 )
-            articles_html = ", ".join(art_links) if art_links else ""
+                quote = (a.get("evidence_quote") or "").strip()
+                if quote:
+                    if len(quote) > 220:
+                        quote = quote[:217] + "..."
+                    link_html += (
+                        f' <span class="quote">&mdash; &ldquo;'
+                        f'{html_mod.escape(quote)}&rdquo;</span>'
+                    )
+                art_items.append(f"<li>{link_html}</li>")
+            articles_html = f"<ul>{''.join(art_items)}</ul>" if art_items else ""
             body_parts.append(
                 f'<tr><td>{pid}</td><td>{text}</td>'
                 f'<td>{status_html}</td><td>{articles_html}</td></tr>'
@@ -264,6 +317,13 @@ def _render_html(promises: List[Dict[str, Any]]) -> str:
   .status-partial {{ background: #fff3cd; color: #856404; }}
   .status-abandoned {{ background: #f8d7da; color: #721c24; }}
   .status-modified {{ background: #d1ecf1; color: #0c5460; }}
+  td ul {{ margin: 0; padding-left: 1rem; }}
+  td li {{ margin-bottom: .25rem; }}
+  .quote {{ color: #555; font-style: italic; font-size: .9em; }}
+  .v {{ display: inline-block; width: 1.1em; font-weight: bold; }}
+  .v-kept {{ color: #1e7e34; }}
+  .v-in_progress {{ color: #8a6d00; }}
+  .v-broken {{ color: #c5221f; }}
 </style>
 </head>
 <body>

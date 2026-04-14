@@ -103,6 +103,24 @@ _KNOWN_MAIN_KEYS: Dict[str, Optional[Dict[str, Any]]] = {
         "smtp": {"host", "port", "username", "password_file"},
     },
     "promises": {"yaml_dir"},
+    "llm_classification": {
+        "enabled": None,
+        "model": None,
+        "base_url": None,
+        "api_key_env": None,
+        "api_key_file": None,
+        "max_candidates_per_promise": None,
+        "top_n_in_report": None,
+        "prompt_version": None,
+        "request_timeout": None,
+        "max_retries": None,
+        "pass1_enabled": None,
+        "pass2_enabled": None,
+        "rollup": {
+            "enabled", "broken_min_confidence", "kept_min_votes",
+            "kept_min_confidence", "in_progress_min_confidence",
+        },
+    },
 }
 
 _KNOWN_FEED_KEYS = {"name", "url", "enabled"}
