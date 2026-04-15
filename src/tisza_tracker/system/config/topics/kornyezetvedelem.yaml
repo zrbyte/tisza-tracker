@@ -27,7 +27,3 @@ ranking:
 
     '
   model: paraphrase-multilingual-MiniLM-L12-v2
-output:
-  filename: kornyezetvedelem_filtered.html
-  filename_ranked: kornyezetvedelem_ranked.html
-  archive: true

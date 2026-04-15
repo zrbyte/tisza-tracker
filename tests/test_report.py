@@ -1,4 +1,4 @@
-"""Tests for report.py rendering — article markdown + HTML."""
+"""Tests for report.py markdown rendering."""
 
 from __future__ import annotations
 
@@ -6,7 +6,6 @@ from tisza_tracker.commands.report import (
     _VERDICT_BADGE_MD,
     _article_md,
     _render_md,
-    _render_html,
 )
 
 
@@ -155,61 +154,3 @@ def test_render_md_unknown_category_still_rendered():
     out = _render_md(promises)
     assert "brand-new-category" in out
     assert "| P1 |" in out
-
-
-# ---------------------------------------------------------------------------
-# _render_html
-# ---------------------------------------------------------------------------
-
-
-def test_render_html_contains_verdict_class():
-    promises = [
-        _promise(
-            "P1",
-            articles=[{
-                "title": "T", "link": "https://x",
-                "verdict": "broken", "confidence": 0.8,
-                "evidence_quote": "",
-            }],
-        ),
-    ]
-    out = _render_html(promises)
-    assert 'class="v v-broken"' in out
-    assert _VERDICT_BADGE_MD["broken"] in out
-
-
-def test_render_html_escapes_user_content():
-    """HTML injection guard — a malicious title must be escaped."""
-    promises = [
-        _promise(
-            "P1",
-            articles=[{
-                "title": "<script>alert(1)</script>",
-                "link": "https://x",
-                "verdict": "kept",
-            }],
-        ),
-    ]
-    out = _render_html(promises)
-    assert "<script>alert" not in out
-    assert "&lt;script&gt;" in out
-
-
-def test_render_html_no_badge_for_unclassified():
-    promises = [
-        _promise(
-            "P1",
-            articles=[{"title": "T", "link": "https://x"}],
-        ),
-    ]
-    out = _render_html(promises)
-    # Unclassified articles should not produce a verdict span
-    assert 'class="v v-' not in out
-
-
-def test_render_html_empty_articles_produces_empty_cell():
-    promises = [_promise("P1")]
-    out = _render_html(promises)
-    # Row should exist but articles cell is empty (no <ul>)
-    assert "<td>P1</td>" in out
-    assert "<ul>" not in out.split("P1")[1].split("</tr>")[0]

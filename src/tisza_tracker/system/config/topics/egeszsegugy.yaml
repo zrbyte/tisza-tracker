@@ -29,7 +29,3 @@ ranking:
   negative_queries:
   - sport
   - bulvár
-output:
-  filename: egeszsegugy_filtered.html
-  filename_ranked: egeszsegugy_ranked.html
-  archive: true

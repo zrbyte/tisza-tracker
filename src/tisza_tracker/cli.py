@@ -12,12 +12,10 @@ import click
 from . import __version__
 from .commands import classify as classify_cmd
 from .commands import config_cmd
-from .commands import email_list as email_cmd
 from .commands import promise_cmd
 from .commands import export_recent as export_recent_cmd
 from .commands import fetch as fetch_cmd
 from .commands import filter as filter_cmd
-from .commands import generate_html as html_cmd
 from .commands import match as match_cmd
 from .commands import query as query_cmd
 from .commands import rank as rank_cmd
@@ -26,7 +24,6 @@ from .commands import status as status_cmd
 from .commands import topic_cmd
 from .core.config import ConfigManager, DEFAULT_CONFIG_PATH
 from .core.exit_codes import ERR_CONFIG, ERR_RUNTIME, ERR_USAGE
-from .core.paths import get_data_dir
 
 # Setup logging early so submodules inherit sane defaults
 logging.basicConfig(
@@ -71,22 +68,6 @@ def filter_feeds(ctx: click.Context, topic: str | None, output_json: bool) -> No
         sys.exit(ERR_CONFIG)
     except Exception as exc:  # pragma: no cover
         click.echo(f"Filter command failed: {exc}", err=True)
-        sys.exit(ERR_RUNTIME)
-
-
-@cli.command("html")
-@click.option("--topic", help="Generate HTML for a specific topic only")
-@click.pass_context
-def generate_html(ctx: click.Context, topic: str | None) -> None:
-    """Generate topic HTML(s) directly from papers.db (no fetching)."""
-    try:
-        html_cmd.run(ctx.obj["config_path"], topic)
-        if topic:
-            click.echo(f"HTML generated for topic '{topic}'")
-        else:
-            click.echo("HTML generated for all topics")
-    except Exception as exc:  # pragma: no cover
-        click.echo(f"HTML generation failed: {exc}", err=True)
         sys.exit(ERR_RUNTIME)
 
 
@@ -207,71 +188,19 @@ def classify(ctx: click.Context, force: bool, limit: int | None,
 
 
 @cli.command("report")
-@click.option("--format", "fmt", type=click.Choice(["md", "html"]), default="md",
-              help="Output format (default: md)")
 @click.option("--readme", type=click.Path(), default=None,
-              help="Update the README at this path (md format only)")
+              help="Update the README at this path")
 @click.option("--output", "-o", type=click.Path(), default=None,
-              help="Write output to file (html defaults to data_dir/html/promise_report.html)")
+              help="Write the markdown report to this file")
 @click.pass_context
-def report(ctx: click.Context, fmt: str, readme: str | None, output: str | None) -> None:
-    """Generate promise tracker table (markdown or HTML) from the database."""
+def report(ctx: click.Context, readme: str | None, output: str | None) -> None:
+    """Generate the promise tracker markdown table from the database."""
     try:
-        report_cmd.run(ctx.obj["config_path"], fmt=fmt, readme=readme, output=output)
-        if fmt == "html":
-            click.echo(f"HTML promise report generated")
-        elif readme:
+        report_cmd.run(ctx.obj["config_path"], readme=readme, output=output)
+        if readme:
             click.echo(f"README updated at {readme}")
     except Exception as exc:
         click.echo(f"Report generation failed: {exc}", err=True)
-        sys.exit(ERR_RUNTIME)
-
-
-@cli.command("email")
-@click.option("--topic", help="Send for a specific topic only (default: all topics)")
-@click.option(
-    "--mode",
-    type=click.Choice(["auto", "ranked"]),
-    default="auto",
-    help="Content mode: auto (from DB) or ranked (embed ranked HTML if available)",
-)
-@click.option("--limit", type=click.IntRange(min=1), help="Limit number of entries per topic")
-@click.option(
-    "--recipients",
-    "recipients_file",
-    type=str,
-    help="Path to recipients YAML (overrides config.email.recipients_file)",
-)
-@click.option(
-    "--dry-run",
-    is_flag=True,
-    help="Do not send; write preview HTML under the runtime data directory",
-)
-@click.pass_context
-def email(
-    ctx: click.Context,
-    topic: str | None,
-    mode: str,
-    limit: int | None,
-    recipients_file: str | None,
-    dry_run: bool,
-) -> None:
-    """Send an HTML digest email generated from papers.db via SMTP."""
-    try:
-        email_cmd.run(
-            ctx.obj["config_path"],
-            topic,
-            mode=mode,
-            limit=limit,
-            dry_run=dry_run,
-            recipients_file=recipients_file,
-        )
-        if dry_run:
-            click.echo(f"Email dry-run completed (preview written under {get_data_dir()})")
-        else:
-            click.echo("Email sent successfully")
-    except Exception as exc:  # pragma: no cover
-        click.echo(f"Email send failed: {exc}", err=True)
         sys.exit(ERR_RUNTIME)
 
 

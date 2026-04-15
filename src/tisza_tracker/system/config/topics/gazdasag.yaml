@@ -30,7 +30,3 @@ ranking:
   - sport
   - időjárás
   - bulvár
-output:
-  filename: gazdasag_filtered.html
-  filename_ranked: gazdasag_ranked.html
-  archive: true

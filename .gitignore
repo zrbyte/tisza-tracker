@@ -27,9 +27,6 @@ env/
 .DS_Store
 Thumbs.db
 
-# Secrets
-src/tisza_tracker/system/config/secrets/email_password.env
-
 # Test / coverage artifacts
 .coverage
 .pytest_cache/

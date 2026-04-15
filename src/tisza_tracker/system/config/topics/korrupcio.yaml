@@ -26,7 +26,3 @@ ranking:
 
     '
   model: paraphrase-multilingual-MiniLM-L12-v2
-output:
-  filename: korrupcio_filtered.html
-  filename_ranked: korrupcio_ranked.html
-  archive: true

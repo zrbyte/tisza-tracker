@@ -28,7 +28,3 @@ ranking:
   model: paraphrase-multilingual-MiniLM-L12-v2
   negative_queries:
   - sport
-output:
-  filename: oktatas_filtered.html
-  filename_ranked: oktatas_ranked.html
-  archive: true

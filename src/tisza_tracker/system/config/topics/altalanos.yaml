@@ -31,7 +31,3 @@ ranking:
   - időjárás
   - sztár
   - celebek
-output:
-  filename: altalanos_filtered.html
-  filename_ranked: altalanos_ranked.html
-  archive: true

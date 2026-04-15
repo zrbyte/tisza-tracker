@@ -26,7 +26,3 @@ ranking:
 
     '
   model: paraphrase-multilingual-MiniLM-L12-v2
-output:
-  filename: igazsagszolgaltatas_filtered.html
-  filename_ranked: igazsagszolgaltatas_ranked.html
-  archive: true

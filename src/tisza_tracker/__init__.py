@@ -1,10 +1,8 @@
 from __future__ import annotations
 
 import logging
-import os
 from importlib.metadata import version as _get_version, PackageNotFoundError
-from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Optional
 
 try:
     __version__ = _get_version("tisza_tracker")
@@ -13,13 +11,9 @@ except PackageNotFoundError:
 
 from .commands import filter as filter_cmd
 from .commands import rank as rank_cmd
-from .commands import email_list as email_cmd
 from .commands import export_recent as export_recent_cmd
 from .commands import query as query_cmd
-from .core.config import ConfigManager, DEFAULT_CONFIG_PATH
-from .core.database import DatabaseManager
-from .core.paths import resolve_data_path
-from .processors.html_generator import HTMLGenerator
+from .core.config import DEFAULT_CONFIG_PATH
 
 logger = logging.getLogger(__name__)
 
@@ -29,23 +23,10 @@ __all__ = [
     '__version__',
     'filter',
     'rank',
-    'email',
     'purge',
-    'status',
-    'html',
-    'generate_html',
     'export_recent',
     'query',
 ]
-
-
-def _resolve_output_path(path: str) -> Path:
-    """Resolve HTML output paths under the runtime data directory."""
-    candidate = Path(path)
-    if candidate.is_absolute():
-        candidate.parent.mkdir(parents=True, exist_ok=True)
-        return candidate
-    return resolve_data_path('html', *candidate.parts, ensure_parent=True)
 
 
 def filter(topic: Optional[str] = None, config_path: Optional[str] = None) -> None:
@@ -58,20 +39,6 @@ def rank(topic: Optional[str] = None, config_path: Optional[str] = None) -> None
     """Compute and write rank scores into papers.db for the given topic (or all)."""
     cfg_path = config_path or _DEFAULT_CONFIG
     rank_cmd.run(cfg_path, topic)
-
-
-def email(
-    topic: Optional[str] = None,
-    *,
-    mode: str = 'auto',
-    limit: Optional[int] = None,
-    recipients_file: Optional[str] = None,
-    dry_run: bool = False,
-    config_path: Optional[str] = None,
-) -> None:
-    """Send an email digest generated from papers.db via SMTP."""
-    cfg_path = config_path or _DEFAULT_CONFIG
-    email_cmd.run(cfg_path, topic, mode=mode, limit=limit, dry_run=dry_run, recipients_file=recipients_file)
 
 
 def export_recent(days: int = 60, output_name: Optional[str] = None, config_path: Optional[str] = None) -> None:
@@ -116,47 +83,3 @@ def purge(days: Optional[int] = None, all_data: bool = False, config_path: Optio
         raise ValueError("Specify days or all_data=True")
     cfg_path = config_path or _DEFAULT_CONFIG
     filter_cmd.purge(cfg_path, days, all_data)
-
-
-def html(topic: Optional[str] = None, output_path: Optional[str] = None, config_path: Optional[str] = None) -> None:
-    """Generate HTML for one or all topics directly from papers.db."""
-    cfg_path = config_path or _DEFAULT_CONFIG
-    if output_path and not topic:
-        raise ValueError("output_path can only be provided when generating a single topic")
-
-    config_manager = ConfigManager(cfg_path)
-    if not config_manager.validate_config():
-        raise ValueError(f"Invalid configuration at {cfg_path}")
-
-    config = config_manager.load_config()
-    db_manager = DatabaseManager(config)
-    topics_to_render = [topic] if topic else config_manager.get_available_topics()
-    if not topics_to_render:
-        db_manager.close_all_connections()
-        raise ValueError("No topics available in configuration")
-
-    base_generator = HTMLGenerator()
-    ranked_generator = HTMLGenerator(template_path='ranked_template.html')
-    try:
-        for topic_name in topics_to_render:
-            topic_config = config_manager.load_topic_config(topic_name)
-            output_config = topic_config.get('output', {})
-            topic_output_path = (
-                output_path if topic and output_path
-                else output_config.get('filename', f'{topic_name}_filtered_articles.html')
-            )
-            heading = topic_config['name']
-            description = topic_config.get('description')
-            output_target = _resolve_output_path(topic_output_path)
-            base_generator.generate_html_from_database(db_manager, topic_name, str(output_target), heading, description)
-            ranked_output_path = output_config.get('filename_ranked') or f'results_{topic_name}_ranked.html'
-            try:
-                ranked_target = _resolve_output_path(ranked_output_path)
-                ranked_generator.generate_ranked_html_from_database(db_manager, topic_name, str(ranked_target), heading, description)
-            except Exception as exc:
-                logger.error("Failed to generate ranked HTML for topic '%s': %s", topic_name, exc)
-    finally:
-        db_manager.close_all_connections()
-
-
-generate_html = html

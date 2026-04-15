@@ -20,8 +20,6 @@ _TEMPLATE_CONFIG = _TEMPLATE_DIR / "config.yaml"
 _TEMPLATE_TOPICS_DIR = _TEMPLATE_DIR / "topics"
 _TEMPLATE_SECRETS_DIR = _TEMPLATE_DIR / "secrets"
 
-_DEFAULT_EMAIL_SECRET = "# Placeholder SMTP password file. Replace with real credentials.\n"
-
 _DEFAULT_CONFIG_TEMPLATE = """# Auto-generated default configuration for tisza-tracker
 database:
   path: "papers.db"
@@ -96,12 +94,6 @@ _KNOWN_MAIN_KEYS: Dict[str, Optional[Dict[str, Any]]] = {
         "ranking_negative_penalty": None,
         "fetch_threshold": None,
     },
-    "email": {
-        "recipients_file": None,
-        "subject_prefix": None,
-        "from": None,
-        "smtp": {"host", "port", "username", "password_file"},
-    },
     "promises": {"yaml_dir"},
     "llm_classification": {
         "enabled": None,
@@ -135,7 +127,6 @@ _KNOWN_TOPIC_KEYS: Dict[str, Optional[Dict[str, Any]]] = {
         "negative_penalty",
     },
     "promise_matching": {"enabled", "min_relevance", "max_links_per_promise"},
-    "output": {"filename", "filename_ranked", "archive"},
 }
 
 
@@ -272,19 +263,6 @@ class ConfigManager:
                 _copy_tree(_TEMPLATE_SECRETS_DIR, secrets_dir)
             except Exception as exc:
                 logger.warning("Failed to copy secrets template tree: %s", exc)
-
-            # Ensure critical secret placeholders exist even if the template tree lacks them
-            placeholders = {
-                "email_password.env": _DEFAULT_EMAIL_SECRET,
-            }
-            for filename, content in placeholders.items():
-                target = secrets_dir / filename
-                if target.exists():
-                    continue
-                try:
-                    target.write_text(content, encoding="utf-8")
-                except Exception as exc:
-                    logger.warning("Failed to create placeholder secret %s: %s", target, exc)
 
         if not any(topics_dir.glob("*.yml")) and not any(topics_dir.glob("*.yaml")):
             default_topic_path = topics_dir / "example.yaml"

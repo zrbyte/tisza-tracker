@@ -44,9 +44,6 @@ if command -v sqlite3 >/dev/null 2>&1 && [[ -f "$PROMISES_DB" ]]; then
          ORDER BY count DESC;"
 fi
 
-echo "=== html ==="
-tt html
-
 echo "=== report ==="
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 tt report --readme "$SCRIPT_DIR/README.md"

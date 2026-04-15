@@ -179,7 +179,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 
 | ID | Promise | Status | Articles |
 |---|---|---|---|
-| ALT-002 | Az EU-s forrásokhoz való hozzáférés helyreállítása | :hourglass_flowing_sand: | → [Válasz Online: Napokon belül magas szintű brüsszeli delegáció érkezik tárgyal...](https://hvg.hu/gazdasag/20260415_ursula-von-der-leyen-magyar-peter-telefonbeszelgetes-befagyasztott-unios-penzek-rrf-alap-tisza-part) — "A lap kiemeli, hogy kedden két napon belül másodjára egyeztetett Magyar Péter és Ursula von der Leyen telefonon, a második alkalommal a p...", → [EU-s források: nincs biankó csekk, bizonyítania kell az új magyar kormánynak](https://hvg.hu/eurologus/20260414_unios-forrasok-daniel-freund-moritz-korner-jogallamisag-ep2026) — "Kérdéses, hogy az új magyar kormány képes lesz-e rövid időn belül teljesíteni a szükséges feltételeket és lehívni a rendelkezésre álló ös...", → [Rövid pórázon tartja Brüsszel Magyar Pétert, már be is nyújtották a 27 pontos...](https://magyarnemzet.hu/kulfold/2026/04/brusszel-diktal-magyar-peternek-a-penzert-cserebe?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator) — "Nincsenek azonnali tervek és hosszú lista van azokról a dolgokról, amelyeket az új kormánynak meg kell tennie ahhoz, hogy hozzáférjen eze..." |
+| ALT-002 | Az EU-s forrásokhoz való hozzáférés helyreállítása | :hourglass_flowing_sand: | → [Válasz Online: Már tárgyal Brüsszellel a Tisza az elakadt uniós pénzekről, de...](https://444.hu/2026/04/15/valasz-online-brusszellel-targyal-a-tisza-az-elakadt-unios-penzekrol-de-szorit-az-ido?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication) — "A Tisza szakértői már másfél éve dolgoznak a háttérben azon, hogyan lehetne hazahozni az uniós pénzeket – írja a Válasz Online brüsszeli ...", → [Válasz Online: Napokon belül magas szintű brüsszeli delegáció érkezik tárgyal...](https://hvg.hu/gazdasag/20260415_ursula-von-der-leyen-magyar-peter-telefonbeszelgetes-befagyasztott-unios-penzek-rrf-alap-tisza-part) — "A lap kiemeli, hogy kedden két napon belül másodjára egyeztetett Magyar Péter és Ursula von der Leyen telefonon, a második alkalommal a p...", → [EU-s források: nincs biankó csekk, bizonyítania kell az új magyar kormánynak](https://hvg.hu/eurologus/20260414_unios-forrasok-daniel-freund-moritz-korner-jogallamisag-ep2026) — "Kérdéses, hogy az új magyar kormány képes lesz-e rövid időn belül teljesíteni a szükséges feltételeket és lehívni a rendelkezésre álló ös..." |
 | KUL-001 | Brüsszelből hazahozzuk a befagyasztott uniós ezermilliárdokat. | :black_square_button: |  |
 | KUL-002 | Megállítjuk az ICC-ből való kilépést. | :black_square_button: |  |
 | KUL-003 | Nem támogatjuk Ukrajna gyorsított EU-felvételét; népszavazást tartunk róla. | :black_square_button: |  |
@@ -212,8 +212,8 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 ## Pipeline
 
 ```
-tt filter  →  tt rank  →  tt fetch  →  tt match  →  tt classify  →  tt html / tt report / tt email
-  (RSS)      (scoring)   (full text)  (promises)    (LLM verdict)     (output)
+tt filter  →  tt rank  →  tt fetch  →  tt match  →  tt classify  →  tt report
+  (RSS)      (scoring)   (full text)  (promises)    (LLM verdict)   (README table)
 ```
 
 - **filter** — fetch RSS feeds, apply per-topic regex patterns to title + summary
@@ -221,7 +221,7 @@ tt filter  →  tt rank  →  tt fetch  →  tt match  →  tt classify  →  tt
 - **fetch** — store RSS summaries for all ranked entries; download full article text (via trafilatura) for entries above `fetch_threshold`
 - **match** — link articles to government promises using per-promise regex pre-filter + semantic scoring against title + summary
 - **classify** — two-pass LLM verdict on each matched article (see below)
-- **html / email** — generate HTML reports or send digests via SMTP
+- **report** — render the promise tracker markdown table into README.md
 
 ### LLM classification (`tt classify`)
 
@@ -313,9 +313,7 @@ tt filter   [--topic NAME] [--json]
 tt rank     [--topic NAME] [--json]
 tt fetch    [--topic NAME] [--threshold 0.4] [--force] [--json]
 tt match    [--topic NAME] [--threshold 0.3] [--json]
-tt html     [--topic NAME]
-tt report   [--format md|html] [--readme PATH] [-o FILE]
-tt email    [--topic NAME] [--mode auto|ranked] [--dry-run]
+tt report   [--readme PATH] [-o FILE]
 tt query    [--history|--all-feeds] [--search TERM] [--fuzzy TERM] [--min-rank 0.3] [--since DATE] [--json]
 tt purge    [--days N | --all]
 tt export-recent [--days 60]

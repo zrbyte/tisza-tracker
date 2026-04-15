@@ -26,7 +26,3 @@ ranking:
 
     '
   model: paraphrase-multilingual-MiniLM-L12-v2
-output:
-  filename: szocialis_filtered.html
-  filename_ranked: szocialis_ranked.html
-  archive: true
