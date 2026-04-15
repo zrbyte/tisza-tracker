@@ -15,7 +15,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 |---|---|---|---|
 | ADO-001 | 15%-ról 9%-ra csökkentjük a minimálbér adóját. | :black_square_button: |  |
 | ADO-002 | A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük. | :black_square_button: |  |
-| ADO-003 | 1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be. | :black_square_button: |  |
+| ADO-003 | 1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be. | :hourglass_flowing_sand: | → [Jellinek Dániel a Tisza-kormánynak: A vagyonadó elvével egyetértek, a mérték ...](https://hvg.hu/360/20260415_jellinek-daniel-indotek-ingatlan-tisza-vagyonado) — "A vagyonadó elvével egyetértek, a mérték és a belépési küszöb arányosnak tűnik" |
 | ADO-004 | A vényköteles gyógyszerek áfáját 0%-ra csökkentjük. | :black_square_button: |  |
 | ADO-005 | A tűzifa és az egészséges élelmiszerek áfáját 5%-ra mérsékeljük. | :black_square_button: |  |
 | ADO-006 | Széles körben újra elérhetővé tesszük a katát. | :black_square_button: |  |
