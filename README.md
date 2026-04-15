@@ -24,7 +24,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | AGR-002 | Visszaállítjuk az élelmiszer-biztonsági hatóságok függetlenségét. | :black_square_button: |  |
 | AGR-003 | Nem engedjük csökkenteni a magyar gazdáknak járó EU-támogatásokat. | :black_square_button: |  |
 | AGR-004 | Felülvizsgáljuk a Földtörvényt, előnyben részesítjük a ténylegesen gazdálkodó fiatalokat. | :black_square_button: |  |
-| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :hourglass_flowing_sand: | → [Magyar Péter az EU-s források feloldásáról egyeztetett telefonon Ursula von d...](https://444.hu/2026/04/14/magyar-peter-az-eu-s-forrasok-feloldasarol-egyeztetett-telefonon-ursula-von-der-leyennel?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication) — "Egyetértettünk abban, hogy a magyar embereknek járó, de az Orbán-kormány korrupciója miatt befagyasztott sok ezer milliárd forintos uniós...", → [Brutális mennyiségű pénz zúdulhat Magyarországra Magyar Péter győzelme után –...](https://www.portfolio.hu/gazdasag/20260414/brutalis-mennyisegu-penz-zudulhat-magyarorszagra-magyar-peter-gyozelme-utan-beindultak-a-befektetok-830534) — "Eközben az uniós források zárolásának feloldása önmagában akár 1-1,5 százalékponttal is növelheti a GDP-t – állítja elemzésében a Reuters." |
+| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :black_square_button: |  |
 | GAZ-002 | Megfelezzük a vállalkozások adminisztrációs terheit. | :black_square_button: |  |
 | GAZ-003 | Négy év alatt legalább másfélszeresére emeljük az innovációra fordított forrásokat. | :black_square_button: |  |
 | GAZ-004 | 2026. június 1-től felfüggesztjük az Európán kívüli vendégmunkások behozatalát. | :black_square_button: |  |
@@ -40,11 +40,10 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 
 | ID | Promise | Status | Articles |
 |---|---|---|---|
-| ALT-001 | A kormány teljes átláthatóságot biztosít a közpénzek felhasználásában | :hourglass_flowing_sand: | → [Vagyonosodási vizsgálatok és szabályozások, így lehet fellépni a gyanús megga...](https://index.hu/belfold/2026/04/14/magyar-peter-valasztas-2026-egyenes-beszed-barandy-peter-zamecsnik-peter-vagyonnyilatkozat/) — "Magyar Péter korábban úgy nyilatkozott, hogy lesz egy 20 évre visszamenőleg érvényes vagyonnyilatkozati eljárás, ami nemcsak a politikuso..." |
 | KOR-001 | Csatlakozunk az Európai Ügyészséghez (EPPO). | :black_square_button: |  |
 | KOR-002 | Létrehozzuk a Nemzeti Vagyonvisszaszerzési Hivatalt. | :black_square_button: |  |
 | KOR-003 | Kivizsgáljuk az elmúlt évek korrupciós botrányait (Paks II, MNB-alapítványok, MCC, Hatvanpuszta stb.). | :black_square_button: |  |
-| KOR-004 | 20 évre visszamenőleg vagyonosodási vizsgálat képviselőkre, politikusokra és családtagjaikra. | :hourglass_flowing_sand: | → [Vagyonosodási vizsgálatok és szabályozások, így lehet fellépni a gyanús megga...](https://index.hu/belfold/2026/04/14/magyar-peter-valasztas-2026-egyenes-beszed-barandy-peter-zamecsnik-peter-vagyonnyilatkozat/) — "lesz egy 20 évre visszamenőleg érvényes vagyonnyilatkozati eljárás, ami nemcsak a politikusokra, hanem a családtagjaikra is vonatkozna." |
+| KOR-004 | 20 évre visszamenőleg vagyonosodási vizsgálat képviselőkre, politikusokra és családtagjaikra. | :black_square_button: |  |
 | KOR-005 | Független Korrupciómegelőzési Felügyeletet hozunk létre. | :black_square_button: |  |
 | KOR-006 | Jogi védelmet biztosítunk a bejelentőknek (whistleblower-védelem). | :black_square_button: |  |
 | KOR-007 | Nemzeti Szerződéstárat hozunk létre (online, kereshető). | :black_square_button: |  |
@@ -72,7 +71,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | ID | Promise | Status | Articles |
 |---|---|---|---|
 | EGU-001 | Az állami egészségügyre fordított kiadásokat 2030-ra a GDP 7%-ára emeljük. | :black_square_button: |  |
-| EGU-002 | Minden régióban szuperkórházat fejlesztünk. | :hourglass_flowing_sand: | → [Nagyot ígért Magyar Péter: szuperkórházak, pénzeső és rövid várólisták – hama...](https://magyarnemzet.hu/belfold/2026/04/nagyot-igert-magyar-peter-szuperkorhazak-penzeso-es-rovid-varolistak-hamarosan-kiderul-mi-valosul-meg?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator) — "Minden régióban lesz egy szuperkórház." |
+| EGU-002 | Minden régióban szuperkórházat fejlesztünk. | :black_square_button: |  |
 | EGU-003 | Várólistákat 2027 végére csökkentjük: fekvőbeteg max 6 hó, járóbeteg max 2 hó. | :black_square_button: |  |
 | EGU-004 | 2027 végére minden régióban a mentő 15 percen belül a helyszínre érkezik. | :black_square_button: |  |
 | EGU-005 | Nővér-orvos arányt 1,6-ról 2,5-re emeljük. | :black_square_button: |  |
@@ -179,7 +178,6 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 
 | ID | Promise | Status | Articles |
 |---|---|---|---|
-| ALT-002 | Az EU-s forrásokhoz való hozzáférés helyreállítása | :hourglass_flowing_sand: | → [Válasz Online: Már tárgyal Brüsszellel a Tisza az elakadt uniós pénzekről, de...](https://444.hu/2026/04/15/valasz-online-brusszellel-targyal-a-tisza-az-elakadt-unios-penzekrol-de-szorit-az-ido?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication) — "A Tisza szakértői már másfél éve dolgoznak a háttérben azon, hogyan lehetne hazahozni az uniós pénzeket – írja a Válasz Online brüsszeli ...", → [Válasz Online: Napokon belül magas szintű brüsszeli delegáció érkezik tárgyal...](https://hvg.hu/gazdasag/20260415_ursula-von-der-leyen-magyar-peter-telefonbeszelgetes-befagyasztott-unios-penzek-rrf-alap-tisza-part) — "A lap kiemeli, hogy kedden két napon belül másodjára egyeztetett Magyar Péter és Ursula von der Leyen telefonon, a második alkalommal a p...", → [EU-s források: nincs biankó csekk, bizonyítania kell az új magyar kormánynak](https://hvg.hu/eurologus/20260414_unios-forrasok-daniel-freund-moritz-korner-jogallamisag-ep2026) — "Kérdéses, hogy az új magyar kormány képes lesz-e rövid időn belül teljesíteni a szükséges feltételeket és lehívni a rendelkezésre álló ös..." |
 | KUL-001 | Brüsszelből hazahozzuk a befagyasztott uniós ezermilliárdokat. | :black_square_button: |  |
 | KUL-002 | Megállítjuk az ICC-ből való kilépést. | :black_square_button: |  |
 | KUL-003 | Nem támogatjuk Ukrajna gyorsított EU-felvételét; népszavazást tartunk róla. | :black_square_button: |  |
