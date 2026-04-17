@@ -15,7 +15,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 |---|---|---|---|
 | ADO-001 | 15%-ról 9%-ra csökkentjük a minimálbér adóját. | :black_square_button: |  |
 | ADO-002 | A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük. | :black_square_button: |  |
-| ADO-003 | 1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be. | :hourglass_flowing_sand: | → [Jellinek Dániel a Tisza-kormánynak: A vagyonadó elvével egyetértek, a mérték ...](https://hvg.hu/360/20260415_jellinek-daniel-indotek-ingatlan-tisza-vagyonado) — "A vagyonadó elvével egyetértek, a mérték és a belépési küszöb arányosnak tűnik" |
+| ADO-003 | 1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be. | :hourglass_flowing_sand: | → [Karagich István a Tisza-kormánynak: a vagyonadó átgondolása és a bankokkal va...](https://hvg.hu/gazdasag/20260417_karagich-istvan-a-blochamps-capital-vezetoje) — "Karagich István a Tisza-kormánynak: a vagyonadó átgondolása és a bankokkal való kiegyezés kulcskérdés" |
 | ADO-004 | A vényköteles gyógyszerek áfáját 0%-ra csökkentjük. | :black_square_button: |  |
 | ADO-005 | A tűzifa és az egészséges élelmiszerek áfáját 5%-ra mérsékeljük. | :black_square_button: |  |
 | ADO-006 | Széles körben újra elérhetővé tesszük a katát. | :black_square_button: |  |
@@ -40,7 +40,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 
 | ID | Promise | Status | Articles |
 |---|---|---|---|
-| KOR-001 | Csatlakozunk az Európai Ügyészséghez (EPPO). | :black_square_button: |  |
+| KOR-001 | Csatlakozunk az Európai Ügyészséghez (EPPO). | :hourglass_flowing_sand: | → [Súlyos konfliktusok és hatásköri viták kísérik az Európai Ügyészség működését...](https://magyarnemzet.hu/belfold/2026/04/sulyos-konfliktusok-es-hataskori-vitak-kiserik-az-europai-ugyeszseg-mukodeset-amelynek-vezetojere-korabban-a-korrupcio-arnyeka-vetult?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator) — "hazánk mielőbb csatlakozik az Európai Ügyészséghez." |
 | KOR-002 | Létrehozzuk a Nemzeti Vagyonvisszaszerzési Hivatalt. | :black_square_button: |  |
 | KOR-003 | Kivizsgáljuk az elmúlt évek korrupciós botrányait (Paks II, MNB-alapítványok, MCC, Hatvanpuszta stb.). | :black_square_button: |  |
 | KOR-004 | 20 évre visszamenőleg vagyonosodási vizsgálat képviselőkre, politikusokra és családtagjaikra. | :black_square_button: |  |
