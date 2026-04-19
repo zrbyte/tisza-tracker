@@ -45,7 +45,7 @@ if command -v sqlite3 >/dev/null 2>&1 && [[ -f "$PROMISES_DB" ]]; then
 fi
 
 echo "=== report ==="
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
 tt report --readme "$SCRIPT_DIR/README.md"
 
 echo "=== git sync ==="
