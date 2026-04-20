@@ -32,7 +32,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | GAZ-006 | Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert. | :black_square_button: |  |
 | GAZ-007 | A diplomások arányát legalább az EU átlagára (43%) emeljük. | :black_square_button: |  |
 | KOL-001 | 2030-ra teljesítjük a maastrichti kritériumokat. | :black_square_button: |  |
-| KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :black_square_button: |  |
+| KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :hourglass_flowing_sand: | → [Nem biztos, hogy sokáig hátradőlhetnek a forintbefektetők az utóbbi hetek erő...](https://www.portfolio.hu/deviza/20260420/nem-biztos-hogy-sokaig-hatradolhetnek-a-forintbefektetok-az-utobbi-hetek-erosodese-utan-831536) — "abban bíznak, hogy egy hitelesebb és piacbarátabb gazdaságpolitika jöhet, aminek megkoronázása lenne az euró bevezetése a következő években." |
 | KOL-003 | Átvilágítjuk a teljes költségvetést, megismerjük a titkosított szerződéseket. | :black_square_button: |  |
 | KOL-004 | Újratárgyaljuk/felmondjuk az országnak kedvezőtlen, titkosított szerződéseket. | :black_square_button: |  |
 
