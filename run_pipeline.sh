@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# shellcheck disable=SC1091
+set +u; [[ -f "$HOME/.profile" ]] && source "$HOME/.profile"; set -u
+
 export PATH="$HOME/.local/bin:$PATH"
 
 echo "=== filter ==="
