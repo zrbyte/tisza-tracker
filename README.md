@@ -24,7 +24,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | AGR-002 | Visszaállítjuk az élelmiszer-biztonsági hatóságok függetlenségét. | :black_square_button: |  |
 | AGR-003 | Nem engedjük csökkenteni a magyar gazdáknak járó EU-támogatásokat. | :black_square_button: |  |
 | AGR-004 | Felülvizsgáljuk a Földtörvényt, előnyben részesítjük a ténylegesen gazdálkodó fiatalokat. | :black_square_button: |  |
-| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :x: | ✗ [Több száz milliárdot úgy veszített el Magyarország, hogy azt Magyar Péter kor...](https://www.portfolio.hu/unios-forrasok/20260421/tobb-szaz-milliardot-ugy-veszitett-el-magyarorszag-hogy-azt-magyar-peter-kormanya-sem-szerezheti-vissza-831654) — "Csakhogy két tétel már nem tárgyalási kérdés, ezeken keresztül több mint 1100 milliárd forintot elveszített már Magyarország, és jogi moz..." |
+| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :x: |  |
 | GAZ-002 | Megfelezzük a vállalkozások adminisztrációs terheit. | :black_square_button: |  |
 | GAZ-003 | Négy év alatt legalább másfélszeresére emeljük az innovációra fordított forrásokat. | :black_square_button: |  |
 | GAZ-004 | 2026. június 1-től felfüggesztjük az Európán kívüli vendégmunkások behozatalát. | :black_square_button: |  |
@@ -138,7 +138,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | ENR-008 | Teljes körűen felülvizsgáljuk a PAKS II. projektet és finanszírozását. | :black_square_button: |  |
 | KOZ-001 | 10 éven belül megfelezzük a vasúti járművek átlagéletkorát. | :black_square_button: |  |
 | KOZ-002 | Vasúti fővonalakon legalább 100 km/h átlagsebesség. | :black_square_button: |  |
-| KOZ-003 | 50%-ra növeljük a villamosított vasúti pályák arányát. | :black_square_button: |  |
+| KOZ-003 | 50%-ra növeljük a villamosított vasúti pályák arányát. | :hourglass_flowing_sand: | → [Évek óta kész a vezeték, még sincs áram alatt a Szeged–Szabadka-vasútvonal](https://telex.hu/gazdasag/2026/04/21/evek-ota-kesz-a-vezetek-meg-nincs-aram-alatt-a-szeged-szabadka-vasutvonal) — "Hiába építették ki a felsővezetéket már évekkel ezelőtt, a vonalon még mindig nem közlekednek villamos motorvonatok, és még most sem láts..." |
 | KOZ-004 | Országos kátyúmentesítési program, megduplázzuk a közútfenntartási kiadásokat. | :black_square_button: |  |
 | KOZ-005 | Megépítjük az M200-M8-as és megkezdjük az M9-es déli gyorsforgalmi utat. | :black_square_button: |  |
 | KOZ-006 | Galvani-híd és Soroksári-Duna-híd Budapesten, új Tisza-híd Szegeden. | :black_square_button: |  |
