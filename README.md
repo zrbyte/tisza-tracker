@@ -24,7 +24,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | AGR-002 | Visszaállítjuk az élelmiszer-biztonsági hatóságok függetlenségét. | :black_square_button: |  |
 | AGR-003 | Nem engedjük csökkenteni a magyar gazdáknak járó EU-támogatásokat. | :black_square_button: |  |
 | AGR-004 | Felülvizsgáljuk a Földtörvényt, előnyben részesítjük a ténylegesen gazdálkodó fiatalokat. | :black_square_button: |  |
-| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :hourglass_flowing_sand: |  |
+| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :x: | ✗ [Több száz milliárdot úgy veszített el Magyarország, hogy azt Magyar Péter kor...](https://www.portfolio.hu/unios-forrasok/20260421/tobb-szaz-milliardot-ugy-veszitett-el-magyarorszag-hogy-azt-magyar-peter-kormanya-sem-szerezheti-vissza-831654) — "Csakhogy két tétel már nem tárgyalási kérdés, ezeken keresztül több mint 1100 milliárd forintot elveszített már Magyarország, és jogi moz..." |
 | GAZ-002 | Megfelezzük a vállalkozások adminisztrációs terheit. | :black_square_button: |  |
 | GAZ-003 | Négy év alatt legalább másfélszeresére emeljük az innovációra fordított forrásokat. | :black_square_button: |  |
 | GAZ-004 | 2026. június 1-től felfüggesztjük az Európán kívüli vendégmunkások behozatalát. | :black_square_button: |  |
@@ -32,7 +32,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | GAZ-006 | Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert. | :black_square_button: |  |
 | GAZ-007 | A diplomások arányát legalább az EU átlagára (43%) emeljük. | :black_square_button: |  |
 | KOL-001 | 2030-ra teljesítjük a maastrichti kritériumokat. | :black_square_button: |  |
-| KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :hourglass_flowing_sand: | → [Nem biztos, hogy sokáig hátradőlhetnek a forintbefektetők az utóbbi hetek erő...](https://www.portfolio.hu/deviza/20260420/nem-biztos-hogy-sokaig-hatradolhetnek-a-forintbefektetok-az-utobbi-hetek-erosodese-utan-831536) — "abban bíznak, hogy egy hitelesebb és piacbarátabb gazdaságpolitika jöhet, aminek megkoronázása lenne az euró bevezetése a következő években." |
+| KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :hourglass_flowing_sand: |  |
 | KOL-003 | Átvilágítjuk a teljes költségvetést, megismerjük a titkosított szerződéseket. | :black_square_button: |  |
 | KOL-004 | Újratárgyaljuk/felmondjuk az országnak kedvezőtlen, titkosított szerződéseket. | :black_square_button: |  |
 
