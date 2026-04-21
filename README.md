@@ -32,7 +32,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | GAZ-006 | Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert. | :black_square_button: |  |
 | GAZ-007 | A diplomások arányát legalább az EU átlagára (43%) emeljük. | :black_square_button: |  |
 | KOL-001 | 2030-ra teljesítjük a maastrichti kritériumokat. | :black_square_button: |  |
-| KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :hourglass_flowing_sand: |  |
+| KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :hourglass_flowing_sand: | → [Zuhanó hozamok, erősödő forint – a piacok már árazzák a Tisza euróígéretét](https://index.hu/belfold/2026/04/21/tisza-part-euro-magyarorszag-hozam-allampapir-forint-igeret-piac/) — "A befektetők már elhiszik az euróbevezetést, pedig a részletes gazdasági program még nem jött meg.", → [Surányi György, Szabó László: a rossz gazdaságpolitika ellen az euró sem véd meg](https://www.portfolio.hu/podcast/20260421/suranyi-gyorgy-szabo-laszlo-a-rossz-gazdasagpolitika-ellen-az-euro-sem-ved-meg-831984) — "Egyebek mellett beszéltünk az euróbevezetés realitásáról, a gazdasági növekedés beindításáról, a termelékenység növeléséről és az állami ..." |
 | KOL-003 | Átvilágítjuk a teljes költségvetést, megismerjük a titkosított szerződéseket. | :black_square_button: |  |
 | KOL-004 | Újratárgyaljuk/felmondjuk az országnak kedvezőtlen, titkosított szerződéseket. | :black_square_button: |  |
 
@@ -138,7 +138,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | ENR-008 | Teljes körűen felülvizsgáljuk a PAKS II. projektet és finanszírozását. | :black_square_button: |  |
 | KOZ-001 | 10 éven belül megfelezzük a vasúti járművek átlagéletkorát. | :black_square_button: |  |
 | KOZ-002 | Vasúti fővonalakon legalább 100 km/h átlagsebesség. | :black_square_button: |  |
-| KOZ-003 | 50%-ra növeljük a villamosított vasúti pályák arányát. | :hourglass_flowing_sand: | → [Évek óta kész a vezeték, még sincs áram alatt a Szeged–Szabadka-vasútvonal](https://telex.hu/gazdasag/2026/04/21/evek-ota-kesz-a-vezetek-meg-nincs-aram-alatt-a-szeged-szabadka-vasutvonal) — "Hiába építették ki a felsővezetéket már évekkel ezelőtt, a vonalon még mindig nem közlekednek villamos motorvonatok, és még most sem láts..." |
+| KOZ-003 | 50%-ra növeljük a villamosított vasúti pályák arányát. | :hourglass_flowing_sand: |  |
 | KOZ-004 | Országos kátyúmentesítési program, megduplázzuk a közútfenntartási kiadásokat. | :black_square_button: |  |
 | KOZ-005 | Megépítjük az M200-M8-as és megkezdjük az M9-es déli gyorsforgalmi utat. | :black_square_button: |  |
 | KOZ-006 | Galvani-híd és Soroksári-Duna-híd Budapesten, új Tisza-híd Szegeden. | :black_square_button: |  |
