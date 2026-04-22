@@ -24,7 +24,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | AGR-002 | Visszaállítjuk az élelmiszer-biztonsági hatóságok függetlenségét. | :black_square_button: |  |
 | AGR-003 | Nem engedjük csökkenteni a magyar gazdáknak járó EU-támogatásokat. | :black_square_button: |  |
 | AGR-004 | Felülvizsgáljuk a Földtörvényt, előnyben részesítjük a ténylegesen gazdálkodó fiatalokat. | :black_square_button: |  |
-| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :x: | → [Kiszámíthatóbb törvényeket, az uniós források hazahozatalát és a bürokrácia c...](https://hvg.hu/kkv/20260422_vosz-kkv-szektor-tisza-gazsi-termelekenyseg-oktatas) — "Kiszámíthatóbb törvényeket, az uniós források hazahozatalát és a bürokrácia csökkentését kérik a vállalkozók a Tisza-kormánytól" |
+| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :x: |  |
 | GAZ-002 | Megfelezzük a vállalkozások adminisztrációs terheit. | :black_square_button: |  |
 | GAZ-003 | Négy év alatt legalább másfélszeresére emeljük az innovációra fordított forrásokat. | :black_square_button: |  |
 | GAZ-004 | 2026. június 1-től felfüggesztjük az Európán kívüli vendégmunkások behozatalát. | :black_square_button: |  |
@@ -40,7 +40,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 
 | ID | Promise | Status | Articles |
 |---|---|---|---|
-| KOR-001 | Csatlakozunk az Európai Ügyészséghez (EPPO). | :hourglass_flowing_sand: |  |
+| KOR-001 | Csatlakozunk az Európai Ügyészséghez (EPPO). | :hourglass_flowing_sand: | → [Egészen új lehetőségek tárulnak fel az uniós csalások és a korrupciós ügyek v...](https://telex.hu/kulfold/2026/04/22/europai-ugyeszseg-csatlakozas-menete-tisza-magyar-peter) — "A Tisza Párt kétharmados választási győzelmével a helyzet azonban már teljesen megváltozott, és Magyarország hamarosan csatlakozik a szer..." |
 | KOR-002 | Létrehozzuk a Nemzeti Vagyonvisszaszerzési Hivatalt. | :black_square_button: |  |
 | KOR-003 | Kivizsgáljuk az elmúlt évek korrupciós botrányait (Paks II, MNB-alapítványok, MCC, Hatvanpuszta stb.). | :black_square_button: |  |
 | KOR-004 | 20 évre visszamenőleg vagyonosodási vizsgálat képviselőkre, politikusokra és családtagjaikra. | :black_square_button: |  |
