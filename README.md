@@ -24,7 +24,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | AGR-002 | Visszaállítjuk az élelmiszer-biztonsági hatóságok függetlenségét. | :black_square_button: |  |
 | AGR-003 | Nem engedjük csökkenteni a magyar gazdáknak járó EU-támogatásokat. | :black_square_button: |  |
 | AGR-004 | Felülvizsgáljuk a Földtörvényt, előnyben részesítjük a ténylegesen gazdálkodó fiatalokat. | :black_square_button: |  |
-| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :x: |  |
+| GAZ-001 | Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat. | :x: | → [Kiszámíthatóbb törvényeket, az uniós források hazahozatalát és a bürokrácia c...](https://hvg.hu/kkv/20260422_vosz-kkv-szektor-tisza-gazsi-termelekenyseg-oktatas) — "Kiszámíthatóbb törvényeket, az uniós források hazahozatalát és a bürokrácia csökkentését kérik a vállalkozók a Tisza-kormánytól" |
 | GAZ-002 | Megfelezzük a vállalkozások adminisztrációs terheit. | :black_square_button: |  |
 | GAZ-003 | Négy év alatt legalább másfélszeresére emeljük az innovációra fordított forrásokat. | :black_square_button: |  |
 | GAZ-004 | 2026. június 1-től felfüggesztjük az Európán kívüli vendégmunkások behozatalát. | :black_square_button: |  |
@@ -32,7 +32,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | GAZ-006 | Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert. | :black_square_button: |  |
 | GAZ-007 | A diplomások arányát legalább az EU átlagára (43%) emeljük. | :black_square_button: |  |
 | KOL-001 | 2030-ra teljesítjük a maastrichti kritériumokat. | :black_square_button: |  |
-| KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :hourglass_flowing_sand: | → [Zuhanó hozamok, erősödő forint – a piacok már árazzák a Tisza euróígéretét](https://index.hu/belfold/2026/04/21/tisza-part-euro-magyarorszag-hozam-allampapir-forint-igeret-piac/) — "A befektetők már elhiszik az euróbevezetést, pedig a részletes gazdasági program még nem jött meg.", → [Surányi György, Szabó László: a rossz gazdaságpolitika ellen az euró sem véd meg](https://www.portfolio.hu/podcast/20260421/suranyi-gyorgy-szabo-laszlo-a-rossz-gazdasagpolitika-ellen-az-euro-sem-ved-meg-831984) — "Egyebek mellett beszéltünk az euróbevezetés realitásáról, a gazdasági növekedés beindításáról, a termelékenység növeléséről és az állami ..." |
+| KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :hourglass_flowing_sand: |  |
 | KOL-003 | Átvilágítjuk a teljes költségvetést, megismerjük a titkosított szerződéseket. | :black_square_button: |  |
 | KOL-004 | Újratárgyaljuk/felmondjuk az országnak kedvezőtlen, titkosított szerződéseket. | :black_square_button: |  |
 
