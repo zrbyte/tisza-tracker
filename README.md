@@ -14,7 +14,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | ID | Promise | Status | Articles |
 |---|---|---|---|
 | ADO-001 | 15%-ról 9%-ra csökkentjük a minimálbér adóját. | :black_square_button: |  |
-| ADO-002 | A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük. | :black_square_button: |  |
+| ADO-002 | A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük. | :hourglass_flowing_sand: | → [Kapitány István: A minimálbér személyi jövedelemadója 9 százalék lesz, a medi...](https://444.hu/2026/04/22/kapitany-istvan-a-minimalber-szemelyi-jovedelemadoja-9-szazalek-lesz-a-medianber-alatt-mindenki-szja-ja-csokken?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication) — "Emellett a most nagyjából havi bruttó 625 ezer forintos mediánbér alatt keresők személyi jövedelemadóját is csökkentik.", → [Óriási adócsökkentést jelentett be Kapitány István! Több pénz marad az embere...](https://www.portfolio.hu/gazdasag/20260422/oriasi-adocsokkentest-jelentett-be-kapitany-istvan-tobb-penz-marad-az-embereknel-832264) — "Az SZJA-terv pontosan az, amit ígértek, a minimálbérnél 9%, és a mediánbérig lesz alacsonyabb a terhelés." |
 | ADO-003 | 1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be. | :hourglass_flowing_sand: |  |
 | ADO-004 | A vényköteles gyógyszerek áfáját 0%-ra csökkentjük. | :black_square_button: |  |
 | ADO-005 | A tűzifa és az egészséges élelmiszerek áfáját 5%-ra mérsékeljük. | :black_square_button: |  |
@@ -40,7 +40,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 
 | ID | Promise | Status | Articles |
 |---|---|---|---|
-| KOR-001 | Csatlakozunk az Európai Ügyészséghez (EPPO). | :hourglass_flowing_sand: | → [Egészen új lehetőségek tárulnak fel az uniós csalások és a korrupciós ügyek v...](https://telex.hu/kulfold/2026/04/22/europai-ugyeszseg-csatlakozas-menete-tisza-magyar-peter) — "A Tisza Párt kétharmados választási győzelmével a helyzet azonban már teljesen megváltozott, és Magyarország hamarosan csatlakozik a szer..." |
+| KOR-001 | Csatlakozunk az Európai Ügyészséghez (EPPO). | :hourglass_flowing_sand: |  |
 | KOR-002 | Létrehozzuk a Nemzeti Vagyonvisszaszerzési Hivatalt. | :black_square_button: |  |
 | KOR-003 | Kivizsgáljuk az elmúlt évek korrupciós botrányait (Paks II, MNB-alapítványok, MCC, Hatvanpuszta stb.). | :black_square_button: |  |
 | KOR-004 | 20 évre visszamenőleg vagyonosodási vizsgálat képviselőkre, politikusokra és családtagjaikra. | :black_square_button: |  |
