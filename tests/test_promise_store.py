@@ -202,3 +202,90 @@ def test_get_verdict_counts(promise_store):
 def test_get_verdict_counts_excludes_null_verdict(promise_store):
     promise_store.upsert_classification("P", "E1", verdict=None, error="fail", prompt_version="v1")
     assert promise_store.get_verdict_counts("P") == {}
+
+
+# ---------------------------------------------------------------------------
+# update_best_articles — sticky winner with strict-improvement rule
+# ---------------------------------------------------------------------------
+
+
+def test_update_best_inserts_when_no_prior(promise_store):
+    promise_store.upsert_classification(
+        "P", "E1", verdict="kept", confidence=0.6, prompt_version="v1",
+    )
+    counts = promise_store.update_best_articles()
+    assert counts == {"inserted": 1, "promoted": 0, "unchanged": 0}
+    best = promise_store.get_best_article("P")
+    assert best["article_entry_id"] == "E1"
+    assert best["confidence"] == 0.6
+
+
+def test_update_best_promotes_on_strictly_higher(promise_store):
+    promise_store.upsert_classification("P", "E1", verdict="kept", confidence=0.6, prompt_version="v1")
+    promise_store.update_best_articles()
+    promise_store.upsert_classification("P", "E2", verdict="kept", confidence=0.9, prompt_version="v1")
+
+    counts = promise_store.update_best_articles()
+    assert counts == {"inserted": 0, "promoted": 1, "unchanged": 0}
+    assert promise_store.get_best_article("P")["article_entry_id"] == "E2"
+
+
+def test_update_best_keeps_on_tie(promise_store):
+    """Equal confidence must NOT replace the incumbent."""
+    promise_store.upsert_classification("P", "E1", verdict="kept", confidence=0.8, prompt_version="v1")
+    promise_store.update_best_articles()
+    promise_store.upsert_classification("P", "E2", verdict="kept", confidence=0.8, prompt_version="v1")
+
+    counts = promise_store.update_best_articles()
+    assert counts["promoted"] == 0
+    assert promise_store.get_best_article("P")["article_entry_id"] == "E1"
+
+
+def test_update_best_ignores_lower_reclassification(promise_store):
+    """If the incumbent gets reclassified lower, it keeps the crown."""
+    promise_store.upsert_classification("P", "E1", verdict="kept", confidence=0.9, prompt_version="v1")
+    promise_store.update_best_articles()
+    # Same entry reclassified with lower confidence
+    promise_store.upsert_classification("P", "E1", verdict="in_progress", confidence=0.4, prompt_version="v2")
+
+    counts = promise_store.update_best_articles()
+    assert counts["promoted"] == 0
+    best = promise_store.get_best_article("P")
+    assert best["article_entry_id"] == "E1"
+    assert best["confidence"] == 0.9  # historical peak preserved
+
+
+def test_update_best_survives_verdict_flip_to_irrelevant(promise_store):
+    """Once crowned, a flip to 'irrelevant' must not unseat the sticky row."""
+    promise_store.upsert_classification("P", "E1", verdict="kept", confidence=0.9, prompt_version="v1")
+    promise_store.update_best_articles()
+    promise_store.upsert_classification("P", "E1", verdict="irrelevant", confidence=0.9, prompt_version="v2")
+
+    counts = promise_store.update_best_articles()
+    # The current pool has no non-irrelevant classifications, but the sticky
+    # row should remain untouched.
+    assert counts == {"inserted": 0, "promoted": 0, "unchanged": 0}
+    assert promise_store.get_best_article("P")["article_entry_id"] == "E1"
+
+
+def test_update_best_excludes_irrelevant_and_null_candidates(promise_store):
+    promise_store.upsert_classification("P", "E1", verdict="irrelevant", confidence=0.99, prompt_version="v1")
+    promise_store.upsert_classification("P", "E2", verdict=None, error="boom", prompt_version="v1")
+    promise_store.upsert_classification("P", "E3", verdict="kept", confidence=0.5, prompt_version="v1")
+
+    promise_store.update_best_articles()
+    assert promise_store.get_best_article("P")["article_entry_id"] == "E3"
+
+
+def test_update_best_per_promise_independent(promise_store):
+    promise_store.upsert_classification("P1", "A", verdict="kept", confidence=0.8, prompt_version="v1")
+    promise_store.upsert_classification("P2", "B", verdict="kept", confidence=0.4, prompt_version="v1")
+
+    counts = promise_store.update_best_articles()
+    assert counts["inserted"] == 2
+    assert promise_store.get_best_article("P1")["article_entry_id"] == "A"
+    assert promise_store.get_best_article("P2")["article_entry_id"] == "B"
+
+
+def test_get_best_article_missing_returns_none(promise_store):
+    assert promise_store.get_best_article("NONE") is None

@@ -141,6 +141,7 @@ def run(
 
     if not links:
         logger.info("No links require classification (prompt_version=%s)", prompt_version)
+        ps.update_best_articles()
         _maybe_rollup(ps, llm_cfg, skip_rollup)
         return {"classified": 0, "total_candidates": 0}
 
@@ -195,6 +196,12 @@ def run(
     logger.info(
         "Classified %d links (irrelevant=%d, errors=%d)",
         classified, irrelevant, errors,
+    )
+
+    best_changes = ps.update_best_articles()
+    logger.info(
+        "Sticky winners: %d inserted, %d promoted, %d unchanged",
+        best_changes["inserted"], best_changes["promoted"], best_changes["unchanged"],
     )
 
     _maybe_rollup(ps, llm_cfg, skip_rollup)

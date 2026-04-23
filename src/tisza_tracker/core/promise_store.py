@@ -107,6 +107,15 @@ class PromiseStore:
             )
         """)
 
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS promise_best_article (
+                promise_id TEXT PRIMARY KEY REFERENCES promises(id),
+                article_entry_id TEXT NOT NULL,
+                confidence REAL NOT NULL,
+                captured_at TEXT DEFAULT (datetime('now'))
+            )
+        """)
+
         # Lightweight migration: add filter_pattern if missing
         cursor.execute("PRAGMA table_info(promises)")
         columns = {row[1] for row in cursor.fetchall()}
@@ -473,6 +482,85 @@ class PromiseStore:
             groups.append((current_pid, bucket))
         return groups
 
+    # ---- Sticky best article per promise ----
+
+    def update_best_articles(self) -> Dict[str, int]:
+        """Pin the highest-confidence non-irrelevant classification per promise.
+
+        For each promise, finds the current argmax of ``confidence`` over
+        classifications whose verdict is not NULL and not 'irrelevant'.  The
+        stored row in ``promise_best_article`` is replaced **only if** the new
+        candidate's confidence is strictly greater than the stored value — ties
+        keep the existing champion, and a champion's later re-classification to
+        a lower confidence does not demote it.
+
+        Returns counts: ``{"inserted": N, "promoted": N, "unchanged": N}``.
+        """
+        inserted = 0
+        promoted = 0
+        unchanged = 0
+
+        with self._connection() as conn:
+            candidates = conn.execute("""
+                SELECT promise_id,
+                       article_entry_id,
+                       confidence
+                FROM llm_classifications
+                WHERE verdict IS NOT NULL
+                  AND verdict != 'irrelevant'
+                  AND confidence IS NOT NULL
+                  AND (promise_id, confidence) IN (
+                      SELECT promise_id, MAX(confidence)
+                      FROM llm_classifications
+                      WHERE verdict IS NOT NULL
+                        AND verdict != 'irrelevant'
+                        AND confidence IS NOT NULL
+                      GROUP BY promise_id
+                  )
+                GROUP BY promise_id
+            """).fetchall()
+
+            for row in candidates:
+                pid = row["promise_id"]
+                eid = row["article_entry_id"]
+                conf = float(row["confidence"])
+
+                existing = conn.execute(
+                    "SELECT article_entry_id, confidence FROM promise_best_article "
+                    "WHERE promise_id = ?",
+                    (pid,),
+                ).fetchone()
+
+                if existing is None:
+                    conn.execute(
+                        "INSERT INTO promise_best_article "
+                        "(promise_id, article_entry_id, confidence) VALUES (?, ?, ?)",
+                        (pid, eid, conf),
+                    )
+                    inserted += 1
+                elif conf > float(existing["confidence"]):
+                    conn.execute(
+                        "UPDATE promise_best_article "
+                        "SET article_entry_id = ?, confidence = ?, "
+                        "    captured_at = datetime('now') "
+                        "WHERE promise_id = ?",
+                        (eid, conf, pid),
+                    )
+                    promoted += 1
+                else:
+                    unchanged += 1
+
+        return {"inserted": inserted, "promoted": promoted, "unchanged": unchanged}
+
+    def get_best_article(self, promise_id: str) -> Optional[Dict[str, Any]]:
+        """Return the sticky winner row for *promise_id*, or None."""
+        with self._connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM promise_best_article WHERE promise_id = ?",
+                (promise_id,),
+            ).fetchone()
+            return dict(row) if row else None
+
     # ---- Enriched queries ----
 
     def get_promises_with_articles(
@@ -494,18 +582,26 @@ class PromiseStore:
         LLM classification exists: verdict, confidence, evidence_quote.
 
         When ``drop_irrelevant`` is True (default), articles whose LLM verdict
-        is ``'irrelevant'`` are excluded.  Articles with no classification row
-        pass through unchanged.
+        is ``'irrelevant'`` are excluded, except when the article is the
+        promise's sticky winner in ``promise_best_article``.
 
         When ``max_per_promise`` is set, only the top-N articles per promise
         are kept, ranked by LLM confidence (descending, NULLs last) then by
-        relevance_score.
+        relevance_score.  The sticky winner (if any) is always placed first
+        and counts against the top-N quota.
         """
         with self._connection() as conn:
             conn.execute("ATTACH ? AS papers", (papers_db_path,))
             if history_db_path:
                 conn.execute("ATTACH ? AS history", (history_db_path,))
             try:
+                best_map: Dict[str, str] = {
+                    r["promise_id"]: r["article_entry_id"]
+                    for r in conn.execute(
+                        "SELECT promise_id, article_entry_id FROM promise_best_article"
+                    ).fetchall()
+                }
+
                 query = "SELECT * FROM promises WHERE 1=1"
                 params: list = []
                 if category:
@@ -564,8 +660,14 @@ class PromiseStore:
                             """, (promise["id"],)).fetchall()
                         articles.extend(dict(r) for r in hist_rows)
 
+                    sticky_eid = best_map.get(promise["id"])
+
                     if drop_irrelevant:
-                        articles = [a for a in articles if a.get("verdict") != "irrelevant"]
+                        articles = [
+                            a for a in articles
+                            if a.get("verdict") != "irrelevant"
+                            or a.get("entry_id") == sticky_eid
+                        ]
 
                     # Sort: LLM confidence first (None treated as -1), then score
                     articles.sort(
@@ -575,6 +677,15 @@ class PromiseStore:
                         ),
                         reverse=True,
                     )
+
+                    if sticky_eid:
+                        sticky_idx = next(
+                            (i for i, a in enumerate(articles)
+                             if a.get("entry_id") == sticky_eid),
+                            None,
+                        )
+                        if sticky_idx is not None and sticky_idx != 0:
+                            articles.insert(0, articles.pop(sticky_idx))
 
                     if max_per_promise is not None:
                         articles = articles[:max_per_promise]

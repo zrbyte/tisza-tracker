@@ -200,3 +200,120 @@ def test_article_matched_to_multiple_topics_not_duplicated(
     )
     target = next(p for p in promises if p["id"] == "PROM-001")
     assert len(target["articles"]) == 1
+
+
+# ---------------------------------------------------------------------------
+# Sticky winner (promise_best_article) surfacing in reports
+# ---------------------------------------------------------------------------
+
+
+def test_sticky_survives_topn_cutoff(
+    seeded_promises, papers_db, history_db, insert_paper_entry,
+):
+    """Past champion must not be evicted by newer articles under top-N cap."""
+    ps = seeded_promises
+    # Champion inserted first with confidence 0.9
+    insert_paper_entry(papers_db, "CHAMP", "Champion", "https://champ")
+    ps.link_article("PROM-001", "CHAMP", relevance_score=0.5)
+    ps.upsert_classification(
+        "PROM-001", "CHAMP", verdict="kept", confidence=0.9, prompt_version="v1",
+    )
+    ps.update_best_articles()
+
+    # Three newer, lower-confidence articles arrive
+    for i, eid in enumerate(["N1", "N2", "N3"]):
+        insert_paper_entry(papers_db, eid, f"New {i}", f"https://n{i}")
+        ps.link_article("PROM-001", eid, relevance_score=0.8)
+        ps.upsert_classification(
+            "PROM-001", eid, verdict="in_progress", confidence=0.7, prompt_version="v1",
+        )
+
+    # Top-3 cap: champion is highest confidence anyway, but test that with a
+    # *lower* sticky confidence (simulated via lower-confidence newcomers
+    # actually ranking ABOVE the champion) the pin still forces inclusion.
+    promises = ps.get_promises_with_articles(
+        str(papers_db), history_db_path=str(history_db), max_per_promise=3,
+    )
+    target = next(p for p in promises if p["id"] == "PROM-001")
+    ids = [a["entry_id"] for a in target["articles"]]
+    assert "CHAMP" in ids
+    assert ids[0] == "CHAMP"  # sticky pinned to position 0
+
+
+def test_sticky_shown_even_when_verdict_flipped_to_irrelevant(
+    seeded_promises, papers_db, history_db, insert_paper_entry,
+):
+    """A champion re-classified as 'irrelevant' must still appear."""
+    ps = seeded_promises
+    insert_paper_entry(papers_db, "CHAMP", "Champion", "https://champ")
+    ps.link_article("PROM-001", "CHAMP", relevance_score=0.5)
+    ps.upsert_classification(
+        "PROM-001", "CHAMP", verdict="kept", confidence=0.9, prompt_version="v1",
+    )
+    ps.update_best_articles()
+
+    # Later reclassification flips to irrelevant
+    ps.upsert_classification(
+        "PROM-001", "CHAMP", verdict="irrelevant", confidence=0.9, prompt_version="v2",
+    )
+
+    promises = ps.get_promises_with_articles(
+        str(papers_db), history_db_path=str(history_db),
+    )
+    target = next(p for p in promises if p["id"] == "PROM-001")
+    ids = [a["entry_id"] for a in target["articles"]]
+    assert ids == ["CHAMP"]
+
+
+def test_sticky_pinned_first_when_present(
+    seeded_promises, papers_db, history_db, insert_paper_entry,
+):
+    """When sticky is not the highest-confidence article, it still sits first."""
+    ps = seeded_promises
+    # Champion with confidence 0.6 (sticky)
+    insert_paper_entry(papers_db, "CHAMP", "Champion", "https://champ")
+    ps.link_article("PROM-001", "CHAMP", relevance_score=0.5)
+    ps.upsert_classification(
+        "PROM-001", "CHAMP", verdict="kept", confidence=0.6, prompt_version="v1",
+    )
+    ps.update_best_articles()
+
+    # A new, higher-confidence article arrives but the sticky shouldn't
+    # be demoted (captures "champion stays first" intent).  Note: if strict-
+    # improvement rule runs again here, champion WOULD be overtaken by 0.9.
+    # So this test deliberately does NOT call update_best_articles again;
+    # it's checking the ordering invariant for whichever sticky is stored.
+    insert_paper_entry(papers_db, "NEW", "New", "https://new")
+    ps.link_article("PROM-001", "NEW", relevance_score=0.5)
+    ps.upsert_classification(
+        "PROM-001", "NEW", verdict="kept", confidence=0.9, prompt_version="v1",
+    )
+
+    promises = ps.get_promises_with_articles(
+        str(papers_db), history_db_path=str(history_db),
+    )
+    target = next(p for p in promises if p["id"] == "PROM-001")
+    ids = [a["entry_id"] for a in target["articles"]]
+    assert ids[0] == "CHAMP"
+    assert "NEW" in ids
+
+
+def test_no_sticky_means_baseline_sort(
+    seeded_promises, papers_db, history_db, insert_paper_entry,
+):
+    """Without a pinned winner, ordering is pure confidence DESC."""
+    ps = seeded_promises
+    insert_paper_entry(papers_db, "A", "A", "https://a")
+    insert_paper_entry(papers_db, "B", "B", "https://b")
+    ps.link_article("PROM-001", "A", relevance_score=0.5)
+    ps.link_article("PROM-001", "B", relevance_score=0.5)
+    ps.upsert_classification("PROM-001", "A", verdict="kept", confidence=0.5, prompt_version="v1")
+    ps.upsert_classification("PROM-001", "B", verdict="kept", confidence=0.9, prompt_version="v1")
+    # Deliberately skip update_best_articles.
+
+    promises = ps.get_promises_with_articles(
+        str(papers_db), history_db_path=str(history_db),
+    )
+    target = next(p for p in promises if p["id"] == "PROM-001")
+    ids = [a["entry_id"] for a in target["articles"]]
+    assert ids == ["B", "A"]
