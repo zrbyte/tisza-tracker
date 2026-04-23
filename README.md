@@ -14,7 +14,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | ID | Promise | Status | Articles |
 |---|---|---|---|
 | ADO-001 | 15%-ról 9%-ra csökkentjük a minimálbér adóját. | :black_square_button: |  |
-| ADO-002 | A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük. | :hourglass_flowing_sand: | → [Kapitány István: Kilenc százalék lesz a minimálbér után fizetendő személyi jö...](https://telex.hu/gazdasag/2026/04/22/kapitany-istvan-kilenc-szazalek-lesz-a-minimalber-utan-fizetendo-szemelyi-jovedelemado) — "mindenki, aki a mediánbér alatt keres – jelenleg nagyjából havi 625 ezer forintos bruttó jövedelemig –, szintén kevesebb személyi jövedel..." |
+| ADO-002 | A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük. | :hourglass_flowing_sand: |  |
 | ADO-003 | 1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be. | :hourglass_flowing_sand: |  |
 | ADO-004 | A vényköteles gyógyszerek áfáját 0%-ra csökkentjük. | :black_square_button: |  |
 | ADO-005 | A tűzifa és az egészséges élelmiszerek áfáját 5%-ra mérsékeljük. | :black_square_button: |  |
@@ -32,7 +32,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | GAZ-006 | Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert. | :black_square_button: |  |
 | GAZ-007 | A diplomások arányát legalább az EU átlagára (43%) emeljük. | :black_square_button: |  |
 | KOL-001 | 2030-ra teljesítjük a maastrichti kritériumokat. | :black_square_button: |  |
-| KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :hourglass_flowing_sand: |  |
+| KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :hourglass_flowing_sand: | → [Kimondták a Bloomberg elemzői, min áll vagy bukik Magyarország euróövezeti cs...](https://www.portfolio.hu/deviza/20260423/kimondtak-a-bloomberg-elemzoi-min-all-vagy-bukik-magyarorszag-euroovezeti-csatlakozasa-832438) — "A csatlakozási folyamat jellemzően évekig tart, és az Orbán-korszak gazdasági öröksége sem könnyíti meg a helyzetet", → [Hiába dörgölőzött Orbán Trumphoz, az amerikai cégek örömmel fogadják a Fidesz...](https://hvg.hu/kkv/20260423_amerikai-kamara-amcham-valasztasi-eredmeny-kiszamithatosag-jogallamisag-euro) — "A Magyarországon működő amerikai vállalkozások üdvözlik a Tisza elköteleződését az euró bevezetése és a jogállamiság helyreállítása mellett." |
 | KOL-003 | Átvilágítjuk a teljes költségvetést, megismerjük a titkosított szerződéseket. | :black_square_button: |  |
 | KOL-004 | Újratárgyaljuk/felmondjuk az országnak kedvezőtlen, titkosított szerződéseket. | :black_square_button: |  |
 
