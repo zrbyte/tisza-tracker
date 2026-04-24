@@ -13,9 +13,9 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 
 | ID | Promise | Status | Articles |
 |---|---|---|---|
-| ADO-001 | 15%-ról 9%-ra csökkentjük a minimálbér adóját. | :black_square_button: |  |
-| ADO-002 | A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük. | :hourglass_flowing_sand: |  |
-| ADO-003 | 1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be. | :hourglass_flowing_sand: | → [A feketegazdaság melegágya lehet a Tisza által tervezett vagyonadó](https://mandiner.hu/belfold/2026/04/a-feketegazdasag-melegagya-lehet-a-tisza-altal-tervezett-vagyonado) — "A közgazdász azt is jelezte, hogy a vagyonadó visszafogná azt a vagyonképződési folyamatot, ami a vállalkozói szektorban lejátszódik." |
+| ADO-001 | 15%-ról 9%-ra csökkentjük a minimálbér adóját. | :hourglass_flowing_sand: | → [Ki járhat jól a Tisza SZJA-csökkentésével? És mennyivel lehet több így a nettó?](https://www.portfolio.hu/podcast/20260424/ki-jarhat-jol-a-tisza-szja-csokkentesevel-es-mennyivel-lehet-tobb-igy-a-netto-832722) — "A pénteki Checklist első felében arról volt szó, hogy Kapitány István, a leendő gazdasági és energiaügyi miniszter bejelentette, hogy a m..." |
+| ADO-002 | A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük. | :hourglass_flowing_sand: | → [Ki járhat jól a Tisza SZJA-csökkentésével? És mennyivel lehet több így a nettó?](https://www.portfolio.hu/podcast/20260424/ki-jarhat-jol-a-tisza-szja-csokkentesevel-es-mennyivel-lehet-tobb-igy-a-netto-832722) — "A minimálbér után fizetendő személyi jövedelemadó 9 százalékra csökken." |
+| ADO-003 | 1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be. | :hourglass_flowing_sand: |  |
 | ADO-004 | A vényköteles gyógyszerek áfáját 0%-ra csökkentjük. | :black_square_button: |  |
 | ADO-005 | A tűzifa és az egészséges élelmiszerek áfáját 5%-ra mérsékeljük. | :black_square_button: |  |
 | ADO-006 | Széles körben újra elérhetővé tesszük a katát. | :black_square_button: |  |
@@ -29,7 +29,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | GAZ-003 | Négy év alatt legalább másfélszeresére emeljük az innovációra fordított forrásokat. | :black_square_button: |  |
 | GAZ-004 | 2026. június 1-től felfüggesztjük az Európán kívüli vendégmunkások behozatalát. | :black_square_button: |  |
 | GAZ-005 | A K+F kiadást 2030-ra a GDP 2%-ára emeljük, majd közelítjük a 3%-ot. | :black_square_button: |  |
-| GAZ-006 | Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert. | :hourglass_flowing_sand: | → [Bojár Gábor: A tőzsdei NER-es cégek kisbefektetőinek tisztában kellett lenniü...](https://hvg.hu/360/20260424_bojar-gabor-tozsde-ner-valasztas-tisza-kisbefekteto) — "Az új kormány egyik első teendője szerinte egy független versenyhivatali elnök kinevezése.", → [„Előbb jött az eljárás megindításáról a hír a Magyar Nemzetben, mint hogy a b...](https://hvg.hu/360/20260424_berezvai-zombor-gvh-ner-hvg-portre) — "Berezvai Zombor szerint most lehet változtatni a politikai nyomáson, ami minden hivatalt maga alá gyűr." |
+| GAZ-006 | Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert. | :hourglass_flowing_sand: |  |
 | GAZ-007 | A diplomások arányát legalább az EU átlagára (43%) emeljük. | :black_square_button: |  |
 | KOL-001 | 2030-ra teljesítjük a maastrichti kritériumokat. | :black_square_button: |  |
 | KOL-002 | Előkészítjük az euró bevezetését, belátható céldátummal. | :hourglass_flowing_sand: |  |
