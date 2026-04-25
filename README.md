@@ -13,8 +13,8 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 
 | ID | Promise | Status | Articles |
 |---|---|---|---|
-| ADO-001 | 15%-ról 9%-ra csökkentjük a minimálbér adóját. | :hourglass_flowing_sand: | → [Ki járhat jól a Tisza SZJA-csökkentésével? És mennyivel lehet több így a nettó?](https://www.portfolio.hu/podcast/20260424/ki-jarhat-jol-a-tisza-szja-csokkentesevel-es-mennyivel-lehet-tobb-igy-a-netto-832722) — "A pénteki Checklist első felében arról volt szó, hogy Kapitány István, a leendő gazdasági és energiaügyi miniszter bejelentette, hogy a m..." |
-| ADO-002 | A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük. | :hourglass_flowing_sand: | → [Ki járhat jól a Tisza SZJA-csökkentésével? És mennyivel lehet több így a nettó?](https://www.portfolio.hu/podcast/20260424/ki-jarhat-jol-a-tisza-szja-csokkentesevel-es-mennyivel-lehet-tobb-igy-a-netto-832722) — "A minimálbér után fizetendő személyi jövedelemadó 9 százalékra csökken." |
+| ADO-001 | 15%-ról 9%-ra csökkentjük a minimálbér adóját. | :hourglass_flowing_sand: |  |
+| ADO-002 | A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük. | :hourglass_flowing_sand: |  |
 | ADO-003 | 1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be. | :hourglass_flowing_sand: |  |
 | ADO-004 | A vényköteles gyógyszerek áfáját 0%-ra csökkentjük. | :black_square_button: |  |
 | ADO-005 | A tűzifa és az egészséges élelmiszerek áfáját 5%-ra mérsékeljük. | :black_square_button: |  |
