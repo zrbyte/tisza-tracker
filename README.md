@@ -141,7 +141,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | KOZ-003 | 50%-ra növeljük a villamosított vasúti pályák arányát. | :hourglass_flowing_sand: |  |
 | KOZ-004 | Országos kátyúmentesítési program, megduplázzuk a közútfenntartási kiadásokat. | :black_square_button: |  |
 | KOZ-005 | Megépítjük az M200-M8-as és megkezdjük az M9-es déli gyorsforgalmi utat. | :black_square_button: |  |
-| KOZ-006 | Galvani-híd és Soroksári-Duna-híd Budapesten, új Tisza-híd Szegeden. | :hourglass_flowing_sand: | → [Az EU-s pénzek és Vitézy kinevezése sokat lendíthet a fővárosi fejlesztéseken](https://telex.hu/g7/kozelet/2026/04/26/vitezy-eu-kozlekedesi-beruhazasi-miniszter-budapest) — "A budapesti villamoshálózat fejlesztése valószínűleg fel fog gyorsulni a következő kormányzati ciklusban, a Galvani híd megvalósulásának ..." |
+| KOZ-006 | Galvani-híd és Soroksári-Duna-híd Budapesten, új Tisza-híd Szegeden. | :hourglass_flowing_sand: |  |
 | KOZ-007 | A 35 éves autópálya-koncessziós szerződést felülvizsgáljuk, csökkentjük az útdíjakat. | :black_square_button: |  |
 | KOZ-008 | Egész napos, óránkénti InterCity 6 fő vonalon. | :black_square_button: |  |
 | KOZ-009 | Minden 500 fő feletti településen legalább napi 5 tömegközlekedési járat. | :black_square_button: |  |
