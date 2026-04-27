@@ -60,6 +60,7 @@ def _load_promises(config_path: str) -> List[Dict[str, Any]]:
     ps = PromiseStore(config)
     papers_path = db.db_paths["current"]
     history_path = db.db_paths["history"]
+    all_feeds_path = db.db_paths["all_feeds"]
 
     llm_cfg = config.get("llm_classification") or {}
     top_n = llm_cfg.get("top_n_in_report")
@@ -72,6 +73,7 @@ def _load_promises(config_path: str) -> List[Dict[str, Any]]:
     promises = ps.get_promises_with_articles(
         papers_path,
         history_db_path=history_path,
+        all_feeds_db_path=all_feeds_path,
         max_per_promise=top_n,
     )
     db.close_all_connections()

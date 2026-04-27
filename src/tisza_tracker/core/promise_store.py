@@ -567,19 +567,24 @@ class PromiseStore:
         self,
         papers_db_path: str,
         history_db_path: Optional[str] = None,
+        all_feeds_db_path: Optional[str] = None,
         category: Optional[str] = None,
         max_per_promise: Optional[int] = None,
         drop_irrelevant: bool = True,
     ) -> List[Dict[str, Any]]:
         """Return all promises with their linked articles enriched with title/link.
 
-        Attaches the papers database (current run) and optionally the history
-        database to resolve article entry IDs into human-readable titles and
-        URLs.  Articles found in papers.db take precedence; any remaining
-        unresolved links are looked up in matched_entries_history.db.
+        Resolves each ``promise_article_links`` row's entry_id into a
+        title/link by walking three sources in priority order: papers.db
+        (current run) → matched_entries_history.db (long-term archive) →
+        all_feed_entries.db (RSS dedup archive).  The third source is the
+        last-resort fallback that prevents an article from disappearing from
+        the report once papers.db has been rotated and if the topic config
+        never enabled archiving.
 
-        Each article dict contains: title, link, relevance_score, and if an
-        LLM classification exists: verdict, confidence, evidence_quote.
+        Each article dict contains: title, link, relevance_score, entry_id,
+        and the LLM classification fields (verdict, confidence,
+        evidence_quote) if a row exists in ``llm_classifications``.
 
         When ``drop_irrelevant`` is True (default), articles whose LLM verdict
         is ``'irrelevant'`` are excluded, except when the article is the
@@ -594,6 +599,8 @@ class PromiseStore:
             conn.execute("ATTACH ? AS papers", (papers_db_path,))
             if history_db_path:
                 conn.execute("ATTACH ? AS history", (history_db_path,))
+            if all_feeds_db_path:
+                conn.execute("ATTACH ? AS feeds", (all_feeds_db_path,))
             try:
                 best_map: Dict[str, str] = {
                     r["promise_id"]: r["article_entry_id"]
@@ -611,54 +618,74 @@ class PromiseStore:
                 promises = [dict(r) for r in conn.execute(query, params).fetchall()]
 
                 for promise in promises:
-                    # DISTINCT: papers.entries has PK (id, topic) so an
-                    # article matched to multiple topics appears N times in
-                    # the JOIN.  The selected columns are identical for all
-                    # copies, so DISTINCT collapses them.
-                    rows = conn.execute("""
-                        SELECT DISTINCT e.title, e.link, pal.relevance_score,
-                               pal.article_entry_id AS entry_id,
+                    link_rows = conn.execute("""
+                        SELECT pal.article_entry_id AS entry_id,
+                               pal.relevance_score,
                                lc.verdict, lc.confidence, lc.evidence_quote
                         FROM promise_article_links pal
-                        JOIN papers.entries e ON pal.article_entry_id = e.id
                         LEFT JOIN llm_classifications lc
                           ON lc.promise_id = pal.promise_id
                          AND lc.article_entry_id = pal.article_entry_id
                         WHERE pal.promise_id = ?
                     """, (promise["id"],)).fetchall()
-                    articles = [dict(r) for r in rows]
-                    resolved_ids = {a["entry_id"] for a in articles}
+
+                    if not link_rows:
+                        promise["articles"] = []
+                        continue
+
+                    ids = [r["entry_id"] for r in link_rows]
+                    placeholders = ",".join("?" for _ in ids)
+
+                    # papers.entries has PK (id, topic), so an entry may
+                    # appear under multiple topics; setdefault keeps one.
+                    resolved: Dict[str, tuple] = {}
+                    for r in conn.execute(
+                        f"SELECT id, title, link FROM papers.entries "
+                        f"WHERE id IN ({placeholders})",
+                        ids,
+                    ).fetchall():
+                        resolved.setdefault(r["id"], (r["title"], r["link"]))
 
                     if history_db_path:
-                        if resolved_ids:
-                            placeholders = ",".join("?" for _ in resolved_ids)
-                            hist_rows = conn.execute(f"""
-                                SELECT DISTINCT h.title, h.link, pal.relevance_score,
-                                       pal.article_entry_id AS entry_id,
-                                       lc.verdict, lc.confidence, lc.evidence_quote
-                                FROM promise_article_links pal
-                                JOIN history.matched_entries h
-                                    ON pal.article_entry_id = h.entry_id
-                                LEFT JOIN llm_classifications lc
-                                  ON lc.promise_id = pal.promise_id
-                                 AND lc.article_entry_id = pal.article_entry_id
-                                WHERE pal.promise_id = ?
-                                  AND pal.article_entry_id NOT IN ({placeholders})
-                            """, (promise["id"], *resolved_ids)).fetchall()
-                        else:
-                            hist_rows = conn.execute("""
-                                SELECT DISTINCT h.title, h.link, pal.relevance_score,
-                                       pal.article_entry_id AS entry_id,
-                                       lc.verdict, lc.confidence, lc.evidence_quote
-                                FROM promise_article_links pal
-                                JOIN history.matched_entries h
-                                    ON pal.article_entry_id = h.entry_id
-                                LEFT JOIN llm_classifications lc
-                                  ON lc.promise_id = pal.promise_id
-                                 AND lc.article_entry_id = pal.article_entry_id
-                                WHERE pal.promise_id = ?
-                            """, (promise["id"],)).fetchall()
-                        articles.extend(dict(r) for r in hist_rows)
+                        missing = [eid for eid in ids if eid not in resolved]
+                        if missing:
+                            ph = ",".join("?" for _ in missing)
+                            for r in conn.execute(
+                                f"SELECT entry_id, title, link "
+                                f"FROM history.matched_entries "
+                                f"WHERE entry_id IN ({ph})",
+                                missing,
+                            ).fetchall():
+                                resolved[r["entry_id"]] = (r["title"], r["link"])
+
+                    if all_feeds_db_path:
+                        missing = [eid for eid in ids if eid not in resolved]
+                        if missing:
+                            ph = ",".join("?" for _ in missing)
+                            for r in conn.execute(
+                                f"SELECT entry_id, title, link "
+                                f"FROM feeds.feed_entries "
+                                f"WHERE entry_id IN ({ph})",
+                                missing,
+                            ).fetchall():
+                                resolved[r["entry_id"]] = (r["title"], r["link"])
+
+                    articles: List[Dict[str, Any]] = []
+                    for r in link_rows:
+                        eid = r["entry_id"]
+                        title_link = resolved.get(eid)
+                        if title_link is None:
+                            continue
+                        title, link = title_link
+                        articles.append({
+                            "title": title,
+                            "link": link,
+                            "relevance_score": r["relevance_score"],
+                            "entry_id": eid,
+                            "verdict": r["verdict"],
+                            "confidence": r["confidence"],
+                            "evidence_quote": r["evidence_quote"],
+                        })
 
                     sticky_eid = best_map.get(promise["id"])
 
@@ -669,7 +696,6 @@ class PromiseStore:
                             or a.get("entry_id") == sticky_eid
                         ]
 
-                    # Sort: LLM confidence first (None treated as -1), then score
                     articles.sort(
                         key=lambda a: (
                             a.get("confidence") if a.get("confidence") is not None else -1.0,
@@ -692,6 +718,8 @@ class PromiseStore:
 
                     promise["articles"] = articles
             finally:
+                if all_feeds_db_path:
+                    conn.execute("DETACH feeds")
                 if history_db_path:
                     conn.execute("DETACH history")
                 conn.execute("DETACH papers")
