@@ -1,0 +1,34 @@
+# Promises mapped to the "kulpolitika" topic — foreign policy.
+
+promises:
+  - id: KUL-001
+    text: "Brüsszelből hazahozzuk a befagyasztott uniós ezermilliárdokat."
+    text_en: "Bring home frozen EU billions."
+    source: "Tisza program 2026"
+    category: kulpolitika
+    filter_pattern: "(uniós.?forrás.?befagyaszt|EU.?pénz.?visszaszerz|Brüsszel.?pénz|EU.?alap.?felold)"
+    ranking_query: "uniós forrás befagyasztott EU pénz Brüsszel visszaszerzés feloldás"
+
+  - id: KUL-002
+    text: "Megállítjuk az ICC-ből való kilépést."
+    text_en: "Stop ICC withdrawal process."
+    source: "Tisza program 2026"
+    category: kulpolitika
+    filter_pattern: "(ICC|Nemzetközi.?Büntetőbíróság|Hágai.?bíróság|ICC.?kilépés)"
+    ranking_query: "ICC Nemzetközi Büntetőbíróság kilépés megállítás Hága"
+
+  - id: KUL-003
+    text: "Nem támogatjuk Ukrajna gyorsított EU-felvételét; népszavazást tartunk róla."
+    text_en: "No fast-track Ukraine EU accession; binding referendum."
+    source: "Tisza program 2026"
+    category: kulpolitika
+    filter_pattern: "(Ukrajna.?EU.?felvétel|Ukrajna.?csatlakoz|ukrán.?EU.?tagság|népszavazás.?Ukrajna)"
+    ranking_query: "Ukrajna EU felvétel csatlakozás népszavazás gyorsított tagság"
+
+  - id: KUL-004
+    text: "Stratégiai partnerséget építünk az USA-val."
+    text_en: "Build strategic partnership with the USA."
+    source: "Tisza program 2026"
+    category: kulpolitika
+    filter_pattern: "(USA.?partnerség|Amerika.?kapcsolat|magyar.?amerikai|transzatlanti|Washington)"
+    ranking_query: "USA stratégiai partnerség amerikai kapcsolat transzatlanti Washington"

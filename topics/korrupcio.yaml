@@ -1,0 +1,31 @@
+name: Korrupció
+description: Korrupcióellenes intézkedések, átláthatóság, közbeszerzés, vagyonnyilatkozat
+feeds:
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- hirado
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
+filter:
+  pattern: (korrupci|atlathat|kozbeszerz|vagyon(nyilat|bevall)|olasz|lobbiz|eu.?penz|uniós.?forras|visszaeles|sikkaszt|csalas|veszteget|nepotizmus|integritás|elszámoltat|közpénz).*
+  fields:
+  - title
+  - summary
+ranking:
+  query: 'korrupció ellenes átláthatóság közbeszerzés vagyonnyilatkozat közpénz elszámoltathatóság
+    EU pénzek uniós források
+
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
+
+output:
+  archive: true

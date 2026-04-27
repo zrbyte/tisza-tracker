@@ -1,0 +1,187 @@
+# Promises mapped to the "gazdasag" topic — economy, tax, budget, agriculture,
+# rural development.
+
+promises:
+  # --- GAZDASÁG (economy) ---
+  - id: GAZ-001
+    text: "Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat."
+    text_en: "Unfreeze and effectively use currently frozen EU funds."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(uniós?.?forrás|EU.?pénz|befagyaszt|kohéziós|uniós.?alap)"
+    ranking_query: "uniós források befagyasztott EU pénzek kohéziós alap feloldás felhasználás"
+
+  - id: GAZ-002
+    text: "Megfelezzük a vállalkozások adminisztrációs terheit."
+    text_en: "Halve administrative burden on businesses."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(adminisztrációs.?teher|vállalkozás.?bürokrácia|üzleti.?környezet|egyszerűsít.?vállalkoz)"
+    ranking_query: "vállalkozás adminisztrációs teher bürokrácia csökkentés egyszerűsítés"
+
+  - id: GAZ-003
+    text: "Négy év alatt legalább másfélszeresére emeljük az innovációra fordított forrásokat."
+    text_en: "Increase innovation funding by at least 1.5x within four years."
+    source: "Tisza program 2026"
+    category: gazdasag
+    deadline: "2030"
+    filter_pattern: "(innováció|K\\+F|kutatás.?fejleszt|tudomány.?finanszír|innovációs.?forrás)"
+    ranking_query: "innováció kutatás fejlesztés K+F finanszírozás tudományos forrás növelés"
+
+  - id: GAZ-004
+    text: "2026. június 1-től felfüggesztjük az Európán kívüli vendégmunkások behozatalát."
+    text_en: "Suspend import of non-European guest workers from 1 June 2026."
+    source: "Tisza program 2026"
+    category: gazdasag
+    deadline: "2026-06-01"
+    filter_pattern: "(vendégmunkás|külföldi.?munkaerő|munkaerő.?import|Európán.?kívüli.?munkás)"
+    ranking_query: "vendégmunkás külföldi munkaerő import felfüggesztés Európán kívüli"
+
+  - id: GAZ-005
+    text: "A K+F kiadást 2030-ra a GDP 2%-ára emeljük, majd közelítjük a 3%-ot."
+    text_en: "Reach 2% of GDP in R&D spending by 2030, then approach 3%."
+    source: "Tisza program 2026"
+    category: gazdasag
+    deadline: "2030"
+    filter_pattern: "(K\\+F.?kiadás|kutatás.?fejlesztés.?GDP|R&D|tudományos.?kiadás)"
+    ranking_query: "kutatás fejlesztés K+F GDP kiadás ráfordítás tudományos"
+
+  - id: GAZ-006
+    text: "Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert."
+    text_en: "Strengthen competition authority independence and reform public procurement."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(versenyfelügyel|GVH|közbeszerzés|versenyhatóság|versenyhivatal)"
+    ranking_query: "versenyfelügyelet GVH függetlenség közbeszerzés reform átláthatóság"
+
+  - id: GAZ-007
+    text: "A diplomások arányát legalább az EU átlagára (43%) emeljük."
+    text_en: "Raise university graduate share to at least EU average (43%)."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(diplomás.?arány|felsőfokú.?végzettség|egyetemi.?arány|diplomás.?munkaerő)"
+    ranking_query: "diplomás arány felsőfokú végzettség egyetem munkaerő EU átlag"
+
+  # --- ADÓPOLITIKA (tax policy) ---
+  - id: ADO-001
+    text: "15%-ról 9%-ra csökkentjük a minimálbér adóját."
+    text_en: "Cut PIT on minimum wage from 15% to 9%."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(minimálbér.?adó|szja.?csökken|személyi.?jövedelemadó.?minimálbér|adócsökkentés.?bér)"
+    ranking_query: "minimálbér adó szja csökkentés személyi jövedelemadó 9 százalék"
+
+  - id: ADO-002
+    text: "A mediánbér alatti 2,2 millió dolgozó adóját is csökkentjük."
+    text_en: "Reduce PIT for 2.2 million workers earning below median wage."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(mediánbér|alacsony.?jövedelem.?adó|adócsökkentés.?dolgozó|szja.?kedvezmény)"
+    ranking_query: "mediánbér adócsökkentés alacsony jövedelem szja dolgozó"
+
+  - id: ADO-003
+    text: "1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be."
+    text_en: "Introduce 1%/year wealth tax on net assets above HUF 1 billion."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(vagyonadó|vagyon.?adó|milliárdos.?adó|nagy.?vagyon.?adóztat)"
+    ranking_query: "vagyonadó milliárd forint adó bevezetés gazdagok adóztatás"
+
+  - id: ADO-004
+    text: "A vényköteles gyógyszerek áfáját 0%-ra csökkentjük."
+    text_en: "Reduce VAT on prescription medicines to 0%."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(gyógyszer.?áfa|vényköteles.?áfa|gyógyszer.?adó|áfa.?gyógyszer)"
+    ranking_query: "gyógyszer áfa vényköteles csökkentés nulla százalék"
+
+  - id: ADO-005
+    text: "A tűzifa és az egészséges élelmiszerek áfáját 5%-ra mérsékeljük."
+    text_en: "Reduce VAT on firewood and healthy foods to 5%."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(tűzifa.?áfa|élelmiszer.?áfa|áfa.?csökkent.?élelmiszer|egészséges.?élelmiszer.?adó)"
+    ranking_query: "tűzifa élelmiszer áfa csökkentés 5 százalék egészséges"
+
+  - id: ADO-006
+    text: "Széles körben újra elérhetővé tesszük a katát."
+    text_en: "Restore broad access to KATA (simplified small business tax)."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(kata|kisadózó|KATA.?visszaáll|egyszerűsített.?adózás)"
+    ranking_query: "kata kisadózó vállalkozó visszaállítás egyszerűsített adózás KATA"
+
+  - id: ADO-007
+    text: "Semmilyen munkabért terhelő adót nem emelünk."
+    text_en: "No wage tax increases."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(munkabér.?adó|béradó|bérteher|járulék.?emel|szociális.?hozzájárul.?emel)"
+    ranking_query: "munkabér adó járulék emelés bérteher szociális hozzájárulás"
+
+  # --- KÖLTSÉGVETÉS (budget, fiscal) ---
+  - id: KOL-001
+    text: "2030-ra teljesítjük a maastrichti kritériumokat."
+    text_en: "Meet Maastricht criteria by 2030."
+    source: "Tisza program 2026"
+    category: gazdasag
+    deadline: "2030"
+    filter_pattern: "(maastricht|költségvetési.?hiány.?3|államadósság.?csökken|hiánycél)"
+    ranking_query: "maastrichti kritérium költségvetési hiány 3 százalék államadósság csökkentés"
+
+  - id: KOL-002
+    text: "Előkészítjük az euró bevezetését, belátható céldátummal."
+    text_en: "Prepare euro adoption with a realistic target date."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(euró.?bevezet|eurózóna|euró.?csatlakoz|euró.?áttérés|közös.?valuta)"
+    ranking_query: "euró bevezetés eurózóna csatlakozás közös valuta áttérés"
+
+  - id: KOL-003
+    text: "Átvilágítjuk a teljes költségvetést, megismerjük a titkosított szerződéseket."
+    text_en: "Full budget audit, declassify secret contracts."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(költségvetés.?átvilágít|titkosított.?szerződés|költségvetés.?audit|titkos.?állami)"
+    ranking_query: "költségvetés átvilágítás titkosított szerződés audit nyilvánosság"
+
+  - id: KOL-004
+    text: "Újratárgyaljuk/felmondjuk az országnak kedvezőtlen, titkosított szerződéseket."
+    text_en: "Renegotiate or terminate unfavourable classified state contracts."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(titkosított.?szerződés|kedvezőtlen.?szerződés|koncessziós.?szerződés.?felmond|államháztartás.?szerződés)"
+    ranking_query: "titkosított szerződés újratárgyalás felmondás kedvezőtlen koncesszió"
+
+  # --- AGRÁRPOLITIKA (agriculture) ---
+  - id: AGR-001
+    text: "5%-ra csökkentjük az egészséges élelmiszerek áfáját."
+    text_en: "Reduce VAT on healthy foods to 5%."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(élelmiszer.?áfa|egészséges.?étel.?adó|agrár.?áfa)"
+    ranking_query: "élelmiszer áfa csökkentés egészséges étel agrár"
+
+  - id: AGR-002
+    text: "Visszaállítjuk az élelmiszer-biztonsági hatóságok függetlenségét."
+    text_en: "Restore food safety authority independence."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(élelmiszer.?biztonsági|NÉBIH|élelmiszer.?hatóság|élelmiszer.?ellenőrz)"
+    ranking_query: "élelmiszer biztonság hatóság NÉBIH függetlenség ellenőrzés"
+
+  - id: AGR-003
+    text: "Nem engedjük csökkenteni a magyar gazdáknak járó EU-támogatásokat."
+    text_en: "Prevent CAP subsidy cuts for Hungarian farmers in 2028+ budget."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(KAP|agrártámogatás|EU.?támogatás.?gazda|közös.?agrárpolitika|gazdák.?támogatás)"
+    ranking_query: "közös agrárpolitika KAP EU támogatás gazda mezőgazdaság"
+
+  - id: AGR-004
+    text: "Felülvizsgáljuk a Földtörvényt, előnyben részesítjük a ténylegesen gazdálkodó fiatalokat."
+    text_en: "Review Land Law, prioritize young actual farmers."
+    source: "Tisza program 2026"
+    category: gazdasag
+    filter_pattern: "(Földtörvény|földtulajdon|fiatal.?gazda|földbérlet|termőföld)"
+    ranking_query: "Földtörvény felülvizsgálat fiatal gazda földtulajdon termőföld"

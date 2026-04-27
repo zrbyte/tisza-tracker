@@ -1,0 +1,31 @@
+name: Igazságszolgáltatás
+description: Jogállamiság, bíróságok, ügyészség, alkotmánybíróság, jogalkotás
+feeds:
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- hirado
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
+filter:
+  pattern: (birosag|ugyeszseg|jogallam|alkotmany|torveny|igazsag|buntet|itelet|nyomoz|rendorseg|ügyész|ítélőtábla|kúria|alapjog|törvényjavas).*
+  fields:
+  - title
+  - summary
+ranking:
+  query: 'jogállamiság bírósági reform ügyészség függetlenség alkotmánybíróság törvényhozás
+    jogalkotás igazságszolgáltatás
+
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
+
+output:
+  archive: true

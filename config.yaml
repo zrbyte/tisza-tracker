@@ -1,0 +1,130 @@
+# Tisza Tracker — Hungarian government promise tracker
+# Main configuration file
+#
+# Feed status verified 2026-04-13:
+#   Working (13): telex, 444, hvg, nepszava, index, 24hu, portfolio, vg,
+#                 magyarnemzet, mandiner, 168hu, hungarytoday, budapesttimes
+#   Flaky:        hirado (HTTP 500 — server issue, keep trying)
+#   Disabled:     origo (404), rtl (404), g7 (redirects to telex), kormany (404)
+
+database:
+  path: "papers.db"
+  all_feeds_path: "all_feed_entries.db"
+  history_path: "matched_entries_history.db"
+  promises_path: "promises.db"
+  article_text_path: "article_text.db"
+
+feeds:
+  # --- Independent / opposition-leaning ---
+  telex:
+    name: "Telex"
+    url: "https://telex.hu/rss"
+    enabled: true
+  "444":
+    name: "444.hu"
+    url: "https://444.hu/feed"
+    enabled: true
+  hvg:
+    name: "HVG"
+    url: "https://hvg.hu/rss"
+    enabled: true
+  nepszava:
+    name: "Népszava"
+    url: "https://nepszava.hu/feed"
+    enabled: true
+
+  # --- Large portals / mixed ---
+  index:
+    name: "Index"
+    url: "https://index.hu/24ora/rss"
+    enabled: true
+  24hu:
+    name: "24.hu"
+    url: "https://24.hu/feed/"
+    enabled: true
+  hirado:
+    name: "Híradó.hu"
+    url: "https://hirado.hu/feed/"
+    enabled: true  # HTTP 500 as of 2026-04-13 — server issue, keep trying
+  origo:
+    name: "Origo"
+    url: "https://www.origo.hu/contentpartner/rss/hircentrum/origo.xml"
+    enabled: false  # 404 as of 2026-04-13 — RSS discontinued?
+  rtl:
+    name: "RTL.hu"
+    url: "https://rtl.hu/rss"
+    enabled: false  # 404 as of 2026-04-13 — RSS discontinued?
+
+  # --- Business / economics ---
+  portfolio:
+    name: "Portfolio"
+    url: "https://www.portfolio.hu/rss/all.xml"
+    enabled: true
+  vg:
+    name: "Világgazdaság"
+    url: "https://vg.hu/feed"
+    enabled: true
+  # g7 removed — redirects to telex.hu/rss (G7 merged into Telex)
+
+  # --- Government-aligned / right-leaning ---
+  magyarnemzet:
+    name: "Magyar Nemzet"
+    url: "https://magyarnemzet.hu/feed/"
+    enabled: true
+  mandiner:
+    name: "Mandiner"
+    url: "https://mandiner.hu/rss"
+    enabled: true
+  168hu:
+    name: "168.hu"
+    url: "https://168.hu/rss"
+    enabled: true
+
+  # --- English-language ---
+  hungarytoday:
+    name: "Hungary Today"
+    url: "https://hungarytoday.hu/feed"
+    enabled: true
+  budapesttimes:
+    name: "Budapest Times"
+    url: "https://budapesttimes.hu/feed"
+    enabled: true
+
+  # --- Government official ---
+  kormany:
+    name: "Kormány.hu"
+    url: "https://kormany.hu/api/rss"
+    enabled: false  # 404 as of 2026-04-13 — no RSS endpoint found
+
+defaults:
+  time_window_days: 30
+  top_n_per_topic: 20
+  rank_threshold: 0.25
+  ranking_negative_penalty: 0.20
+  fetch_threshold: 0.40
+
+promises:
+  yaml_dir: "promises"
+
+# LLM classification: a cheap model reads each matched article and assigns a
+# verdict (kept / in_progress / broken / irrelevant).  Runs after `tt match`,
+# before `tt report`.  Top N verdicts per promise feed the tracker table.
+llm_classification:
+  enabled: true
+  model: "gpt-5-nano"                # overrides OPENAI_MODEL env
+  base_url: null                     # null → use OPENAI_BASE_URL env or OpenAI default
+  api_key_env: "OPENAI_API_KEY"
+  api_key_file: null                 # alternative: read from secrets dir
+  max_candidates_per_promise: 20     # cap links per promise sent to the LLM
+  top_n_in_report: 3                 # how many articles appear per promise row
+  prompt_version: "v1"               # bump to invalidate cached classifications
+  request_timeout: 30
+  max_retries: 2
+  pass1_enabled: true                # cheap relevance gate (title + summary)
+  pass2_enabled: true                # full verdict (uses article full_text)
+  rollup:
+    enabled: true
+    broken_min_confidence: 0.7       # any broken vote above this → status=broken
+    kept_min_votes: 2                # ≥N kept votes → status=kept
+    kept_min_confidence: 0.6
+    in_progress_min_confidence: 0.5

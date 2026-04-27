@@ -1,0 +1,185 @@
+# Promises mapped to the "szocialis" topic — pensions, child protection,
+# family policy, women's/Roma equality.
+
+promises:
+  # --- NYUGDÍJ (pensions) ---
+  - id: NYUG-001
+    text: "Megtartjuk a 13. és 14. havi nyugdíjat."
+    text_en: "Maintain 13th and 14th monthly pension."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(13\\.?.?havi.?nyugdíj|14\\.?.?havi.?nyugdíj|tizenharmadik.?havi|prémium.?nyugdíj)"
+    ranking_query: "13 havi 14 havi nyugdíj megtartás tizenharmadik prémium"
+
+  - id: NYUG-002
+    text: "Nyugdíjas SZÉP-kártya: évi 200 ezer Ft ill. 100 ezer Ft."
+    text_en: "Retiree SZEP card: 200k or 100k HUF/year based on pension level."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(nyugdíjas.?SZÉP|SZÉP.?kártya.?nyugdíj|nyugdíjas.?üdülés|nyugdíjas.?juttatás)"
+    ranking_query: "nyugdíjas SZÉP kártya juttatás üdülési támogatás"
+
+  - id: NYUG-003
+    text: "Garantált minimum öregségi és rokkantsági nyugdíj: havi 120 ezer Ft."
+    text_en: "Guarantee minimum old-age/disability pension of 120k HUF/month."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(minimum.?nyugdíj|nyugdíj.?minimum|rokkantsági.?nyugdíj.?minimum|garantált.?nyugdíj)"
+    ranking_query: "minimum nyugdíj garantált öregségi rokkantsági 120 ezer"
+
+  - id: NYUG-004
+    text: "Duplájára emeljük az időskorúak járadékát."
+    text_en: "Double the old-age benefit."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(időskorúak.?járadék|idős.?járadék|öregségi.?járadék.?emel)"
+    ranking_query: "időskorúak járadék emelés duplázás öregségi"
+
+  - id: NYUG-005
+    text: "50%-kal megemeljük az otthonápolási díjakat."
+    text_en: "Raise home nursing fees by 50%."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(otthonápolás|ápolási.?díj|otthoni.?gondozás.?díj|házi.?ápolás)"
+    ranking_query: "otthonápolás ápolási díj emelés otthoni gondozás házi ápolás"
+
+  - id: NYUG-006
+    text: "Bevezetjük a Férfiak 40 programot (40 év szolgálat után korai nyugdíj)."
+    text_en: "Introduce 'Men's 40' early retirement after 40 years of service."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(Férfiak.?40|korai.?nyugdíj|40.?év.?szolgálat|előrehozott.?nyugdíj.?férfi)"
+    ranking_query: "Férfiak 40 korai nyugdíj 40 év szolgálat előrehozott"
+
+  # --- GYERMEKVÉDELEM (child protection) ---
+  - id: GYVD-001
+    text: "Feltárjuk az elmúlt évtizedek gyermekvédelmi bűncselekményeit."
+    text_en: "Investigate past decades' child protection crimes."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(gyermekvédelmi.?bűn|gyermekbántalmazás|gyermekvédelem.?vizsgál|gyermekotthon.?botrány)"
+    ranking_query: "gyermekvédelem bűncselekmény vizsgálat gyermekbántalmazás gyermekotthon"
+
+  - id: GYVD-002
+    text: "20%-kal növeljük a gyermekvédelmi ágazat működési költségvetését."
+    text_en: "Increase child protection operating budget by 20%."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(gyermekvédelem.?költségvetés|gyermekvédelem.?finanszíroz|gyermekvédelem.?forrás)"
+    ranking_query: "gyermekvédelem költségvetés finanszírozás emelés forrás"
+
+  - id: GYVD-003
+    text: "25%-kal azonnal megemeljük a gyermekvédelmi dolgozók bérét."
+    text_en: "Immediately raise child protection worker salaries by 25%."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(gyermekvédelmi.?dolgozó.?bér|gyermekvédelem.?béremelés|gyermekjóléti.?bér)"
+    ranking_query: "gyermekvédelmi dolgozó bér emelés gyermekjóléti"
+
+  - id: GYVD-004
+    text: "2030-ra felújítjuk a gyermekotthonokat."
+    text_en: "Renovate children's homes by 2030."
+    source: "Tisza program 2026"
+    category: szocialis
+    deadline: "2030"
+    filter_pattern: "(gyermekotthon.?felújít|nevelőotthon|gyermekvédelmi.?intézmény.?felújít)"
+    ranking_query: "gyermekotthon felújítás nevelőotthon gyermekvédelmi intézmény"
+
+  - id: GYVD-005
+    text: "Eltöröljük az egyedülállók örökbefogadásának korlátozását."
+    text_en: "Abolish restriction on adoption by single persons."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(egyedülálló.?örökbefogad|örökbefogadás.?korlátozás|örökbefogadás.?egyedülálló)"
+    ranking_query: "egyedülálló örökbefogadás korlátozás eltörlés"
+
+  # --- CSALÁD, SZOCIÁLPOLITIKA (family, social policy) ---
+  - id: CSAL-001
+    text: "Duplájára emeljük a családi pótlékot."
+    text_en: "Double the family allowance."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(családi.?pótlék|családi.?pótlék.?emel|családi.?pótlék.?dupláz)"
+    ranking_query: "családi pótlék emelés duplázás gyermek után járó"
+
+  - id: CSAL-002
+    text: "Duplájára emeljük a GYES-t és a GYET-et."
+    text_en: "Double GYES and GYET childcare benefits."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(GYES|GYET|gyermekgondozási.?(segély|ellátás|díj))"
+    ranking_query: "GYES GYET gyermekgondozási segély ellátás emelés duplázás"
+
+  - id: CSAL-003
+    text: "Duplájára emeljük az anyasági támogatást."
+    text_en: "Double maternity support."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(anyasági.?támogatás|szülési.?támogatás|anyasági.?ellátás)"
+    ranking_query: "anyasági támogatás szülési ellátás emelés duplázás"
+
+  - id: CSAL-004
+    text: "Az apaszabadság időtartamát 3 hétre emeljük, az állam fizeti."
+    text_en: "Extend paternity leave to 3 weeks, state-funded."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(apaszabadság|apatárs.?szabadság|apai.?szabadság|3.?hét.?apa)"
+    ranking_query: "apaszabadság apai szabadság 3 hét emelés állami"
+
+  - id: CSAL-005
+    text: "25%-os általános béremelés a szociális szektorban."
+    text_en: "25% general pay raise in social sector."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(szociális.?szektor.?bér|szociális.?dolgozó.?bér|szociális.?béremelés|gondozó.?bér)"
+    ranking_query: "szociális szektor bér emelés dolgozó gondozó fizetés"
+
+  - id: CSAL-006
+    text: "700 ezer nehéz sorsú gyermeknek évi 100 ezer Ft iskolakezdési támogatás."
+    text_en: "100k HUF/year school-start support for 700,000 disadvantaged children."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(iskolakezdés.?támogatás|tanévkezdés.?támogatás|hátrányos.?gyermek.?támogatás)"
+    ranking_query: "iskolakezdés tanévkezdés támogatás hátrányos helyzetű gyermek"
+
+  - id: CSAL-007
+    text: "Válás esetén nem kell visszafizetni a CSOK-ot."
+    text_en: "No CSOK repayment in case of divorce."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(CSOK.?visszafizet|CSOK.?válás|családi.?otthonteremtés.?válás)"
+    ranking_query: "CSOK visszafizetés válás családi otthonteremtési kedvezmény"
+
+  # --- NŐI ESÉLYEGYENLŐSÉG ---
+  - id: NOI-001
+    text: "Betartatjuk az egyenlő munkáért egyenlő bér elvét, bértranszparencia-törvényt hozunk."
+    text_en: "Enforce equal pay, introduce pay transparency laws."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(egyenlő.?bér|bértranszparencia|bérkülönbség.?nő|nők.?bér|nemek.?közötti.?bér)"
+    ranking_query: "egyenlő bér bértranszparencia nők bérkülönbség nemek közötti"
+
+  - id: NOI-002
+    text: "Felszámoljuk a menstruációs szegénységet."
+    text_en: "Eliminate menstrual poverty."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(menstruációs.?szegénység|ingyenes.?betét|menstruáció.?iskola|higiéniai.?szegénység)"
+    ranking_query: "menstruációs szegénység ingyenes betét tampon iskola intézmény"
+
+  # --- ROMA ESÉLYEGYENLŐSÉG ---
+  - id: ROMA-001
+    text: "Átalakítjuk a közmunkát, valódi átjárást biztosítunk a munkaerőpiacra."
+    text_en: "Reform public works to provide genuine transition to open labor market."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(közmunka.?átalak|közmunka.?reform|közfoglalkoztat.?reform|munkaerőpiac.?átjárás)"
+    ranking_query: "közmunka közfoglalkoztatás átalakítás reform munkaerőpiac átjárás"
+
+  - id: ROMA-002
+    text: "Megkezdjük a szegregált oktatás felszámolását."
+    text_en: "Begin eliminating segregated education."
+    source: "Tisza program 2026"
+    category: szocialis
+    filter_pattern: "(szegregált.?oktatás|iskola.?szegregáció|roma.?oktatás|felzárkóztat)"
+    ranking_query: "szegregált oktatás szegregáció roma felzárkóztatás iskola"

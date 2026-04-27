@@ -1,0 +1,31 @@
+name: Külpolitika
+description: EU, NATO, orosz-ukrán háború, diplomácia, szankciók, nemzetközi kapcsolatok
+feeds:
+- telex
+- '444'
+- hvg
+- nepszava
+- index
+- 24hu
+- hirado
+- portfolio
+- vg
+- magyarnemzet
+- mandiner
+- 168hu
+- hungarytoday
+- budapesttimes
+filter:
+  pattern: (eu.?(csatlak|tag|penz|forras|bizottsag)|nato|ukrajna|orosz|haboru|szankci|diplomaci|kulpolitik|kulugyminist|brüsszel|europai.?(unio|parlament|tanacs)|veto|jogallamisag.?mechanizmus).*
+  fields:
+  - title
+  - summary
+ranking:
+  query: 'EU kapcsolatok NATO Ukrajna Oroszország szankciók külpolitika Brüsszel európai
+    integráció jogállamisági mechanizmus
+
+    '
+  model: paraphrase-multilingual-MiniLM-L12-v2
+
+output:
+  archive: true
