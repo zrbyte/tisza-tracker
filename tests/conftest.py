@@ -70,6 +70,16 @@ CREATE TABLE matched_entries (
 );
 """
 
+_ALL_FEEDS_SCHEMA = """
+CREATE TABLE feed_entries (
+    entry_id TEXT PRIMARY KEY,
+    feed_name TEXT NOT NULL,
+    title TEXT NOT NULL,
+    link TEXT NOT NULL,
+    summary TEXT
+);
+"""
+
 
 @pytest.fixture
 def papers_db(tmp_data_dir: Path) -> Path:
@@ -111,6 +121,42 @@ def insert_paper_entry():
                 "INSERT INTO entries (id, topic, feed_name, title, link, summary) "
                 "VALUES (?, ?, ?, ?, ?, ?)",
                 (entry_id, topic, feed_name, title, link, summary),
+            )
+            conn.commit()
+        finally:
+            conn.close()
+    return _insert
+
+
+@pytest.fixture
+def all_feeds_db(tmp_data_dir: Path) -> Path:
+    """Empty all_feed_entries.db for testing the last-resort fallback."""
+    path = tmp_data_dir / "all_feed_entries.db"
+    conn = sqlite3.connect(path)
+    conn.executescript(_ALL_FEEDS_SCHEMA)
+    conn.commit()
+    conn.close()
+    return path
+
+
+@pytest.fixture
+def insert_all_feeds_entry():
+    """Return a callable that inserts a row into a given all_feed_entries.db."""
+    def _insert(
+        all_feeds_path: Path,
+        entry_id: str,
+        title: str,
+        link: str = "https://example.com/a",
+        summary: str = "",
+        feed_name: str = "telex",
+    ) -> None:
+        conn = sqlite3.connect(all_feeds_path)
+        try:
+            conn.execute(
+                "INSERT INTO feed_entries "
+                "(entry_id, feed_name, title, link, summary) "
+                "VALUES (?, ?, ?, ?, ?)",
+                (entry_id, feed_name, title, link, summary),
             )
             conn.commit()
         finally:

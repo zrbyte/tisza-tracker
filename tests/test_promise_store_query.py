@@ -150,6 +150,53 @@ def test_history_fallback_when_not_in_papers(
     assert target["articles"][0]["verdict"] == "broken"
 
 
+def test_all_feeds_fallback_when_not_in_papers_or_history(
+    seeded_promises, papers_db, history_db, all_feeds_db, insert_all_feeds_entry,
+):
+    """The dedup archive is the last-resort source for title/link.
+
+    Mirrors the production bug where promise_article_links carried a verdict
+    but the entry had been rotated out of papers.db and never archived to
+    history.db.  Without the all_feed_entries.db fallback the article would
+    silently disappear from the report.
+    """
+    ps = seeded_promises
+    insert_all_feeds_entry(all_feeds_db, "F1", "Feeds Only", "https://f1")
+    ps.link_article("PROM-001", "F1", relevance_score=0.5)
+    ps.upsert_classification(
+        "PROM-001", "F1", verdict="in_progress", confidence=0.7, prompt_version="v1",
+    )
+
+    promises = ps.get_promises_with_articles(
+        str(papers_db),
+        history_db_path=str(history_db),
+        all_feeds_db_path=str(all_feeds_db),
+    )
+    target = next(p for p in promises if p["id"] == "PROM-001")
+    assert len(target["articles"]) == 1
+    assert target["articles"][0]["title"] == "Feeds Only"
+    assert target["articles"][0]["verdict"] == "in_progress"
+
+
+def test_history_takes_precedence_over_all_feeds(
+    seeded_promises, papers_db, history_db, all_feeds_db,
+    insert_history_entry, insert_all_feeds_entry,
+):
+    """history.db has matched, curated metadata; prefer it over the dedup archive."""
+    ps = seeded_promises
+    insert_history_entry(history_db, "E1", "History Title", "https://h")
+    insert_all_feeds_entry(all_feeds_db, "E1", "Feeds Title", "https://f")
+    ps.link_article("PROM-001", "E1", relevance_score=0.5)
+
+    promises = ps.get_promises_with_articles(
+        str(papers_db),
+        history_db_path=str(history_db),
+        all_feeds_db_path=str(all_feeds_db),
+    )
+    target = next(p for p in promises if p["id"] == "PROM-001")
+    assert target["articles"][0]["title"] == "History Title"
+
+
 def test_papers_takes_precedence_over_history(
     seeded_promises, papers_db, history_db,
     insert_paper_entry, insert_history_entry,

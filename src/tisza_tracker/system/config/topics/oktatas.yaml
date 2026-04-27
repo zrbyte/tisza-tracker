@@ -28,3 +28,6 @@ ranking:
   model: paraphrase-multilingual-MiniLM-L12-v2
   negative_queries:
   - sport
+
+output:
+  archive: true

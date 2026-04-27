@@ -29,3 +29,6 @@ ranking:
   negative_queries:
   - sport
   - bulvár
+
+output:
+  archive: true
