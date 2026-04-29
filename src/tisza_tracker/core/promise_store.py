@@ -461,10 +461,10 @@ class PromiseStore:
         """
         with self._connection() as conn:
             rows = conn.execute("""
-                SELECT promise_id, verdict, confidence
+                SELECT promise_id, verdict, confidence, classified_at
                 FROM llm_classifications
                 WHERE verdict IS NOT NULL AND verdict != 'irrelevant'
-                ORDER BY promise_id
+                ORDER BY promise_id, classified_at DESC
             """).fetchall()
 
         groups: List[tuple[str, List[Dict[str, Any]]]] = []
@@ -477,7 +477,11 @@ class PromiseStore:
                     groups.append((current_pid, bucket))
                 current_pid = pid
                 bucket = []
-            bucket.append({"verdict": r["verdict"], "confidence": r["confidence"]})
+            bucket.append({
+                "verdict": r["verdict"],
+                "confidence": r["confidence"],
+                "classified_at": r["classified_at"],
+            })
         if current_pid is not None and bucket:
             groups.append((current_pid, bucket))
         return groups

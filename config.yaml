@@ -128,3 +128,6 @@ llm_classification:
     kept_min_votes: 2                # ≥N kept votes → status=kept
     kept_min_confidence: 0.6
     in_progress_min_confidence: 0.5
+    recency_window: 5                # only the N most-recent classifications
+                                     # are rolled up, so a promise can recover
+                                     # from "broken" once older verdicts age out

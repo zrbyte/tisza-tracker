@@ -68,6 +68,25 @@ def _load_llm_config(config: Dict[str, Any]) -> Dict[str, Any]:
     return cfg
 
 
+def _recent_window(
+    rollup_cfg: Dict[str, Any],
+    classifications: list[Dict[str, Any]],
+) -> list[Dict[str, Any]]:
+    """Return the ``recency_window`` most recent classifications.
+
+    Sorted by ``classified_at`` descending. If the window is 0 or negative, or
+    no row has a ``classified_at`` field, the input is returned unchanged.
+    """
+    recency_window = int(rollup_cfg.get("recency_window", 5))
+    if recency_window <= 0 or not any("classified_at" in r for r in classifications):
+        return list(classifications)
+    return sorted(
+        classifications,
+        key=lambda r: r.get("classified_at") or "",
+        reverse=True,
+    )[:recency_window]
+
+
 def _rollup_status(
     rollup_cfg: Dict[str, Any],
     classifications: list[Dict[str, Any]],
@@ -75,16 +94,20 @@ def _rollup_status(
     """Decide the new promise status from aggregated verdicts.
 
     *classifications* is the list of per-link classification rows for one
-    promise (``verdict`` + ``confidence``).  Returns None if no change is
-    implied.
+    promise (``verdict`` + ``confidence`` + optional ``classified_at``).
+    Only the ``recency_window`` most-recent rows are considered, so a promise
+    can recover from ``broken`` once newer ``kept`` evidence ages older
+    broken verdicts out of the window.  Returns None if no change is implied.
     """
     broken_min = float(rollup_cfg.get("broken_min_confidence", 0.7))
     kept_min_votes = int(rollup_cfg.get("kept_min_votes", 2))
     kept_min_conf = float(rollup_cfg.get("kept_min_confidence", 0.6))
     inprog_min_conf = float(rollup_cfg.get("in_progress_min_confidence", 0.5))
 
+    recent = _recent_window(rollup_cfg, classifications)
+
     by_verdict: Dict[str, list[float]] = {"kept": [], "broken": [], "in_progress": []}
-    for row in classifications:
+    for row in recent:
         v = row.get("verdict")
         if v in by_verdict:
             by_verdict[v].append(float(row.get("confidence") or 0.0))
@@ -235,7 +258,9 @@ def _maybe_rollup(ps: PromiseStore, llm_cfg: Dict[str, Any], skip: bool) -> None
         if not current or current["current_status"] == new_status:
             continue
 
-        counts = Counter(r["verdict"] for r in classifications)
+        counts = Counter(
+            r["verdict"] for r in _recent_window(rollup_cfg, classifications)
+        )
         try:
             ps.update_status(pid, new_status, evidence=_format_evidence(counts))
             updated += 1

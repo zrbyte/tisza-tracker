@@ -98,6 +98,58 @@ def test_rollup_empty_input_returns_none():
 
 
 # ---------------------------------------------------------------------------
+# Recency window — promises must be able to recover from "broken"
+# ---------------------------------------------------------------------------
+
+
+def test_rollup_old_broken_ages_out_of_window():
+    """An old broken verdict outside the recency window must not stick."""
+    classifications = [
+        {"verdict": "broken", "confidence": 0.9, "classified_at": "2024-01-01 00:00:00"},
+        {"verdict": "kept", "confidence": 0.9, "classified_at": "2026-04-01 00:00:00"},
+        {"verdict": "kept", "confidence": 0.9, "classified_at": "2026-04-15 00:00:00"},
+        {"verdict": "kept", "confidence": 0.9, "classified_at": "2026-04-20 00:00:00"},
+        {"verdict": "kept", "confidence": 0.9, "classified_at": "2026-04-25 00:00:00"},
+        {"verdict": "kept", "confidence": 0.9, "classified_at": "2026-04-28 00:00:00"},
+    ]
+    cfg = {**DEFAULT_CFG, "recency_window": 5}
+    assert _rollup_status(cfg, classifications) == "kept"
+
+
+def test_rollup_recent_broken_still_wins():
+    """A broken verdict inside the window keeps status=broken."""
+    classifications = [
+        {"verdict": "kept", "confidence": 0.9, "classified_at": "2026-04-01 00:00:00"},
+        {"verdict": "kept", "confidence": 0.9, "classified_at": "2026-04-10 00:00:00"},
+        {"verdict": "broken", "confidence": 0.9, "classified_at": "2026-04-28 00:00:00"},
+    ]
+    cfg = {**DEFAULT_CFG, "recency_window": 5}
+    assert _rollup_status(cfg, classifications) == "broken"
+
+
+def test_rollup_window_zero_disables_truncation():
+    """recency_window=0 means consider every classification (legacy behavior)."""
+    classifications = [
+        {"verdict": "broken", "confidence": 0.9, "classified_at": "2024-01-01 00:00:00"},
+        {"verdict": "kept", "confidence": 0.9, "classified_at": "2026-04-25 00:00:00"},
+        {"verdict": "kept", "confidence": 0.9, "classified_at": "2026-04-28 00:00:00"},
+    ]
+    cfg = {**DEFAULT_CFG, "recency_window": 0}
+    assert _rollup_status(cfg, classifications) == "broken"
+
+
+def test_rollup_without_classified_at_falls_back_to_full_list():
+    """Rows without classified_at (legacy/test data) skip recency truncation."""
+    classifications = [
+        {"verdict": "broken", "confidence": 0.9},
+        {"verdict": "kept", "confidence": 0.9},
+        {"verdict": "kept", "confidence": 0.9},
+    ]
+    cfg = {**DEFAULT_CFG, "recency_window": 1}
+    assert _rollup_status(cfg, classifications) == "broken"
+
+
+# ---------------------------------------------------------------------------
 # _format_evidence
 # ---------------------------------------------------------------------------
 
@@ -145,6 +197,44 @@ def test_rollup_full_pipeline(promise_store):
     assert promise_store.get_promise("P-KEPT")["current_status"] == "kept"
     assert promise_store.get_promise("P-BROKEN")["current_status"] == "broken"
     assert promise_store.get_promise("P-NO-CHANGE")["current_status"] == "made"
+
+
+def test_rollup_recovers_from_broken_after_recent_kept(promise_store):
+    """End-to-end: a previously broken promise flips back to kept once the
+    older broken classification falls out of the recency window."""
+    import sqlite3
+
+    from tisza_tracker.commands.classify import _maybe_rollup
+
+    promise_store.add_promise("P", "recoverable", "gazdasag")
+
+    # Old broken classification — manually backdate via direct SQL.
+    promise_store.upsert_classification("P", "E_OLD", verdict="broken", confidence=0.9, prompt_version="v1")
+    with sqlite3.connect(promise_store.db_path) as conn:
+        conn.execute(
+            "UPDATE llm_classifications SET classified_at = ? WHERE article_entry_id = ?",
+            ("2024-01-01 00:00:00", "E_OLD"),
+        )
+        conn.commit()
+
+    # First rollup: status should become 'broken'
+    llm_cfg = {"rollup": {"enabled": True, **DEFAULT_CFG, "recency_window": 5}}
+    _maybe_rollup(promise_store, llm_cfg, skip=False)
+    assert promise_store.get_promise("P")["current_status"] == "broken"
+
+    # Five recent kept classifications arrive; the old broken should age out.
+    for i in range(5):
+        promise_store.upsert_classification(
+            "P", f"E_NEW_{i}", verdict="kept", confidence=0.9, prompt_version="v1"
+        )
+
+    _maybe_rollup(promise_store, llm_cfg, skip=False)
+    assert promise_store.get_promise("P")["current_status"] == "kept"
+
+    # The audit-trail evidence should reflect the windowed counts (kept=5),
+    # not the full history (which would also include the old broken vote).
+    history = promise_store.get_status_history("P")
+    assert history[-1]["evidence"] == "llm-rollup: kept=5"
 
 
 def test_rollup_skip_flag_bypasses(promise_store):
