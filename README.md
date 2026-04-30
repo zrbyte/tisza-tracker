@@ -91,7 +91,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | OKT-002 | Tanköteles kor emelése 18 évre. | :black_square_button: |  |
 | OKT-003 | 25%-os béremelés a nevelést segítő dolgozóknak. | :black_square_button: |  |
 | OKT-004 | Megszüntetjük az állami tankönyv-monopóliumot. | :black_square_button: |  |
-| OKT-005 | Visszaállítjuk az egyetemek autonómiáját, megszüntetjük a KEKVA-modellt. | :black_square_button: |  |
+| OKT-005 | Visszaállítjuk az egyetemek autonómiáját, megszüntetjük a KEKVA-modellt. | :hourglass_flowing_sand: | → [A Richter megállapodott három alapítvánnyal, köztük az MCC-vel, szeptember 11...](https://index.hu/gazdasag/2026/04/30/richter-gedeon-osztalekfizetes-kozerdeku-alapitvanyok-mcc-orban-gabor/) — "Halasztják az osztalékfizetést, amíg nem rendeződik az egyetemi autonómia kérdése." |
 | OKT-006 | 2035-ig legalább egy magyar egyetemet a globális TOP 200-ba juttatunk. | :black_square_button: |  |
 | OKT-007 | Visszaszerezzük az MCC-nek juttatott állami vagyont. | :black_square_button: |  |
 | OKT-008 | Az első alapdiploma megszerzését a lehető legszélesebb körben tandíjmentessé tesszük. | :black_square_button: |  |
@@ -181,7 +181,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | KUL-001 | Brüsszelből hazahozzuk a befagyasztott uniós ezermilliárdokat. | :black_square_button: |  |
 | KUL-002 | Megállítjuk az ICC-ből való kilépést. | :black_square_button: |  |
 | KUL-003 | Nem támogatjuk Ukrajna gyorsított EU-felvételét; népszavazást tartunk róla. | :black_square_button: |  |
-| KUL-004 | Stratégiai partnerséget építünk az USA-val. | :black_square_button: |  |
+| KUL-004 | Stratégiai partnerséget építünk az USA-val. | :hourglass_flowing_sand: | → [Nő a feszültség Brüsszelben: összetűzésbe került von der Leyennel, távozik az...](https://mandiner.hu/kulfold/2026/04/no-a-feszultseg-brusszelben-osszetuzesbe-kerult-von-der-leyennel-tavozik-az-europai-bizottsag-egyik-legfontosabb-embere) — "A nézeteltérés a Washingtonnal kötött kereskedelmi megállapodás kapcsán alakult ki." |
 
 ### Altalanos (general, defence, migration, demographics, digital)
 
