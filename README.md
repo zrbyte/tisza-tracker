@@ -75,7 +75,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | EGU-003 | Várólistákat 2027 végére csökkentjük: fekvőbeteg max 6 hó, járóbeteg max 2 hó. | :black_square_button: |  |
 | EGU-004 | 2027 végére minden régióban a mentő 15 percen belül a helyszínre érkezik. | :black_square_button: |  |
 | EGU-005 | Nővér-orvos arányt 1,6-ról 2,5-re emeljük. | :black_square_button: |  |
-| EGU-006 | Önálló Egészségügyi Minisztériumot hozunk létre. | :black_square_button: |  |
+| EGU-006 | Önálló Egészségügyi Minisztériumot hozunk létre. | :hourglass_flowing_sand: | → [A leendő egészségügyi miniszter arról posztolt, hogy nem olyan egyszerű ez a ...](https://444.hu/2026/05/01/a-leendo-egeszsegugyi-miniszter-arrol-posztolt-hogy-nem-olyan-egyszeru-ez-a-szuleszvalasztasos-dolog-mint-ahogy-kapitany-istvan-igerte-ugyhogy-ezt-majd-az-o-tarcaja-donti-el?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication) — "Ennek teljes körű megtárgyalása a szakmai szervezetekkel, orvosi és szülésznői társaságokkal, szakmai kamarákkal, betegjogi és női érdekv..." |
 | EGU-007 | 4 éven belül 10%-kal csökkentjük a daganatos megbetegedések számát. | :black_square_button: |  |
 | EGU-008 | Minden vidéki kórházat megtartunk. | :black_square_button: |  |
 | EGU-009 | 30 Mrd Ft/év egészségügyi ösztöndíjprogram hiányszakmákban. | :black_square_button: |  |
