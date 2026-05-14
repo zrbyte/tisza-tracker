@@ -91,7 +91,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | OKT-002 | Tanköteles kor emelése 18 évre. | :black_square_button: |  |
 | OKT-003 | 25%-os béremelés a nevelést segítő dolgozóknak. | :black_square_button: |  |
 | OKT-004 | Megszüntetjük az állami tankönyv-monopóliumot. | :black_square_button: |  |
-| OKT-005 | Visszaállítjuk az egyetemek autonómiáját, megszüntetjük a KEKVA-modellt. | :hourglass_flowing_sand: | → [A Richter megállapodott három alapítvánnyal, köztük az MCC-vel, szeptember 11...](https://index.hu/gazdasag/2026/04/30/richter-gedeon-osztalekfizetes-kozerdeku-alapitvanyok-mcc-orban-gabor/) — "Halasztják az osztalékfizetést, amíg nem rendeződik az egyetemi autonómia kérdése." |
+| OKT-005 | Visszaállítjuk az egyetemek autonómiáját, megszüntetjük a KEKVA-modellt. | :x: | ✗ [150 oktató tiltakozik a KEKVA ellen a Corvinuson, új modellt szeretnének](https://www.portfolio.hu/gazdasag/20260514/150-oktato-tiltakozik-a-kekva-ellen-a-corvinuson-uj-modellt-szeretnenek-836672) — "Meglátásuk szerint a beígért stratégiai szabadság nem valósult meg, az akadémiai önrendelkezés pedig súlyosan sérült.", → [A Richter megállapodott három alapítvánnyal, köztük az MCC-vel, szeptember 11...](https://index.hu/gazdasag/2026/04/30/richter-gedeon-osztalekfizetes-kozerdeku-alapitvanyok-mcc-orban-gabor/) — "Halasztják az osztalékfizetést, amíg nem rendeződik az egyetemi autonómia kérdése." |
 | OKT-006 | 2035-ig legalább egy magyar egyetemet a globális TOP 200-ba juttatunk. | :black_square_button: |  |
 | OKT-007 | Visszaszerezzük az MCC-nek juttatott állami vagyont. | :black_square_button: |  |
 | OKT-008 | Az első alapdiploma megszerzését a lehető legszélesebb körben tandíjmentessé tesszük. | :black_square_button: |  |
