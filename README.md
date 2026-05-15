@@ -56,7 +56,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | CIV-002 | 2027-től jelentősen emeljük a civil szervezeteknek juttatott forrásokat. | :black_square_button: |  |
 | CIV-003 | Nyilvános, kereshető online adatbázis a megítélt és elutasított támogatásokról. | :black_square_button: |  |
 | JOG-001 | Két ciklusra korlátozzuk a miniszterelnöki mandátumot. | :black_square_button: |  |
-| JOG-002 | Megszüntetjük a rendeleti kormányzást. | :hourglass_flowing_sand: | ✓ [Kormányalakítás: meglépte Magyar Péter, amit sokat vártak a Karmelitánál, meg...](https://www.portfolio.hu/gazdasag/20260515/kormanyalakitas-meglepte-magyar-peter-amit-sokat-vartak-a-karmelitanal-megvan-az-uj-energetikai-allamtitkar-836924) — "megszűnt a 2020 óta fennálló rendeleti kormányzást." |
+| JOG-002 | Megszüntetjük a rendeleti kormányzást. | :hourglass_flowing_sand: | ✓ [Kormányalakítás: felbont egy gigaszerződést a kormány – Meddig tarthat a Tisz...](https://www.portfolio.hu/gazdasag/20260515/kormanyalakitas-felbont-egy-gigaszerzodest-a-kormany-meddig-tarthat-a-tisza-diadalmenete-836924) — "megszűnt a 2020 óta fennálló rendeleti kormányzást." |
 | JOG-003 | Visszaállítjuk a közmédia függetlenségét, új médiatörvényt alkotunk. | :black_square_button: |  |
 | JOG-004 | Kormányváltás után azonnal felfüggesztjük a közmédia hírszolgáltatását. | :black_square_button: |  |
 | JOG-005 | Kivizsgáljuk a Pegasus-lehallgatási botrányt. | :black_square_button: |  |
