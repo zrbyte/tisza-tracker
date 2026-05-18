@@ -200,17 +200,16 @@ class DatabaseManager:
                 logger.warning(f"Failed to remove old backup {fp}: {e}")
 
     def backup_important_databases(self) -> Dict[str, str]:
-        """Backup history and all_feeds databases with timestamped rotation.
+        """Backup history database with timestamped rotation.
 
-        - Writes timestamped backups alongside the source DBs in the runtime data directory.
-        - Keeps up to 3 most recent backups per database, pruning older ones.
+        - Writes timestamped backups alongside the source DB in the runtime data directory.
+        - Keeps up to 3 most recent backups, pruning older ones.
 
         Returns a dict mapping logical db keys to the created backup file paths.
         """
         backups = {}
         now = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
         mappings = {
-            'all_feeds': ('all_feed_entries', self.db_paths['all_feeds']),
             'history': ('matched_entries_history', self.db_paths['history']),
         }
         for key, (stem, path) in mappings.items():
