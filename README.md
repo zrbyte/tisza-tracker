@@ -260,6 +260,11 @@ Hungarian sentence the model cited as evidence.
 - `article_text.db` — extracted article body text (separate to keep main DBs lean)
 - `promises.db` — promise definitions, status tracking, article-promise links, LLM verdicts
 
+`tt filter` writes a timestamped backup of `matched_entries_history.db` before
+purging (keeps the 3 most recent). The RSS dedup archive
+(`all_feed_entries.db`) is not backed up — it is large and the pipeline
+rebuilds it from feeds.
+
 ## Configuration
 
 Main config: `config.yaml` (feeds, defaults, database paths)
