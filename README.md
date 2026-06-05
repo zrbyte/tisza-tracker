@@ -202,7 +202,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | DIG-002 | Magyar nyelvi modellt építünk MI-alkalmazások fejlesztéséhez. | :black_square_button: |  |
 | DIG-003 | 50 ezer közszolgálati dolgozót képzünk gyakorlati MI-használatra. | :black_square_button: |  |
 | MIG-001 | Fenntartjuk a déli határkerítést, megerősítjük a határvédelmet. | :black_square_button: |  |
-| MIG-002 | 2026. június 1-től megtiltjuk új munkavállalási engedélyek kiadását nem EU-s vendégmunkásoknak. | :hourglass_flowing_sand: | → [Ki fog dolgozni a hatalmas új gyárakban, ha mindezt meglépi a Tisza?](https://www.portfolio.hu/podcast/20260506/ki-fog-dolgozni-a-hatalmas-uj-gyarakban-ha-mindezt-meglepi-a-tisza-835076) — "Az új kormány alig egy hónappal hivatalba lépése után felfüggeszti az unión kívüli vendégmunkások behozatalát." |
+| MIG-002 | 2026. június 1-től megtiltjuk új munkavállalási engedélyek kiadását nem EU-s vendégmunkásoknak. | :hourglass_flowing_sand: | → [Ki fog dolgozni a hatalmas új gyárakban, ha mindezt meglépi a Tisza?](https://www.portfolio.hu/podcast/20260506/ki-fog-dolgozni-a-hatalmas-uj-gyarakban-ha-mindezt-meglepi-a-tisza-835076) — "Az új kormány alig egy hónappal hivatalba lépése után felfüggeszti az unión kívüli vendégmunkások behozatalát.", → [Szinte még ki se mondták, máris lecsapott a vendégmunkásokra a kormány](https://www.vg.hu/vilaggazdasag-magyar-gazdasag/2026/06/vendegmunkas-magyar-peter-munkaero-kolcsonzo?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator) — "Azonnal szigorította a vendégmunkás-szabályokat a kormány" |
 | MIG-003 | Felszámoljuk a letelepedési kötvények rendszerét. | :black_square_button: |  |
 
 <!-- PROMISES_END -->
