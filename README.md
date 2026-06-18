@@ -180,7 +180,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 |---|---|---|---|
 | KUL-001 | Brüsszelből hazahozzuk a befagyasztott uniós ezermilliárdokat. | :black_square_button: |  |
 | KUL-002 | Megállítjuk az ICC-ből való kilépést. | :black_square_button: |  |
-| KUL-003 | Nem támogatjuk Ukrajna gyorsított EU-felvételét; népszavazást tartunk róla. | :black_square_button: |  |
+| KUL-003 | Nem támogatjuk Ukrajna gyorsított EU-felvételét; népszavazást tartunk róla. | :hourglass_flowing_sand: | → [Magyar Péter bejelentette, véget vet a hazánkat sújtó napi egymillió eurós  m...](https://www.portfolio.hu/unios-forrasok/20260618/magyar-peter-bejelentette-veget-vet-a-hazankat-sujto-napi-egymillio-euros-migracios-buntetesnek-844252) — "Ukrajna csatlakozásával kapcsolatban a kormány az érdemalapú bővítés mellett áll ki, és nem támogatja az összes tárgyalási fejezet egyide..." |
 | KUL-004 | Stratégiai partnerséget építünk az USA-val. | :hourglass_flowing_sand: | → [Nő a feszültség Brüsszelben: összetűzésbe került von der Leyennel, távozik az...](https://mandiner.hu/kulfold/2026/04/no-a-feszultseg-brusszelben-osszetuzesbe-kerult-von-der-leyennel-tavozik-az-europai-bizottsag-egyik-legfontosabb-embere) — "A nézeteltérés a Washingtonnal kötött kereskedelmi megállapodás kapcsán alakult ki." |
 
 ### Altalanos (general, defence, migration, demographics, digital)
