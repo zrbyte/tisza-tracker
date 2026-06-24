@@ -171,7 +171,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | VID-001 | 10 falunként évente 1 milliárd Ft közösségi fejlesztési keret. | :black_square_button: |  |
 | VID-002 | Önálló Vidékfejlesztési Minisztériumot hozunk létre. | :black_square_button: |  |
 | VIZ-001 | Programot indítunk a Balaton megmentéséért. | :black_square_button: |  |
-| VIZ-002 | 2030-ig javítjuk vizeink minőségét, egyenlő hozzáférést biztosítunk. | :black_square_button: |  |
+| VIZ-002 | 2030-ig javítjuk vizeink minőségét, egyenlő hozzáférést biztosítunk. | :x: | ✗ [Jelentősen romlott a vízminőség a narancssárgára váltott miskolci Szinva pata...](https://telex.hu/belfold/2026/06/24/miskolc-szinva-patak-vasoxid-szennyezes-vizminosegromlas) — "Jelentősen romlott a vízminőség a narancssárgára váltott miskolci Szinva patakban" |
 | VIZ-003 | A vízhálózati veszteséget 15-20%-ra csökkentjük. | :black_square_button: |  |
 
 ### Kulpolitika (foreign policy)
