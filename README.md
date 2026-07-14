@@ -193,7 +193,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | ALL-004 | Visszaadjuk az elvont feladatokat, hatásköröket és forrásokat az önkormányzatoknak. | :black_square_button: |  |
 | BIZ-001 | Nem küldünk katonát az orosz-ukrán háborúba. | :black_square_button: |  |
 | BIZ-002 | Nem állítjuk vissza a sorkötelezettséget. | :black_square_button: |  |
-| BIZ-003 | 2035-ig a védelmi kiadásokat a NATO 5%-os szintjére emeljük. | :black_square_button: |  |
+| BIZ-003 | 2035-ig a védelmi kiadásokat a NATO 5%-os szintjére emeljük. | :hourglass_flowing_sand: | → [Mészáros Krisztián elárulta, miben lehet Magyarország NATO-szerepe](https://www.portfolio.hu/unios-forrasok/20260714/meszaros-krisztian-elarulta-miben-lehet-magyarorszag-nato-szerepe-849474) — "Ismertette, hogy Magyarország már az előző kormány idején hozzájárult ahhoz a vállaláshoz, hogy 2035-ig a GDP 5 százalékára emeljék a véd..." |
 | BIZ-004 | Fokozatosan 150 ezer alá csökkentjük a regisztrált bűnesetek számát. | :black_square_button: |  |
 | DEM-001 | 2035-ig megállítjuk a népességfogyást, 2050-re tízmillió fölé. | :black_square_button: |  |
 | DEM-002 | "Vár a hazád!" program: 8 éven belül hazahozunk 200 ezer külföldi magyart. | :black_square_button: |  |
