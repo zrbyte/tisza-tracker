@@ -136,7 +136,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 | ENR-006 | Évente 100 ezer lakás energetikai korszerűsítése. | :black_square_button: |  |
 | ENR-007 | Eltöröljük a szélerőművek telepítését akadályozó korlátozásokat. | :black_square_button: |  |
 | ENR-008 | Teljes körűen felülvizsgáljuk a PAKS II. projektet és finanszírozását. | :black_square_button: |  |
-| KOZ-001 | 10 éven belül megfelezzük a vasúti járművek átlagéletkorát. | :black_square_button: |  |
+| KOZ-001 | 10 éven belül megfelezzük a vasúti járművek átlagéletkorát. | :hourglass_flowing_sand: | → [Új tram-trainek vidéken, BZ-ket leváltó akkus motorvonatok, modernebb és gyor...](https://telex.hu/belfold/2026/07/22/baross-gabor-vasutfejlesztesi-terv-magyar-peter-vitezy-david) — "Felújítanák a balatoni vasútállomásokat, tíz éven belül megfelelnék a vasúti járművek átlagéletkorát, meghosszabbítanák az M3-as metrót, ..." |
 | KOZ-002 | Vasúti fővonalakon legalább 100 km/h átlagsebesség. | :black_square_button: |  |
 | KOZ-003 | 50%-ra növeljük a villamosított vasúti pályák arányát. | :hourglass_flowing_sand: | → [Évek óta kész a vezeték, még sincs áram alatt a Szeged–Szabadka-vasútvonal](https://telex.hu/gazdasag/2026/04/21/evek-ota-kesz-a-vezetek-meg-nincs-aram-alatt-a-szeged-szabadka-vasutvonal) — "Hiába építették ki a felsővezetéket már évekkel ezelőtt, a vonalon még mindig nem közlekednek villamos motorvonatok, és még most sem láts..." |
 | KOZ-004 | Országos kátyúmentesítési program, megduplázzuk a közútfenntartási kiadásokat. | :black_square_button: |  |
