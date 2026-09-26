@@ -130,7 +130,7 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 |---|---|---|---|
 | ENR-001 | Megtartjuk és szociális alapon kiterjesztjük a rezsicsökkentést. | :black_square_button: |  |
 | ENR-002 | A magyar otthonok legalább 25%-ánál javítjuk az energiahatékonyságot 10 éven belül. | :black_square_button: |  |
-| ENR-003 | 2035-ig megszüntetjük az orosz energiafüggőséget. | :black_square_button: |  |
+| ENR-003 | 2035-ig megszüntetjük az orosz energiafüggőséget. | :hourglass_flowing_sand: | → [Erre várt Kapitány István, Ursula von der Leyen megadta neki a zöld jelzést: ...](https://www.vg.hu/nemzetkozi-gazdasag/2026/09/ursula-von-der-leyen-ensz-klimaugyi-ules-orosz-foldgaz?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator) — "Ursula von der Leyen részt vett az ENSZ klímaügyi ülésén, ahol felszólalásában kijelentette, hogy az Európai Unió 2027-re teljesen leváli..." |
 | ENR-004 | 2040-ig megduplázzuk a megújuló energia arányát. | :black_square_button: |  |
 | ENR-005 | ~1000 milliárd Ft-ot fordítunk lakossági és vállalati energiakorszerűsítésre. | :hourglass_flowing_sand: | → [Fontos bejelentést tett Kapitány István – példátlanul nagy energetikai progra...](https://www.portfolio.hu/unios-forrasok/20260625/fontos-bejelentest-tett-kapitany-istvan-peldatlanul-nagy-energetikai-programot-inditanak-845662) — "Példátlan léptékű, 1,5 milliárd eurós fejlesztési program indul európai uniós forrásokból a magyar villamosenergia-hálózat korszerűsítésé..." |
 | ENR-006 | Évente 100 ezer lakás energetikai korszerűsítése. | :black_square_button: |  |
