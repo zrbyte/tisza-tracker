@@ -29,17 +29,18 @@ if [[ -z "${OPENAI_API_KEY:-}" ]]; then
 else
     # Non-fatal: an LLM outage should not sink the report stage.
     if ! tt classify; then
-        echo "  WARN: tt classify failed — continuing with existing verdicts"
+        echo "  WARN: tt classify failed — continuing with existing evidence"
     fi
 fi
 
 if command -v sqlite3 >/dev/null 2>&1 && [[ -f "$PROMISES_DB" ]]; then
-    echo "  --- verdict summary ---"
+    echo "  --- evidence summary ---"
     sqlite3 -column -header "$PROMISES_DB" \
-        "SELECT verdict, COUNT(*) AS count
+        "SELECT COALESCE(signal, CASE WHEN error IS NOT NULL THEN '(failed)'
+                                      ELSE '(not yet extracted)' END) AS signal,
+                COUNT(*) AS count
          FROM llm_classifications
-         WHERE verdict IS NOT NULL
-         GROUP BY verdict
+         GROUP BY 1
          ORDER BY count DESC;"
     echo "  --- promise status summary ---"
     sqlite3 -column -header "$PROMISES_DB" \
@@ -47,6 +48,13 @@ if command -v sqlite3 >/dev/null 2>&1 && [[ -f "$PROMISES_DB" ]]; then
          FROM promises
          GROUP BY current_status
          ORDER BY count DESC;"
+fi
+
+echo "=== review ==="
+# Reported reversals, lapsed deadlines and single-source delivery reports are
+# not published automatically; they are listed here for a human decision.
+if ! tt promise review; then
+    echo "  WARN: tt promise review failed"
 fi
 
 echo "=== report ==="

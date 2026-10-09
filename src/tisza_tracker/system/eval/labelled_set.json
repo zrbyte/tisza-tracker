@@ -1,0 +1,2969 @@
+{
+ "about": "Hand-labelled regression set for the pass-2 evidence extraction. 99 real promise-article pairs plus 8 synthetic articles (four genuine reversals, which the real corpus does not contain). Labels: one annotator, October 2026 audit of the status algorithm. 'gold' is the best signal, 'accept' lists other defensible ones. 'recorded' is the model's pass-2 output at labelling time. Article bodies are not stored here; `tt eval` reads them from <data dir>/eval_bodies, article_text.db or the URL.",
+ "recorded_with": {
+  "model": "gpt-5-mini",
+  "reasoning_effort": "low",
+  "prompt_revision": "2"
+ },
+ "government": {
+  "election_date": "2026-04-12",
+  "took_office": "2026-05-12"
+ },
+ "promises": {
+  "ADO-001": {
+   "text": "15%-ról 9%-ra csökkentjük a minimálbér adóját.",
+   "text_en": "Cut PIT on minimum wage from 15% to 9%.",
+   "deadline": null
+  },
+  "ADO-003": {
+   "text": "1 milliárd Ft feletti vagyonra évi 1%-os vagyonadót vezetünk be.",
+   "text_en": "Introduce 1%/year wealth tax on net assets above HUF 1 billion.",
+   "deadline": null
+  },
+  "ADO-005": {
+   "text": "A tűzifa és az egészséges élelmiszerek áfáját 5%-ra mérsékeljük.",
+   "text_en": "Reduce VAT on firewood and healthy foods to 5%.",
+   "deadline": null
+  },
+  "ADO-006": {
+   "text": "Széles körben újra elérhetővé tesszük a katát.",
+   "text_en": "Restore broad access to KATA (simplified small business tax).",
+   "deadline": null
+  },
+  "ADO-007": {
+   "text": "Semmilyen munkabért terhelő adót nem emelünk.",
+   "text_en": "No wage tax increases.",
+   "deadline": null
+  },
+  "CSAL-001": {
+   "text": "Duplájára emeljük a családi pótlékot.",
+   "text_en": "Double the family allowance.",
+   "deadline": null
+  },
+  "EGU-003": {
+   "text": "Várólistákat 2027 végére csökkentjük: fekvőbeteg max 6 hó, járóbeteg max 2 hó.",
+   "text_en": "Reduce waiting lists by end 2027.",
+   "deadline": "2027"
+  },
+  "EGU-006": {
+   "text": "Önálló Egészségügyi Minisztériumot hozunk létre.",
+   "text_en": "Create independent Ministry of Health.",
+   "deadline": null
+  },
+  "EGU-008": {
+   "text": "Minden vidéki kórházat megtartunk.",
+   "text_en": "Keep every rural hospital open.",
+   "deadline": null
+  },
+  "ENR-001": {
+   "text": "Megtartjuk és szociális alapon kiterjesztjük a rezsicsökkentést.",
+   "text_en": "Maintain utility price cap, extend on social/means-tested basis.",
+   "deadline": null
+  },
+  "GAZ-001": {
+   "text": "Hazahozzuk és hatékonyan felhasználjuk a jelenleg befagyasztott uniós forrásokat.",
+   "text_en": "Unfreeze and effectively use currently frozen EU funds.",
+   "deadline": null
+  },
+  "GAZ-004": {
+   "text": "2026. június 1-től felfüggesztjük az Európán kívüli vendégmunkások behozatalát.",
+   "text_en": "Suspend import of non-European guest workers from 1 June 2026.",
+   "deadline": "2026-06-01"
+  },
+  "GAZ-006": {
+   "text": "Megerősítjük a versenyfelügyelet függetlenségét, és átalakítjuk a közbeszerzési rendszert.",
+   "text_en": "Strengthen competition authority independence and reform public procurement.",
+   "deadline": null
+  },
+  "JOG-002": {
+   "text": "Megszüntetjük a rendeleti kormányzást.",
+   "text_en": "End governance by decree.",
+   "deadline": null
+  },
+  "JOG-003": {
+   "text": "Visszaállítjuk a közmédia függetlenségét, új médiatörvényt alkotunk.",
+   "text_en": "Restore public media independence, enact new media law.",
+   "deadline": null
+  },
+  "JOG-004": {
+   "text": "Kormányváltás után azonnal felfüggesztjük a közmédia hírszolgáltatását.",
+   "text_en": "Immediately suspend public media news after government change until objective conditions are met.",
+   "deadline": null
+  },
+  "JOG-006": {
+   "text": "Megszüntetjük a Szuverenitásvédelmi Hivatalt.",
+   "text_en": "Abolish the Sovereignty Protection Office.",
+   "deadline": null
+  },
+  "KOL-002": {
+   "text": "Előkészítjük az euró bevezetését, belátható céldátummal.",
+   "text_en": "Prepare euro adoption with a realistic target date.",
+   "deadline": null
+  },
+  "KOR-001": {
+   "text": "Csatlakozunk az Európai Ügyészséghez (EPPO).",
+   "text_en": "Join the European Public Prosecutor's Office.",
+   "deadline": null
+  },
+  "KOR-002": {
+   "text": "Létrehozzuk a Nemzeti Vagyonvisszaszerzési Hivatalt.",
+   "text_en": "Establish National Asset Recovery Office.",
+   "deadline": null
+  },
+  "KOR-003": {
+   "text": "Kivizsgáljuk az elmúlt évek korrupciós botrányait (Paks II, MNB-alapítványok, MCC, Hatvanpuszta stb.).",
+   "text_en": "Investigate past corruption scandals.",
+   "deadline": null
+  },
+  "KOZ-002": {
+   "text": "Vasúti fővonalakon legalább 100 km/h átlagsebesség.",
+   "text_en": "At least 100 km/h average speed on main rail lines.",
+   "deadline": null
+  },
+  "KOZ-006": {
+   "text": "Galvani-híd és Soroksári-Duna-híd Budapesten, új Tisza-híd Szegeden.",
+   "text_en": "Build Galvani Bridge and Soroksári Bridge (Budapest), new Tisza bridge (Szeged).",
+   "deadline": null
+  },
+  "KOZ-007": {
+   "text": "A 35 éves autópálya-koncessziós szerződést felülvizsgáljuk, csökkentjük az útdíjakat.",
+   "text_en": "Review 35-year motorway concession, reduce tolls.",
+   "deadline": null
+  },
+  "KOZ-008": {
+   "text": "Egész napos, óránkénti InterCity 6 fő vonalon.",
+   "text_en": "All-day hourly InterCity on 6 main lines.",
+   "deadline": null
+  },
+  "KRN-003": {
+   "text": "Felülvizsgáljuk az akkumulátorgyárak működését.",
+   "text_en": "Review battery factory operations and environmental compliance.",
+   "deadline": null
+  },
+  "KUL-003": {
+   "text": "Nem támogatjuk Ukrajna gyorsított EU-felvételét; népszavazást tartunk róla.",
+   "text_en": "No fast-track Ukraine EU accession; binding referendum.",
+   "deadline": null
+  },
+  "NYUG-001": {
+   "text": "Megtartjuk a 13. és 14. havi nyugdíjat.",
+   "text_en": "Maintain 13th and 14th monthly pension.",
+   "deadline": null
+  },
+  "NYUG-006": {
+   "text": "Bevezetjük a Férfiak 40 programot (40 év szolgálat után korai nyugdíj).",
+   "text_en": "Introduce 'Men's 40' early retirement after 40 years of service.",
+   "deadline": null
+  },
+  "OKT-005": {
+   "text": "Visszaállítjuk az egyetemek autonómiáját, megszüntetjük a KEKVA-modellt.",
+   "text_en": "Restore university autonomy, abolish KEKVA model.",
+   "deadline": null
+  },
+  "OKT-007": {
+   "text": "Visszaszerezzük az MCC-nek juttatott állami vagyont.",
+   "text_en": "Recover state assets transferred to MCC.",
+   "deadline": null
+  },
+  "OKT-009": {
+   "text": "Magyar diákok újra részt vehessenek Erasmus és Horizon programokban.",
+   "text_en": "Re-enable Erasmus and Horizon participation for Hungarian students.",
+   "deadline": null
+  },
+  "VIZ-002": {
+   "text": "2030-ig javítjuk vizeink minőségét, egyenlő hozzáférést biztosítunk.",
+   "text_en": "Improve water quality by 2030, ensure equal access.",
+   "deadline": "2030"
+  }
+ },
+ "pairs": [
+  {
+   "id": "0",
+   "group": "was_broken",
+   "promise_id": "ADO-003",
+   "entry_id": "42c9a24c4fd76163bb754a8b1fb92a6b1459dee2",
+   "url": "https://hvg.hu/kkv/20261008_vosz-vagyonado-adozas-ado-cegek",
+   "outlet": "HVG",
+   "published": "2026-10-08",
+   "title": "VOSZ: A vagyonadó mostani terve nem jó, lassabb bevezetés és kisebb adókulcs kell",
+   "gold": "none",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Finance Ministry produced an impact assessment for the government's proposed wealth tax and the government has a defined plan for introducing the tax, as reported on 2026-10-08.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-10-08",
+    "quote": "A VOSZ emellett azt is kiemelték: a Pénzügyminisztérium saját hatásvizsgálata is elismeri, hogy a vagyonadó egyes vállalkozások tulajdonosait magasabb osztalék kifizetésére ösztönözheti, ezzel hátráltatva a beruházásokat.",
+    "confidence": 0.86
+   },
+   "recorded_body_chars": 1521,
+   "recorded_quote_verbatim": false
+  },
+  {
+   "id": "1",
+   "group": "was_broken",
+   "promise_id": "ADO-003",
+   "entry_id": "02887eaa9d0c62477548a2bec8e156f69d48db24",
+   "url": "https://444.hu/2026/10/08/a-vallalkozoi-vagyont-kivenne-a-vagyonado-alol-az-iparkamara-es-a-vosz?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication",
+   "outlet": "444.hu",
+   "published": "2026-10-08",
+   "title": "A vállalkozói vagyont kivenné a vagyonadó alól az iparkamara és a VOSZ",
+   "gold": "step",
+   "accept": [
+    "none"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government published a draft law on the wealth tax and opened a public consultation on it after Magyar Péter's announcement.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-10-08",
+    "quote": "A kormány két adótörvény-tervezetről kezdett társadalmi vitát: Magyar Péter keddi bejelentése után felkerült a kormányzati honlapra a vagyonadóról és a katás adózás szabályainak megváltoztatásáról szóló törvénytervezet is.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 5410,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "2",
+   "group": "was_broken",
+   "promise_id": "ADO-003",
+   "entry_id": "667c92f9a4563f65f6b4d45e09b505c202440049",
+   "url": "https://www.vg.hu/vilaggazdasag-magyar-gazdasag/2026/10/kata-vagyonado-magyar-kereskedelmi-es-iparkamara?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Világgazdaság",
+   "published": "2026-10-08",
+   "title": "Visszatérhet a kata régi előnye, de van egy bökkenő: a vagyonadó miatt már a magyar vállalkozásokat félti a kamara",
+   "gold": "step",
+   "accept": [
+    "none"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "2026-10-08 — The Hungarian Chamber of Commerce and Industry (MKIK) issued a statement warning about the proposed wealth tax and urged that entrepreneurial/business assets serving actual Hungarian economic activity be exempted.",
+    "about_promise": true,
+    "actor": "third_party",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-10-08",
+    "quote": "A Magyar Kereskedelmi és Iparkamara (MKIK ) bizonyos módosításokkal kedvezőnek tartja a kisadózó vállalkozások tételes adójának – kata – átalakítását, a vagyonadó bevezetésénél azonban a vállalkozói tőke fokozott védelmét sürgeti.",
+    "confidence": 0.85
+   },
+   "recorded_body_chars": 5777,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "3",
+   "group": "was_broken",
+   "promise_id": "ADO-006",
+   "entry_id": "c7b7199ea2987bbca3ae2520433596c17de471a4",
+   "url": "https://nepszava.hu/3334286_vagyonado-kata-magyar-peter-adotorvenyek-bejelentes",
+   "outlet": "Népszava",
+   "published": "2026-10-06",
+   "title": "Magyar Péter bejelentette, jön a vagyonadó és az egyszerűbb, de nagyobb terhet jelentő kata is",
+   "gold": "step",
+   "accept": [
+    "intent"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government decided at its weekend cabinet meeting to expand and simplify the KATA (small taxpayers' flat-rate tax), including reopening eligibility to pensioners, students and part-time entrepreneurs, allowing invoicing to companies (with a 15% extra tax on such invoiced income), raising the main monthly KATA to 100,000 HUF, and increasing the annual revenue cap to 22 million HUF.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-10-06",
+    "quote": "A kormány döntött hétvégi ülésén a kisadózó vállalkozások tételes adója egyszerűsítéséről is.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 4672,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "4",
+   "group": "was_broken",
+   "promise_id": "ADO-006",
+   "entry_id": "c785881500e0cb3cab89577eaf0a05c23096e3c5",
+   "url": "https://hvg.hu/360/20261008_kata-valtozasok-kinek-jo-mennyit-kell-fizetni-teteles-ado",
+   "outlet": "HVG",
+   "published": "2026-10-08",
+   "title": "A kormány plasztikázza a katát, és lecseréli egy jobbra, de drágábbra",
+   "gold": "step",
+   "accept": [
+    "partial"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government published a draft to introduce a technically new KATA (kata3) that broadens eligibility (allowing non-full-time entrepreneurs, pensioners and students and enabling invoicing to companies) while keeping a modified current KATA (kata2) for a transition period.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "partial",
+    "event_date": "2026-10-08",
+    "quote": "a kormány ugyanis technikailag új katát vezet be, miközben két évre még némileg módosított formában megtartja a jelenlegi katát is.",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 2747,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "5",
+   "group": "was_broken",
+   "promise_id": "ADO-006",
+   "entry_id": "d1016f29752e3cc7e418c940f1ed48d12cb3ca94",
+   "url": "https://magyarnemzet.hu/belfold/2026/10/a-regi-kata-mar-nem-ter-vissza-2028-tol-johet-a-feketeleves-a-kisadozoknak?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Magyar Nemzet",
+   "published": "2026-10-09",
+   "title": "A régi kata már nem tér vissza, 2028-tól jöhet a feketeleves a kisadózóknak",
+   "gold": "step",
+   "accept": [
+    "partial",
+    "none"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government announced it will permanently transform KATA instead of restoring the old, broadly accessible KATA (reporting dated 2026-10-09).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "reversal",
+    "scope": "full",
+    "event_date": "2026-10-09",
+    "quote": "ezzel a katát véglegesen átalakítja az új kormány.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 780,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "6",
+   "group": "was_broken",
+   "promise_id": "EGU-003",
+   "entry_id": "5563ba2c2ab60499a004fe72670a75302ad9edf2",
+   "url": "https://magyarnemzet.hu/belfold/2026/10/tobb-mutet-faradt-orvosok-muhiba-kommentelok-varolista?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Magyar Nemzet",
+   "published": "2026-10-03",
+   "title": "„Hétköznap sincs orvos. Hogyan lesz hétvégén?” – szétszedték a kommentelők a kormány várólista-csökkentési tervét, Magyar Péter is hozzászólt a vitához, csak olaj volt a tűzre",
+   "gold": "none",
+   "accept": [
+    "intent",
+    "step"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government published/posted its waiting-list reduction proposal and commenters reacted to it (article published 2026-10-03).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-10-03",
+    "quote": "A kormány bejegyzése alatt tömegével jelentek meg az olyan kommentek, amelyek az orvosok létszámát keveslik a javaslat végrehajtásához.",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 2060,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "7",
+   "group": "was_broken",
+   "promise_id": "EGU-008",
+   "entry_id": "342b3201e6e880ca6c3db2213e5126c747a404e6",
+   "url": "https://magyarnemzet.hu/belfold/2026/06/korhazbezaras-maganegeszsegugy-tisza-allamtitkar-sved-tamas?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Magyar Nemzet",
+   "published": "2026-06-01",
+   "title": "Kórházbezárásokban és a magánegészségügy helyzetbe hozásában gondolkodik a tiszás államtitkár",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "On 2026-06-01, Tisza government state secretary Svéd Tamás publicly discussed considering hospital closures and involving paid private healthcare providers.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-06-01",
+    "quote": "Kórházbezárásokban és a magánegészségügy helyzetbe hozásában gondolkodik a tiszás államtitkár",
+    "confidence": 0.85
+   },
+   "recorded_body_chars": 482,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "8",
+   "group": "was_broken",
+   "promise_id": "EGU-008",
+   "entry_id": "57aee3c192e40cfd2e387de8a3337b7555eb981c",
+   "url": "https://168.hu/itthon/korhaz-bezarasok-magyar-orvosi-kamara-elnok-almos-peter-egeszsegugy-298048",
+   "outlet": "168.hu",
+   "published": "2026-06-19",
+   "title": "A kórházbezárások elkerülhetetlenek a Magyar Orvosi Kamara elnöke szerint",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "On 2026-06-19 Álmos Péter, president of the Hungarian Medical Chamber, told InfoRádió (reported by 168.hu) that hospital closures are realistic and in some cases necessary.",
+    "about_promise": true,
+    "actor": "third_party",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-06-19",
+    "quote": "",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 2710,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "9",
+   "group": "was_broken",
+   "promise_id": "GAZ-001",
+   "entry_id": "81f16f24269667e3e05b2ccd5b57676b2ae34671",
+   "url": "https://www.portfolio.hu/unios-forrasok/20260421/tobb-szaz-milliardot-ugy-veszitett-el-magyarorszag-hogy-azt-magyar-peter-kormanya-sem-szerezheti-vissza-831654",
+   "outlet": "Portfolio",
+   "published": "2026-04-21",
+   "title": "Több száz milliárdot úgy veszített el Magyarország, hogy azt Magyar Péter kormánya sem szerezheti vissza",
+   "gold": "none",
+   "accept": [
+    "intent"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "A counterparty (EU bodies) made decisions that resulted in Hungary already losing more than 1,100 billion HUF from the frozen EU funds and left no legal room to recover them, reported on 2026-04-21.",
+    "about_promise": true,
+    "actor": "counterparty",
+    "evidence_type": "delivered",
+    "scope": "partial",
+    "event_date": "2026-04-21",
+    "quote": "Csakhogy két tétel már nem tárgyalási kérdés, ezeken keresztül több mint 1100 milliárd forintot elveszített már Magyarország, és jogi mozgástér sincs a visszaszerzésére.",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 370,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "10",
+   "group": "was_broken",
+   "promise_id": "GAZ-001",
+   "entry_id": "9e1d95658e74ff274ba6ffd65ebdc6126242e790",
+   "url": "https://www.portfolio.hu/ingatlan/20260502/olyan-bucsuajandekot-hagyott-lazar-janos-ami-kozel-300-milliard-forintnyi-eu-penzt-sodor-veszelybe-834226",
+   "outlet": "Portfolio",
+   "published": "2026-05-02",
+   "title": "Olyan búcsúajándékot hagyott Lázár János, ami közel 300 milliárd forintnyi EU-pénzt sodor veszélybe",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "Lázár János, a leköszönő építési és közlekedési miniszter, visszavonta több kivitelezési tendert, amivel mintegy 280 milliárd forintnyi uniós forrás elvesztésének kockázatát idézte elő (reported 2026-05-02).",
+    "about_promise": true,
+    "actor": "previous_government",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-05-02",
+    "quote": "Lázár János leköszönő építési és közlekedési miniszter az elmúlt napokban visszavonta a Debrecen–Nyíregyháza vasúti fejlesztésre, valamint a budapesti körvasút Népliget állomására és a ferencvárosi szakasz átépítésére, korszerűsítésére vonatkozó kivitelezési tendereket – írja Facebook-bejegyzésében Vitézy Dávid, a közlekedési és beruházásügyi minisztérium...",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 360,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "11",
+   "group": "was_broken",
+   "promise_id": "GAZ-004",
+   "entry_id": "dcfcc76b5be5a12b55ae04047396e5db75e87a6f",
+   "url": "https://telex.hu/gazdasag/2026/06/05/vendegmunkas-torveny-orszaglista-szigoritas-eltorles-fulop-szigetek",
+   "outlet": "Telex",
+   "published": "2026-06-05",
+   "title": "Vendégmunkásstop: szigorúbb feltételek mellett, de továbbra is érkezhetnek vendégmunkások Magyarországra az új rendelet szerint",
+   "gold": "partial",
+   "accept": [
+    "kept"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government published a regulation on 2026-06-05 that suspended the country-list enabling third‑country nationals to obtain guest‑worker residence permits (effective June 6), while leaving employment‑purpose permits intact.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "partial",
+    "event_date": "2026-06-05",
+    "quote": "Pénteken jelent meg a rendeletmódosítás, amivel a kormány felfüggeszti azt a listát, ami lehetővé tette a rajta szereplő országok állampolgárainak, hogy vendégmunkás-tartózkodási engedélyt szerezzenek Magyarországon.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 5984,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "12",
+   "group": "was_broken",
+   "promise_id": "GAZ-004",
+   "entry_id": "db4cbc2bba1f3b4f0cfcf409f08b836b4dcbdcba",
+   "url": "https://hvg.hu/360/20260624_premium-hirlevelek-adatbanyasz-vendegmunkas-munka-fizetes-munkaerotartalek",
+   "outlet": "HVG",
+   "published": "2026-06-24",
+   "title": "Tényleg nincs az országban elég ember, aki jó fizetésért hajlandó lenne dolgozni a vendégmunkások helyett?",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The article does not report any official action by the new government or another authority to suspend the import of non‑European guest workers by the 2026-06-01 deadline.",
+    "about_promise": true,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "unknown",
+    "quote": "",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 3110,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "13",
+   "group": "was_broken",
+   "promise_id": "GAZ-006",
+   "entry_id": "a389bee75cef686198c637916a0770c4b05ccc19",
+   "url": "https://www.portfolio.hu/uzlet/20260514/kiderult-nyilvanos-verseny-nelkul-kotott-8-milliardos-szerzodest-szijjarto-miniszteriuma-836858",
+   "outlet": "Portfolio",
+   "published": "2026-05-14",
+   "title": "Kiderült: nyilvános verseny nélkül kötött 8 milliárdos szerződést Szijjártó minisztériuma",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "A ministry led by Péter Szijjártó (the previous government) signed a classified procurement contract in March 2026 for technical maintenance and operation of foreign missions with Mega-Logistic Zrt. without a public tender.",
+    "about_promise": true,
+    "actor": "previous_government",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "unknown",
+    "quote": "A 21,9 millió eurós megállapodást még márciusban írta alá Gyarmati Eszter közigazgatási államtitkár és Danika Tibor, a nyertes cég vezérigazgatója.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 368,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "14",
+   "group": "was_broken",
+   "promise_id": "JOG-003",
+   "entry_id": "fd66ad519299c1616137a663dfbf103761317039",
+   "url": "https://www.vg.hu/kozelet/2026/06/kozmedia-tisza-mtva-atalakitas-tarr-zoltan-megszunik?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Világgazdaság",
+   "published": "2026-06-12",
+   "title": "Hivatalos: vallott a Tisza, így alakítja át a közmédiát, minden megváltozik – megszűnik az MTVA, személyesen Tarr Zoltán veszi át az irányítást",
+   "gold": "step",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "On 2026-06-12 a Tisza-party MP (Melléthei-Barna Márton) announced that they submitted a draft law to completely overhaul the public media system.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-06-12",
+    "quote": "„Az imént benyújtottuk a közmédia teljes átalakítására vonatkozó törvényjavaslatunkat.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 3439,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "15",
+   "group": "was_broken",
+   "promise_id": "KOL-002",
+   "entry_id": "2335e0708b0b04302025c8e686ce49fb2766df1a",
+   "url": "https://telex.hu/g7/penz/2026/06/25/euro-bevezetes-maastrichti-kriterium-hiany-adossag-inflacio-kamat",
+   "outlet": "Telex",
+   "published": "2026-06-25",
+   "title": "Tíz éve közelebb volt az euró bevezetéséhez Magyarország, mint most",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The European Commission published its 2026 convergence report stating that Hungary meets none of the conditions for adopting the euro.",
+    "about_promise": true,
+    "actor": "counterparty",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-06-25",
+    "quote": "Egyetlen feltételét sem teljesíti Magyarország az euró bevezetésének az Európai Bizottság idei konvergenciajelentése szerint, vagyis távolabb került az ország a közös valutára való áttéréstől a 2010-es évek közepi körülményekhez képest – ekkoriban ugyanis a makrogazdasági mutatók tekintetében legalábbis egészen közelinek tűnt a forint leváltásának lehetősége.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 2730,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "16",
+   "group": "was_broken",
+   "promise_id": "KOR-002",
+   "entry_id": "cedf46b9168854fbc257ca4b0020e480e887eca7",
+   "url": "https://nepszava.hu/3332550_kozelet-civil-tarsadalom-tisza-hatorszaga-ner-lebontasa",
+   "outlet": "Népszava",
+   "published": "2026-09-14",
+   "title": "Legyetek bátorak, még él a NER!",
+   "gold": "none",
+   "accept": [
+    "kept",
+    "step"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The government selected/appointed the president of the newly created National Asset Recovery Office (NVVH).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-09-14",
+    "quote": "A rendszerváltásnak vége – ezt a haza egyik bölcsétől tudjuk, mivel szerinte az NVVH elnökének a kiválasztásával a kormány lemondott az elszámoltatásról és a vagyonvisszaszerzésről.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 6088,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "17",
+   "group": "was_broken",
+   "promise_id": "KOZ-008",
+   "entry_id": "2f9b5f8d719e730055525d8672b2f6c01b8de764",
+   "url": "https://telex.hu/g7/vallalat/2026/05/20/mav-karbantartas-problemak-alkatreszhiany-lazar-orokseg-lellitott-vonatok",
+   "outlet": "Telex",
+   "published": "2026-05-20",
+   "title": "A MÁV minden negyedik vonatát leállítva hagyta hátra Lázár János",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "No relevant new government act was reported in the article (Telex, 2026-05-20) regarding delivery of an all-day hourly InterCity service on six main lines.",
+    "about_promise": true,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-05-20",
+    "quote": "",
+    "confidence": 0.78
+   },
+   "recorded_body_chars": 10693,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "18",
+   "group": "was_broken",
+   "promise_id": "KRN-003",
+   "entry_id": "903f334fab5230d5629837cd94aeca3eee53c183",
+   "url": "https://hvg.hu/gazdasag/20260531_tarkanyi-zsolt-catl-akkugyar-debrecen-bovites",
+   "outlet": "HVG",
+   "published": "2026-05-31",
+   "title": "A kormány keresztbefekszik a CATL-akkugyár debreceni bővítésének",
+   "gold": "intent",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government announced it will more strictly regulate the battery industry and said a new supervisory authority under the Ministry of Live Environment is expected to begin work in September to inspect industrial facilities.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-05-31",
+    "quote": "Ebben kulcsszerep juthat a Élő Környezetért Felelős Minisztérium alá tartozó új felügyeleti hatóságnak, mely várhatóan szeptemberben lát munkához és az ipari létesítményeket fogja ellenőrizni.",
+    "confidence": 0.86
+   },
+   "recorded_body_chars": 1891,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "19",
+   "group": "was_broken",
+   "promise_id": "KRN-003",
+   "entry_id": "35022bba3b2fbebec33375cb4ab0503e07738489",
+   "url": "https://hvg.hu/360/20260806_duna-tisza-part-akkumulator-gyartas-szabalyozas-akerteis-magyar-akkumulator-szovetseg-energiavalsag",
+   "outlet": "HVG",
+   "published": "2026-08-06",
+   "title": "A Duna apad, de mit tesz a Tisza? Mi lesz a hazai akkumulátorgyártással?",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "Battery manufacturers CATL, EcoPro and Samsung SDI announced self‑restrictions reducing energy and/or potable water use (reported 2026-08-06).",
+    "about_promise": false,
+    "actor": "third_party",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-08-06",
+    "quote": "Az akkumulátorgyárak most siettek bejelenteni némi önkorlátozást: a CATL 30, az EcoPro 20 százalékkal csökkenti energiafogyasztását, a Samsung SDI pedig felére csökkenti az ivóvízhasználatát.",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 2318,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "20",
+   "group": "was_broken",
+   "promise_id": "OKT-005",
+   "entry_id": "c89af65eb0dd082e1a4351e79df7a2c0f3738eb5",
+   "url": "https://www.portfolio.hu/gazdasag/20260514/150-oktato-tiltakozik-a-kekva-ellen-a-corvinuson-uj-modellt-szeretnenek-836672",
+   "outlet": "Portfolio",
+   "published": "2026-05-14",
+   "title": "150 oktató tiltakozik a KEKVA ellen a Corvinuson, új modellt szeretnének",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "On 2026-05-14, more than 150 academic staff at the Budapesti Corvinus Egyetem signed a manifesto calling for the abolition of the KEKVA (foundation) model and the restoration of academic autonomy.",
+    "about_promise": true,
+    "actor": "third_party",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-05-14",
+    "quote": "Több mint 150 oktató írta alá a kiáltványt a Budapesti Corvinus Egyetemen, amiben a felsőoktatás teljes megújítását, az alapítványi fenntartói modell megszüntetését, valamint az akadémiai autonómia helyreállítását követelik.",
+    "confidence": 0.72
+   },
+   "recorded_body_chars": 5470,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "21",
+   "group": "was_broken",
+   "promise_id": "OKT-005",
+   "entry_id": "d083bc79891577d5bfefc8884ceb25176bc4b67b",
+   "url": "https://444.hu/2026/05/20/a-kormany-belenyul-a-ner-parhuzamos-valosagaba-visszaveszik-a-kiszervezett-kekva-kat?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication",
+   "outlet": "444.hu",
+   "published": "2026-05-20",
+   "title": "A kormány belenyúl a NER párhuzamos valóságába: visszaveszik a kiszervezett KEKVA-kat",
+   "gold": "step",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government submitted a constitutional amendment proposal (reported 2026-05-20) that transfers the founders' rights over KEKVA foundations to the state and allows the government to terminate or take over such foundations.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "partial",
+    "event_date": "2026-05-20",
+    "quote": "A módosítás a FIDESZ ideológiai hátországának legfontosabb intézményét, az MCC-t is érinti.\nA szám szerint 16. alaptörvény-módosítás (a Tisza-korszakban értelemszerűen ez az első) javaslata úgy változtatja meg az Alaptörvény 38. cikk (6) bekezdését, hogy a KEKVA-k alapítói jogait az állam visszaveszi, vagyis mostantól az alapítványok nem maguk dönthetnek minden őket érintő kérdésben, hanem a kormány. Akár meg is szüntethetnek egyes alapítványokat.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 6831,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "22",
+   "group": "was_broken",
+   "promise_id": "OKT-005",
+   "entry_id": "58bc9401963ac923e725a45205819eed2f50c8fc",
+   "url": "https://www.portfolio.hu/gazdasag/20260615/corvinus-rektor-nem-gondolom-hogy-a-kekva-megszuntetese-az-en-rektori-mandatumom-veget-jelentene-843322",
+   "outlet": "Portfolio",
+   "published": "2026-06-15",
+   "title": "Corvinus-rektor: Nem gondolom, hogy a kekva megszüntetése az én rektori mandátumom végét jelentené",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Corvinus University rector stated that the KEKVA model does not necessarily need to be abolished and suggested excluding government-linked actors from university boards and changing the governance structure (reported 2026-06-15).",
+    "about_promise": true,
+    "actor": "third_party",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-06-15",
+    "quote": "",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 1116,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "23",
+   "group": "was_broken",
+   "promise_id": "OKT-005",
+   "entry_id": "f372f13db65346e8c4d96e88245b8f792e5f8ef6",
+   "url": "https://hvg.hu/360/20260706_gyuricza-csaba-interju-magyar-agrar-es-elettudomanyi-egyetem-mate-kekva-felsooktatas-erasmus-unios-zaszlo",
+   "outlet": "HVG",
+   "published": "2026-07-06",
+   "title": "Az ember kapja a pofonokat, de egy idő után azért el is kezdi visszaadni – a MATE rektora maradna a kekvarendszerben",
+   "gold": "none",
+   "accept": [
+    "intent",
+    "step"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government stated it would abolish certain public-benefit asset-managing foundations this summer and the university-maintaining foundations next summer.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "full",
+    "event_date": "2026-07-06",
+    "quote": "Egyes közfeladatot ellátó közérdekű vagyonkezelő alapítványokat már idén nyáron, míg az egyetemfenntartókat jövő nyáron szüntetné meg a Tisza-kormány.",
+    "confidence": 0.78
+   },
+   "recorded_body_chars": 4222,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "24",
+   "group": "was_broken",
+   "promise_id": "OKT-005",
+   "entry_id": "604b53f49081299b3f5652f479b671dcb0711614",
+   "url": "https://hvg.hu/itthon/20260927_retvari-bence-lannert-judit-ferje-a-debreceni-egyetemet-fenntarto-kekva-vagyonellenorekent-57-millio-forintot-kapott",
+   "outlet": "HVG",
+   "published": "2026-09-27",
+   "title": "Rétvári Bence: Lannert Judit férje a Debreceni Egyetemet fenntartó kekva vagyonellenőreként 57 millió forintot kapott",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "KDNP faction leader Rétvári Bence alleged on Facebook that Lannert Judit's husband received 57,082,800 forints as an asset controller of the Gróf Tisza István Egyetemért Kekva.",
+    "about_promise": false,
+    "actor": "opposition",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-09-27",
+    "quote": "",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 1167,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "25",
+   "group": "was_broken",
+   "promise_id": "OKT-007",
+   "entry_id": "8ab4a5acd3bddf4ffb2aacc4fc39aa23ca23ae94",
+   "url": "https://www.portfolio.hu/gazdasag/20260715/mennek-a-vesztohelyre-a-kozerdeku-vagyonkezelok-dontott-magyar-peter-849690",
+   "outlet": "Portfolio",
+   "published": "2026-07-15",
+   "title": "Mennek a vesztőhelyre a közérdekű vagyonkezelők, döntött Magyar Péter",
+   "gold": "step",
+   "accept": [
+    "partial",
+    "kept"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government decided and published a decree to dissolve 16 non-university public-interest asset-managing foundations (including the Mathias Corvinus Collegium) and appointed settlement commissioners for each, effective July 31, 2026.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "partial",
+    "event_date": "2026-07-15",
+    "quote": "A kormányhatározat szerint július 31-ével 16 szervezet szűnik meg, mindegyik mellé elszámolási biztost rendeltek ki.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 374,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "26",
+   "group": "was_broken",
+   "promise_id": "OKT-009",
+   "entry_id": "92aad0cf85bcb2d55e3778206178125171fce1cd",
+   "url": "https://mandiner.hu/belfold/2026/09/lannert-judit-visszater-az-erasmus-a-magyar-egyetemekre",
+   "outlet": "Mandiner",
+   "published": "2026-09-04",
+   "title": "Lannert Judit: Visszatér az Erasmus a magyar egyetemekre",
+   "gold": "step",
+   "accept": [
+    "partial",
+    "kept",
+    "intent"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "The Tisza government (education minister Lannert Judit) announced it had completed the necessary steps by the end of August so the Erasmus programme is again available to Hungarian university students and 21 affected universities have valid Erasmus mobility applications for 2026–27.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "partial",
+    "event_date": "2026-09-04",
+    "quote": "Lannert Judit közölte: a magyar kormány augusztus végéig minden szükséges lépést megtett azért, hogy az Erasmus-program újra elérhető legyen a magyar egyetemisták számára.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 3448,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "27",
+   "group": "was_broken",
+   "promise_id": "OKT-009",
+   "entry_id": "1c8b5a1ded17d06b994a91651b4312a616e32de9",
+   "url": "https://magyarnemzet.hu/belfold/2026/09/erasmus-ugy-magyar-peterek-a-semmit-jelentettek-be-a-diakok-tovabbra-sem-utazhatnak?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Magyar Nemzet",
+   "published": "2026-09-07",
+   "title": "Erasmus-ügy: Magyar Péterék a semmit jelentették be, a diákok továbbra sem utazhatnak",
+   "gold": "none",
+   "accept": [
+    "delay",
+    "intent",
+    "step"
+   ],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "2026-09-07: the Tisza government stated that it had fulfilled the conditions for Hungary's return to the Erasmus and Horizon programmes.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-09-07",
+    "quote": "A kormány azt állítja, hogy teljesítették a visszatéréshez szükséges feltételeket,",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 1754,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "28",
+   "group": "was_broken",
+   "promise_id": "VIZ-002",
+   "entry_id": "697edec1068dffd098d429772f433dcfbd19fa37",
+   "url": "https://telex.hu/belfold/2026/06/24/miskolc-szinva-patak-vasoxid-szennyezes-vizminosegromlas",
+   "outlet": "Telex",
+   "published": "2026-06-24",
+   "title": "Jelentősen romlott a vízminőség a narancssárgára váltott miskolci Szinva patakban",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "broken",
+   "recorded": {
+    "what_happened": "A lab investigation found that a pollution detected on Tuesday 2026-06-23 in the Miskolc section of the Szinva stream caused significant water quality deterioration, the mayor reported on 2026-06-24.",
+    "about_promise": false,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-06-23",
+    "quote": "A laboratóriumi vizsgálatok alapján a Szinva patak miskolci részén kedden észlelt szennyezés nemcsak elszíneződést, hanem jelentős vízminőségromlást is okozott – közölte posztjában Tóth-Szántai József, Miskolc polgármestere szerda délután.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 1699,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "29",
+   "group": "was_kept",
+   "promise_id": "EGU-006",
+   "entry_id": "87af6f6fa2a4aa9b02f642e19ec9500c1d496c8f",
+   "url": "https://nepszava.hu/3329916_hegedus-zsolt-egeszsegugy-kozpenzek-felhasznalasa-venykoteles-gyogyszerek-korhazi-fertozesek-szervezeti-atalakitas",
+   "outlet": "Népszava",
+   "published": "2026-07-28",
+   "title": "Hegedűs Zsolt az újabb kánikula előtt bejelentette, 32 kórházból 18-ban már elkészült, háromban már működik a klíma, 11 helyen még dolgoznak",
+   "gold": "kept",
+   "accept": [],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Tisza government established an independent Ministry of Health, referred to in the article as the newly created Egészségügyi Minisztérium.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-07-28",
+    "quote": "a Tisza-kormány, az újonnan létrehozott Egészségügyi Minisztérium a felelősség áthárítása, a problémák eltakarása, parancsuralom, a rendészeti logika helyett az őszinteséget és a betegközpontúságot vezette be.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 2584,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "30",
+   "group": "was_kept",
+   "promise_id": "GAZ-001",
+   "entry_id": "d1782be66c60e986fc6caa8c88d22b0fc51d143d",
+   "url": "https://nepszava.hu/3328373_orszaggyules-vitezy-david-napirend-elott",
+   "outlet": "Népszava",
+   "published": "2026-07-06",
+   "title": "Vitézy Dávid: Öt hazugság a Fidesztől, hogy miért nem hozták haza a magyarok pénzét Brüsszelből",
+   "gold": "step",
+   "accept": [
+    "partial",
+    "kept"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The governing majority in Parliament voted the laws necessary to bring home the EU funds on 2026-07-06.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-07-06",
+    "quote": "Megszavazták az országgyűlési képviselők az uniós források hazahozatalához szükséges törvényeket",
+    "confidence": 0.85
+   },
+   "recorded_body_chars": 3570,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "31",
+   "group": "was_kept",
+   "promise_id": "GAZ-004",
+   "entry_id": "682a0750add3cc083fb968b7335ad66fd6e0394b",
+   "url": "https://www.portfolio.hu/podcast/20260506/ki-fog-dolgozni-a-hatalmas-uj-gyarakban-ha-mindezt-meglepi-a-tisza-835076",
+   "outlet": "Portfolio",
+   "published": "2026-05-06",
+   "title": "Ki fog dolgozni a hatalmas új gyárakban, ha mindezt meglépi a Tisza?",
+   "gold": "intent",
+   "accept": [],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "On 2026-05-06 the incoming Tisza government announced it would suspend the import of non-European (non-EU) guest workers.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-05-06",
+    "quote": "Az új kormány alig egy hónappal hivatalba lépése után felfüggeszti az unión kívüli vendégmunkások behozatalát.",
+    "confidence": 0.78
+   },
+   "recorded_body_chars": 4671,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "32",
+   "group": "was_kept",
+   "promise_id": "GAZ-004",
+   "entry_id": "fd077d75bbafa9020b92644a75f5c1b80cc07e6b",
+   "url": "https://www.portfolio.hu/gazdasag/20260605/dontott-magyar-peter-kormanya-azonnali-hatallyal-vege-a-jelenlegi-vendegmunkas-rendszernek-841496",
+   "outlet": "Portfolio",
+   "published": "2026-06-05",
+   "title": "Döntött Magyar Péter kormánya: azonnali hatállyal vége a jelenlegi vendégmunkás-rendszernek",
+   "gold": "kept",
+   "accept": [
+    "partial"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Tisza government issued and published a decree (announced Friday) that closes the foreign worker channel based on guest-worker residence permits, so no third-country nationals may be employed under that title in Hungary going forward.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "partial",
+    "event_date": "2026-06-05",
+    "quote": "A kormány pénteken kihirdetett rendelete lezárja a vendégmunkás-tartózkodási engedélyen alapuló külföldi munkavállalási csatornát: a jövőben egyetlen harmadik ország állampolgára sem foglalkoztatható ilyen jogcímen Magyarországon.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 395,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "33",
+   "group": "was_kept",
+   "promise_id": "GAZ-004",
+   "entry_id": "d245d00b52089665715d3c72149af0dc6bdfd0cc",
+   "url": "https://nepszava.hu/3324953_vendekmunkasok-tartozkodasi-engedely-tisza-kormany-rendelet-magyar-kozlony",
+   "outlet": "Népszava",
+   "published": "2026-06-05",
+   "title": "Megjelent a Tisza-kormány rendelete, nem adnak ki több vendégmunkás-tartózkodási engedélyt Magyarországon",
+   "gold": "kept",
+   "accept": [
+    "partial"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Tisza government published a decree (in the Magyar Közlöny) that stops issuing guest-worker residence permits and restricts foreign workers to entering only with employment permits.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-06-05",
+    "quote": "Magyarország nem ad ki ezentúl vendégmunkás-tartózkodási engedélyt, kizárólag foglalkoztatási engedéllyel jöhetnek külföldi dolgozók – vette észre a hvg az erről szóló kormányrendeletet pénteken a Magyar Közlönyben.",
+    "confidence": 0.82
+   },
+   "recorded_body_chars": 2079,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "34",
+   "group": "was_kept",
+   "promise_id": "JOG-002",
+   "entry_id": "4adc1f4e0c2c84720cfb68338c896340b928cc18",
+   "url": "https://www.portfolio.hu/gazdasag/20260515/kormanyalakitas-meglepetest-igert-magyar-peter-a-karmelitabol-836924",
+   "outlet": "Portfolio",
+   "published": "2026-05-15",
+   "title": "Kormányalakítás: meglepetést ígért Magyar Péter a Karmelitából",
+   "gold": "kept",
+   "accept": [
+    "none",
+    "step"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Tisza government ended the regime of governance by decree that had been in place since 2020, reported on 2026-05-15.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-05-15",
+    "quote": "valamint megszűnt a 2020 óta fennálló rendeleti kormányzást.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 1277,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "35",
+   "group": "was_kept",
+   "promise_id": "JOG-006",
+   "entry_id": "e49962fe7c721ba66003395c13f9b45616e77584",
+   "url": "https://telex.hu/belfold/2026/06/30/parlament-szavazas-szuverenitasvedelmi-hivatal-megszuntetes",
+   "outlet": "Telex",
+   "published": "2026-06-30",
+   "title": "Megszavazták a Szuverenitásvédelmi Hivatal megszüntetését",
+   "gold": "kept",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Tisza government's parliamentary majority voted to pass a bill abolishing the Sovereignty Protection Office on 2026-06-30.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-06-30",
+    "quote": "Az Országgyűlés 135 igen szavazattal, 44 nem ellenében, 6 tartózkodás mellett a keddi rendkívüli ülésen megszavazta a Tisza Párt képviselője, Melléthei-Barna Márton törvényjavaslatát, ami megszünteti a Szuverenitásvédelmi Hivatalt.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 4695,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "36",
+   "group": "was_kept",
+   "promise_id": "JOG-006",
+   "entry_id": "c270deddd0626b9e759ded27bf0d6b48797010b6",
+   "url": "https://hvg.hu/itthon/20260701_megszuntettek-a-szuverenitasvedelmi-hivatalt-magyar-peter-reformot-igert-a-vizellatasban-newscast",
+   "outlet": "HVG",
+   "published": "2026-07-01",
+   "title": "Megszüntették a Szuverenitásvédelmi Hivatalt, Magyar Péter reformot ígért a vízellátásban – Newscast",
+   "gold": "kept",
+   "accept": [],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Sovereignty Protection Office was abolished (reported 2026-07-01).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-07-01",
+    "quote": "Megszüntették a Szuverenitásvédelmi Hivatalt",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 399,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "37",
+   "group": "was_kept",
+   "promise_id": "KOR-001",
+   "entry_id": "b3587b9b2f511feae92b539b890e8274d0741ad2",
+   "url": "https://telex.hu/velemeny/2026/08/22/europai-ugyeszseg-eppo-csatlakozas-nemzeti-szuverenitas-korrupcio-eu",
+   "outlet": "Telex",
+   "published": "2026-08-22",
+   "title": "Nem a szuverenitást, hanem az állami szintre emelt korrupciót veszélyezteti az Európai Ügyészség",
+   "gold": "kept",
+   "accept": [],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "On 2026-07-10 the European Public Prosecutor's Office accepted Hungary's accession request, and Hungary became a member of the EPPO.",
+    "about_promise": true,
+    "actor": "counterparty",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-07-10",
+    "quote": "Különösebb hírverés nélkül jelent meg a sajtóban 2026. július 10. napján, hogy Magyarország csatlakozási kérelmét az Európai Ügyészség (European Public Prosecutor’s Office, EPPO) elfogadta.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 11002,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "38",
+   "group": "was_kept",
+   "promise_id": "KOR-001",
+   "entry_id": "072d399c0a32945666498b76e78950150e8d8473",
+   "url": "https://index.hu/belfold/2026/09/29/magyarorszag-europai-ugyeszseg-eppo-europai-unio-korrupcio/",
+   "outlet": "Index",
+   "published": "2026-09-29",
+   "title": "Jövőre kezdheti meg működését Magyarországon az új korrupcióellenes szerv",
+   "gold": "kept",
+   "accept": [],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The European Commission adopted the decision and it entered into force on 2026-08-02, making Hungary officially a member of the European Public Prosecutor's Office.",
+    "about_promise": true,
+    "actor": "counterparty",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-08-02",
+    "quote": "Ezt az Európai Bizottság június 10-én elfogadta, majd a határozat augusztus 2-án hatályba is lépett, így azóta Magyarország is hivatalosan is tagja az Európai Ügyészségnek.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 4495,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "39",
+   "group": "was_kept",
+   "promise_id": "KOR-002",
+   "entry_id": "3e372be81b2d34e6aa16d5f9173b38c9c452c52e",
+   "url": "https://nepszava.hu/3330045_tisza-kormany-elszamoltatas",
+   "outlet": "Népszava",
+   "published": "2026-07-31",
+   "title": "Fejeket követel a közvélemény",
+   "gold": "kept",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Tisza government's parliamentary majority in the Országgyűlés adopted a law creating the Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal (NVVH) on 2026-07-28.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-07-28",
+    "quote": "Az Országgyűlés kedden 143 igen és 46 nem szavazattal fogadta el a Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal (NVVH) létrehozásáról szóló törvényt, ezzel teljesült a Tisza Párt és Magyar Péter talán legfőbb választási ígérete:",
+    "confidence": 0.86
+   },
+   "recorded_body_chars": 5302,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "40",
+   "group": "was_kept",
+   "promise_id": "KOR-002",
+   "entry_id": "ca3999a33ce6441c76965bc9d9d68a38198895f3",
+   "url": "https://www.portfolio.hu/gazdasag/20260828/unger-anna-iranyitja-az-uj-elszamoltatasi-szervezetet-megvalasztotta-az-nvvh-elnokeve-a-parlament-858854",
+   "outlet": "Portfolio",
+   "published": "2026-08-28",
+   "title": "Unger Anna irányítja az új elszámoltatási szervezetet, megválasztotta az NVVH elnökévé a parlament",
+   "gold": "kept",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Hungarian Parliament elected Unger Anna Róza as president of the newly created Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal (NVVH) on 2026-08-28.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-08-28",
+    "quote": "Az Országgyűlés megválasztotta Unger Anna Rózát a Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal (NVVH) elnökének.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 368,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "41",
+   "group": "was_kept",
+   "promise_id": "KOR-002",
+   "entry_id": "d7985d36f8196d5c8ec26811a097a9c9ab2105ca",
+   "url": "https://www.portfolio.hu/gazdasag/20260829/tisza-kormany-indulhat-az-elszamoltatas-de-sulyos-kritikakat-kap-a-tisza-unger-anna-nvvh-elnoki-megvalasztasa-utan-859098",
+   "outlet": "Portfolio",
+   "published": "2026-08-29",
+   "title": "Tisza-kormány: indulhat az elszámoltatás, de súlyos kritikákat kap a Tisza Unger Anna NVVH-elnöki megválasztása után",
+   "gold": "kept",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Parliament elected Unger Anna Róza as head of the Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal on 2026-08-29.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-08-29",
+    "quote": "Az Országgyűlés pénteken megválasztotta Unger Anna Rózát a Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal élére, a döntés azonban komoly politikai és szakmai vitát váltott ki.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 1214,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "42",
+   "group": "was_kept",
+   "promise_id": "KOR-002",
+   "entry_id": "5dd683cf3abd4157c797dd8d58b6d90ca19ccb6a",
+   "url": "https://hvg.hu/itthon/20260828_nvvh-magyar-peter-tasnady-katalin-vezeto",
+   "outlet": "HVG",
+   "published": "2026-08-28",
+   "title": "A korrupcióellenes hivatal legfontosabb vezetőjének nevezte a miniszterelnök Tasnády Katalint",
+   "gold": "kept",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Tisza-led parliamentary majority (Országgyűlés) elected Unger Anna as president and Tasnády Katalin as investigative deputy president of the Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal on 2026-08-28.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-08-28",
+    "quote": "Tasnády Katalin főügyészségi ügyészt pénteken választotta meg az Országgyűlés a Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal nyomozati elnökhelyettesévé.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 1389,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "43",
+   "group": "was_kept",
+   "promise_id": "KOR-002",
+   "entry_id": "3b6d46f011cc88083710aed89964ddc3bf96a707",
+   "url": "https://www.portfolio.hu/gazdasag/20260828/magyar-peter-valoszinuleg-tasnady-katalin-lesz-a-korrupcioellenes-hivatal-legfontosabb-vezetoje-859082",
+   "outlet": "Portfolio",
+   "published": "2026-08-28",
+   "title": "Magyar Péter: valószínűleg Tasnády Katalin lesz a korrupcióellenes hivatal legfontosabb vezetője",
+   "gold": "kept",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Nemzeti Vagyonvisszaszerzési és Védelmi Hivatal (National Asset Recovery and Protection Office) has been in place and on 2026-08-28 it announced/elected Dr. Tasnády Katalin as its investigative deputy head and Unger Anna as its president.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-08-28",
+    "quote": "Íme a Nemzeti Vagyonvisszaszerzési és Védelmi Hivatal ma megválasztott nyomozati elnökhelyettese, dr. Tasnády Katalin főügyészségi ügyész” – írta ki a miniszterelnök, majd posztolt egy képet az ügyészről.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 4994,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "44",
+   "group": "was_kept",
+   "promise_id": "KOR-002",
+   "entry_id": "6267239889f55d659e0cd1ce9a4d503fd3cffd57",
+   "url": "https://hvg.hu/gazdasag/20260830_es-akkor-elszamoltatas-vagyonvisszaszerzes-bayer-koltsegvetes-energia",
+   "outlet": "HVG",
+   "published": "2026-08-30",
+   "title": "És akkor a Tisza nekifut, hátha végre lesz egy sikeres elszámoltatás",
+   "gold": "kept",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The parliament elected the leaders of the National Asset Recovery and Asset Protection Office on 2026-08-28.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-08-28",
+    "quote": "a hét egyik legfontosabb feladata volt megválasztani a Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal vezetőit.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 6133,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "45",
+   "group": "was_kept",
+   "promise_id": "KOR-002",
+   "entry_id": "c4988234e0afdd64dd7116cbc98e80c93eb9d2e3",
+   "url": "https://hvg.hu/itthon/20260915_hvg-cimlapsztori-unger-nehez-posony-vagyonvisszaszerzes",
+   "outlet": "HVG",
+   "published": "2026-09-15",
+   "title": "Várhat börtön a NER-vezérekre? Unger Anna a HVG-Címlapsztoriban",
+   "gold": "kept",
+   "accept": [
+    "none"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Tisza government created the Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal and the office has a recently elected president (reported 2026-09-15).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-09-15",
+    "quote": "a Tisza-kormány által létrehozott Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal nemrég megválasztott elnökével",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 1464,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "46",
+   "group": "was_kept",
+   "promise_id": "KOR-002",
+   "entry_id": "43b43ae79e373a030295eaf44945611be61f9679",
+   "url": "https://hvg.hu/itthon/20260927_magyar-peter-hetfon-az-orszaggyules-ket-korrupt-politikust-atad-a-nyomozoknak",
+   "outlet": "HVG",
+   "published": "2026-09-27",
+   "title": "Magyar Péter: Hétfőn több ügyben nyomozást indít a vagyonvisszaszerzési hivatal",
+   "gold": "kept",
+   "accept": [],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "Prime Minister Magyar Péter announced on 2026-09-27 that the National Asset Recovery Office will begin investigations into several high-profile corruption cases starting Monday.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-09-27",
+    "quote": "A Nemzeti Vagyonvisszaszerzési Hivatal megkezdi a nyomozást több kiemelt korrupciós ügyben.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 1324,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "47",
+   "group": "was_kept",
+   "promise_id": "KOR-002",
+   "entry_id": "a191274d095e14b6d41a5fee1668f8c1ed11240b",
+   "url": "https://nepszava.hu/3333757_nvvh-korrupcio-vizsgalat-orban-aron-mikulas-negy-ugy",
+   "outlet": "Népszava",
+   "published": "2026-09-28",
+   "title": "Orbán Árontól a Lánczi-féle Mikulásig: négy ügy az NVVH előtt",
+   "gold": "kept",
+   "accept": [],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "On 2026-09-28 the National Asset Recovery and Asset Protection Office (NVVH), led by Unger Anna, announced it would take over four cases previously handled by other authorities.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-09-28",
+    "quote": "Az Unger Anna által vezetett Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal (NVVH) bejelentette, hogy négy, korábban más hatóságok által vizsgált ügyet vesz át:",
+    "confidence": 0.85
+   },
+   "recorded_body_chars": 8430,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "48",
+   "group": "was_kept",
+   "promise_id": "OKT-009",
+   "entry_id": "abaa59ee768337b347525af207c2039cd5f48d34",
+   "url": "https://hvg.hu/itthon/20260904_lannert-judit-erasmus-program-magyar-egyetemek",
+   "outlet": "HVG",
+   "published": "2026-09-04",
+   "title": "Lannert Judit: Visszatér az Erasmus a magyar egyetemekre",
+   "gold": "partial",
+   "accept": [
+    "kept",
+    "step"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "On 2026-09-04 Education Minister Lannert Judit announced that all 21 previously restricted Hungarian universities have valid Erasmus mobility applications for 2026/2027, allowing their students to apply.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "partial",
+    "event_date": "2026-09-04",
+    "quote": "Visszatér az Erasmus-program a magyar egyetemekre – jelentette be Lannert Judit oktatási és gyermekügyi miniszter a Facebookon.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 1365,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "49",
+   "group": "was_kept",
+   "promise_id": "OKT-009",
+   "entry_id": "98b830649738017d24d1564288aca6e7636d0b16",
+   "url": "https://444.hu/2026/09/04/lannert-judit-az-erasmus-visszater-minden-magyar-egyetemre?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication",
+   "outlet": "444.hu",
+   "published": "2026-09-04",
+   "title": "Lannert Judit: Az Erasmus visszatér minden magyar egyetemre",
+   "gold": "partial",
+   "accept": [
+    "kept",
+    "step"
+   ],
+   "production_verdict": "kept",
+   "recorded": {
+    "what_happened": "The Tisza government (Education Minister Lannert Judit) announced it had completed the necessary steps by the end of August so that the Erasmus programme can become available again to Hungarian university students, and reported that the 21 affected universities hold valid Erasmus mobility applications for the 2026/2027 academic year.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "partial",
+    "event_date": "2026-08-31",
+    "quote": "„A magyar kormány augusztus végéig minden szükséges lépést megtett azért, hogy az Erasmus program újra elérhető legyen a magyar egyetemisták számára.\"",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 3222,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "50",
+   "group": "was_in_progress",
+   "promise_id": "KOZ-007",
+   "entry_id": "2bb179005de3b0068758fb1961908dd25c4babe6",
+   "url": "https://hvg.hu/gazdasag/20260511_vitezy-david-meghallgatas-parlament-miniszter-kozlekedes-vasut-kozut-beruhazas",
+   "outlet": "HVG",
+   "published": "2026-05-11",
+   "title": "A túlárazott projektek azonnali felülvizsgálatát, bezárt vasútvonal újranyitását, a KRESZ reformját és az autópálya-koncessziók azonnali felülvizsgálatát ígérte Vitézy Dávid",
+   "gold": "intent",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "On 2026-05-11, minister-designate Vitézy Dávid said the new government will begin an immediate review of motorway concessions the day after it takes office.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "partial",
+    "event_date": "2026-05-11",
+    "quote": "A kérdésre pedig, hogy mikor látnak neki az autópálya-koncessziók felülvizsgálatának, azt válaszolta: a kormány hivatalba lépését követően másnap.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 8834,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "51",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-001",
+   "entry_id": "3e0f450163245e49deaf41ff32019f7518472dc5",
+   "url": "https://mandiner.hu/belfold/2026/08/vitezy-teljesultek-az-unios-forrasok-lehivasanak-feltetelei-karacsony-szerint-eljohet-budapest-aranykora",
+   "outlet": "Mandiner",
+   "published": "2026-08-31",
+   "title": "Vitézy: Teljesültek az uniós források lehívásának feltételei – Karácsony szerint eljöhet Budapest aranykora",
+   "gold": "step",
+   "accept": [
+    "partial"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "On 2026-08-31 the transport and investment minister Vitézy announced that the government completed all required legislative conditions to access the full amount of frozen EU recovery and cohesion funds.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "full",
+    "event_date": "2026-08-31",
+    "quote": "A kormány minden szükséges jogalkotási feltételt teljesített ahhoz, hogy Magyarország hozzáférjen az uniós helyreállítási alap és a befagyasztott kohéziós források teljes összegéhez – jelentette be Vitézy Dávid közlekedési és beruházási miniszter hétfőn Budapesten.",
+    "confidence": 0.85
+   },
+   "recorded_body_chars": 3324,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "52",
+   "group": "was_in_progress",
+   "promise_id": "ADO-003",
+   "entry_id": "6ac04901ef5f381200cf86d963ccbad25de32583",
+   "url": "https://magyarnemzet.hu/belfold/2026/10/retvari-bence-a-magyar-csaladi-vallalkozasokat-sujtja-majd-a-vagyonado?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Magyar Nemzet",
+   "published": "2026-10-04",
+   "title": "Rétvári Bence: A magyar családi vállalkozásokat sújtja majd a vagyonadó",
+   "gold": "none",
+   "accept": [
+    "intent"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "No new official government act was reported; the article quotes KDNP's Rétvári Bence saying in a Facebook video that the Tisza government plans to introduce a wealth tax next year (article published 2026-10-04).",
+    "about_promise": true,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-10-04",
+    "quote": "",
+    "confidence": 0.72
+   },
+   "recorded_body_chars": 727,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "53",
+   "group": "was_in_progress",
+   "promise_id": "ADO-006",
+   "entry_id": "8386bd03285a6097c1f2ba6880a0fc74f47d892b",
+   "url": "https://telex.hu/gazdasag/2026/06/05/gki-gazdasagkutato-kata-adozas-visszavezetese-attero-vallalkozasok",
+   "outlet": "Telex",
+   "published": "2026-06-05",
+   "title": "GKI: Negyedmillió vállalkozás ugorhat a katába, ha jövőre visszavezetik",
+   "gold": "intent",
+   "accept": [
+    "none"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Finance Minister Kármán András told the Parliament on 2026-06-01 that the government plans to restore broad access to KATA from 2027.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-06-01",
+    "quote": "„A kormány tervei szerint 2027-től visszaállítja a katának a széles körű elérhetőségét” – válaszolta Kármán András pénzügyminiszter Apáti István mi hazánkos képviselő azonnali kérdésére a Parlamentben június 1-én.",
+    "confidence": 0.87
+   },
+   "recorded_body_chars": 3894,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "54",
+   "group": "was_in_progress",
+   "promise_id": "ADO-003",
+   "entry_id": "d079d504beb4dae153b3ac053f1139c52470deaa",
+   "url": "https://www.portfolio.hu/podcast/20261007/mar-latszik-hogy-szigoru-lesz-a-vagyonado-megkerulni-sem-lesz-egyszeru-868056",
+   "outlet": "Portfolio",
+   "published": "2026-10-07",
+   "title": "Már látszik, hogy szigorú lesz a vagyonadó, megkerülni sem lesz egyszerű",
+   "gold": "step",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government put a draft wealth tax (vagyonadó) out for public (social) consultation, as reported on 2026-10-07.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-10-07",
+    "quote": "A műsor első részében a társadalmi egyeztetésre bocsátott vagyonadóról volt szó:",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 4236,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "55",
+   "group": "was_in_progress",
+   "promise_id": "ADO-003",
+   "entry_id": "fe12d905511f1092fdfa271204e7aeabb20829df",
+   "url": "https://mandiner.hu/belfold/2026/04/a-feketegazdasag-melegagya-lehet-a-tisza-altal-tervezett-vagyonado",
+   "outlet": "Mandiner",
+   "published": "2026-04-24",
+   "title": "A feketegazdaság melegágya lehet a Tisza által tervezett vagyonadó",
+   "gold": "none",
+   "accept": [
+    "intent"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "No new official step was reported on introducing a 1% annual wealth tax above HUF 1 billion; the article (2026-04-24) quotes economist Lentner Csaba criticizing the Tisza Party's proposal.",
+    "about_promise": true,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-04-24",
+    "quote": "",
+    "confidence": 0.76
+   },
+   "recorded_body_chars": 7979,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "56",
+   "group": "was_in_progress",
+   "promise_id": "ADO-003",
+   "entry_id": "5f35d6066725201f59a3e876434eaadf76b5de09",
+   "url": "https://telex.hu/gazdasag/2026/10/06/magyar-peter-bejelentes-kata-bovites-vagyonado",
+   "outlet": "Telex",
+   "published": "2026-10-06",
+   "title": "Magyar Péter bejelentette a vagyonadó és a kata részleteit",
+   "gold": "step",
+   "accept": [
+    "intent"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government (prime minister Magyar Péter) announced that the government decided the details of a wealth tax and will introduce a tax from 2027-01-01 with a rate of 1% on wealth above HUF 1 billion (and 1.5% above HUF 100 billion).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "full",
+    "event_date": "2026-10-06",
+    "quote": "„A kormány döntött a milliárdosok vagyonadójának részleteiről, a kata adózás kibővítéséről, és a profi labdarúgók és egyéb sportolók adókönnyítésének eltörléséről” – jelentette be Magyar Péter miniszterelnök keddi Facebook-videójában.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 6255,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "57",
+   "group": "was_in_progress",
+   "promise_id": "ADO-006",
+   "entry_id": "5f35d6066725201f59a3e876434eaadf76b5de09",
+   "url": "https://telex.hu/gazdasag/2026/10/06/magyar-peter-bejelentes-kata-bovites-vagyonado",
+   "outlet": "Telex",
+   "published": "2026-10-06",
+   "title": "Magyar Péter bejelentette a vagyonadó és a kata részleteit",
+   "gold": "step",
+   "accept": [
+    "intent"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government (Prime Minister Magyar Péter) announced on 2026-10-06 that it has decided to expand KATA and make it widely available again, including restoring access for part-time entrepreneurs, pensioners and students and allowing KATA taxpayers to invoice companies.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-10-06",
+    "quote": "A kormány döntött a milliárdosok vagyonadójának részleteiről, a kata adózás kibővítéséről, és a profi labdarúgók és egyéb sportolók adókönnyítésének eltörléséről",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 6255,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "58",
+   "group": "was_in_progress",
+   "promise_id": "OKT-005",
+   "entry_id": "1b62e806f0c0d611957eee96b5e545e6359a6c18",
+   "url": "https://telex.hu/belfold/2026/07/19/kekva-gorog-marta-igazsagugyi-miniszter-torveny-kozfeladatok",
+   "outlet": "Telex",
+   "published": "2026-07-19",
+   "title": "Görög Márta igazságügyi miniszter: A kekvákba kiszervezett állami vagyon visszakerülhet az államhoz",
+   "gold": "intent",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Görög Márta, the justice minister of the current Tisza government, publicly presented the content of a draft law on 2026-07-19 that would restructure the KEKVA foundations, return state-origin assets in them to the state, discontinue certain KEKVAs, and restore university autonomy and senate powers.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-07-19",
+    "quote": "Részletesen ismertette annak a törvényjavaslatnak a tartalmát Görög Márta igazságügyi miniszter, amellyel egyebek mellett átalakítanák az úgynevezett közfeladatot ellátó közérdekű vagyonkezelő alapítványok (kekva) rendszerét, és az ezekben lévő állami eredetű vagyon visszakerülne az államhoz.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 2099,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "59",
+   "group": "was_in_progress",
+   "promise_id": "KOR-001",
+   "entry_id": "5187630a1ade8bcc84c0f792288790e3319b30a6",
+   "url": "https://telex.hu/kulfold/2026/04/22/europai-ugyeszseg-csatlakozas-menete-tisza-magyar-peter",
+   "outlet": "Telex",
+   "published": "2026-04-22",
+   "title": "Egészen új lehetőségek tárulnak fel az uniós csalások és a korrupciós ügyek vizsgálatára",
+   "gold": "intent",
+   "accept": [
+    "none"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Telex reported on 2026-04-22 that Magyar Péter, after the Tisza Party's electoral victory, reaffirmed at his first international press conference as prime minister‑designate that Hungary will join the European Public Prosecutor's Office (EPPO).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-04-22",
+    "quote": "Egy évvel később, az országgyűlési választáson aratott elsöprő tiszás győzelem után ezt már leendő miniszterelnökként első nemzetközi sajtótájékoztatóján is megerősítette.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 10268,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "60",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-001",
+   "entry_id": "10d25e0a30ba75d1e9c82820e6b6a4b7b60cc795",
+   "url": "https://www.portfolio.hu/global/20260724/kiderult-mivel-fordult-az-alkotmanybirosaghoz-a-fidesz-851932",
+   "outlet": "Portfolio",
+   "published": "2026-07-24",
+   "title": "Kiderült, mivel fordult az Alkotmánybírósághoz a Fidesz",
+   "gold": "none",
+   "accept": [
+    "intent",
+    "step"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government adopted a law to implement the agreement with the European Commission aimed at securing the currently frozen EU funds (reported by 2026-07-24).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-07-24",
+    "quote": "Ennek az egyezségnek a végrehajtását szolgálja az a törvény, amelyet a fideszes és KDNP-s képviselők most utólagos normakontroll keretében támadnak, miközben az Alaptörvény tizenhatodik módosításának egyik cikkét is megsemmisíttetnék.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 6461,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "61",
+   "group": "was_in_progress",
+   "promise_id": "KOR-003",
+   "entry_id": "1385e80ab15c0adca828c0540452e32486453ac1",
+   "url": "https://telex.hu/gazdasag/2026/05/08/mnb-alapitvany-asz-vizsgalat-jelentes-matolcsy-adam-matolcsy-gyorgy",
+   "outlet": "Telex",
+   "published": "2026-05-08",
+   "title": "Matolcsyék a METU-nál megalkották az állami pénzből meggazdagodás legarcátlanabb receptjét",
+   "gold": "none",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "On 2026-05-07 the State Audit Office (ÁSZ) published a report on the METU and announced it would close its investigations by filing criminal complaints after finding that public funds were siphoned to Matolcsy's circle.",
+    "about_promise": false,
+    "actor": "third_party",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-05-07",
+    "quote": "A május 7-én megjelent ÁSZ-jelentésből már tudjuk, hogy a számvevőszék ismét büntetőfeljelentéssel lesz kénytelen zárni a vizsgálódásait, miután kiderítette, hogy a METU-ból is a Matolcsy-kör áramoltatta ki a közpénzt.",
+    "confidence": 0.78
+   },
+   "recorded_body_chars": 16425,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "62",
+   "group": "was_in_progress",
+   "promise_id": "ADO-003",
+   "entry_id": "437b060d7d1a46fae303fe000791549a00bd7afd",
+   "url": "https://www.portfolio.hu/gazdasag/20261009/magyar-peter-es-vitezy-david-kokemenyen-beleszallt-meszaros-lorincbe-es-az-allami-szamvevoszekbe-868628",
+   "outlet": "Portfolio",
+   "published": "2026-10-09",
+   "title": "Magyar Péter és Vitézy Dávid kőkeményen beleszállt Mészáros Lőrincbe és az Állami Számvevőszékbe",
+   "gold": "intent",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "On 2026-10-09, Prime Minister Magyar Péter said at a government press briefing that the government plans to introduce a wealth tax.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-10-09",
+    "quote": "A tájékoztatón Magyar Péter a vagyonadó bevezetéséről és a kata módosításáról beszélt.",
+    "confidence": 0.75
+   },
+   "recorded_body_chars": 24133,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "63",
+   "group": "was_in_progress",
+   "promise_id": "OKT-009",
+   "entry_id": "9f40d80daf489672046aa74dd5cff35a6d9eaacf",
+   "url": "https://www.portfolio.hu/gazdasag/20260905/tisza-kormany-marad-valsaghelyzet-dontes-szuletett-a-bayer-construct-csodjerol-is-860644",
+   "outlet": "Portfolio",
+   "published": "2026-09-05",
+   "title": "Tisza-kormány: marad válsághelyzet, döntés született a Bayer Construct csődjéről is",
+   "gold": "intent",
+   "accept": [
+    "step",
+    "partial"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government announced that from the 2026/2027 academic year the Erasmus programme will again be available to all Hungarian universities (reported 2026-09-05).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "full",
+    "event_date": "2026-09-05",
+    "quote": "Az oktatásban is jelentős fordulat várható: 2026/2027-től újra elérhető lesz az Erasmus-program minden magyar egyetem számára,",
+    "confidence": 0.78
+   },
+   "recorded_body_chars": 1230,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "64",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-004",
+   "entry_id": "1fa11c0db7881bb5e34afb87d87aaa3197a18647",
+   "url": "https://www.portfolio.hu/befektetes/20260505/felfuggeszthetik-a-vendegmunkas-engedelyeket-reagalt-egy-munkaerokolcsonzo-ceg-834762",
+   "outlet": "Portfolio",
+   "published": "2026-05-05",
+   "title": "Felfüggeszthetik a vendégmunkás engedélyeket - Reagált egy munkaerőkölcsönző cég",
+   "gold": "intent",
+   "accept": [
+    "none"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government signalled it may temporarily suspend the system of work permits for guest workers from outside Europe starting 2026-06-01 and begin reviewing the related regulations.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-05-05",
+    "quote": "A Tisza-kormány eddigi kommunikációja alapján 2026. június 1-jétől a vendégmunkások részére kiadandó engedélyek rendszere átmenetileg felfüggesztésre kerülhet, egyidejűleg a vonatkozó szabályozás felülvizsgálata is megkezdődhet.",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 364,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "65",
+   "group": "was_in_progress",
+   "promise_id": "ADO-006",
+   "entry_id": "50d0090f49e48a96eb6f4052bb1bd92cccd91c60",
+   "url": "https://168.hu/penz/kata-szja-13-es-14-havi-nyugdij-karman-andras-297026",
+   "outlet": "168.hu",
+   "published": "2026-05-12",
+   "title": "Visszatér a KATA, csökken az szja, megmarad a 13. és 14. havi nyugdíj",
+   "gold": "intent",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The article (published 2026-05-12) mentions that KATA will return but does not report any concrete official act delivering or advancing that promise.",
+    "about_promise": true,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-05-12",
+    "quote": "",
+    "confidence": 0.6
+   },
+   "recorded_body_chars": 0,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "66",
+   "group": "was_in_progress",
+   "promise_id": "OKT-005",
+   "entry_id": "32fb420f8bd73428b3ee83c0ffffb154283e32fc",
+   "url": "https://index.hu/gazdasag/2026/04/30/richter-gedeon-osztalekfizetes-kozerdeku-alapitvanyok-mcc-orban-gabor/",
+   "outlet": "Index",
+   "published": "2026-04-30",
+   "title": "A Richter megállapodott három alapítvánnyal, köztük az MCC-vel, szeptember 11-ig fizeti ki az osztalékot",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Richter Gedeon Nyrt. agreed with three public-interest asset-managing foundations, including the MCC, to schedule dividend payments so that the foundations will be paid by September 11, 2026.",
+    "about_promise": true,
+    "actor": "third_party",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-04-29",
+    "quote": "„A Richter Gedeon Nyrt. bejelenti, hogy a mai napon három, a társaságban tulajdonosi részesedéssel rendelkező közérdekű vagyonkezelő alapítvánnyal megállapodást kötött a 2026. április 29-i közgyűlés által elfogadott 2025. üzleti év utáni osztalék alapítványoknak történő kifizetésének ütemezéséről.",
+    "confidence": 0.85
+   },
+   "recorded_body_chars": 3069,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "67",
+   "group": "was_in_progress",
+   "promise_id": "KOR-002",
+   "entry_id": "7525aa122467f473f602379236c18f50c865af69",
+   "url": "https://hvg.hu/gazdasag/20260908_hogyan-eredhet-az-nvvh-a-korrupt-ner-csaladok-nyomaba",
+   "outlet": "HVG",
+   "published": "2026-09-08",
+   "title": "Hogyan eredhet a vagyonvisszaszerzési hivatal a korrupt NER-családok nyomába?",
+   "gold": "kept",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government set up the new National Asset Recovery and Asset Protection Office (NVVH), reported on 2026-09-08.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-09-08",
+    "quote": "Az újonnan felálló Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal (NVVH) igazi próbatétele az lesz, hogy képes-e rekonstruálni ezeket a családi hálózatokat, és végigkövetni bennük a közvagyon útját.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 15146,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "68",
+   "group": "was_in_progress",
+   "promise_id": "OKT-005",
+   "entry_id": "6c82a6135bcd0f617e99fa758418b7095ce65c8e",
+   "url": "https://www.portfolio.hu/podcast/20260612/komoly-vagyonvisszaszerzest-indit-a-tisza-1900-milliard-forint-sorsa-a-tet-843000",
+   "outlet": "Portfolio",
+   "published": "2026-06-12",
+   "title": "Komoly vagyonvisszaszerzést indít a Tisza: 1900 milliárd forint sorsa a tét",
+   "gold": "intent",
+   "accept": [
+    "step",
+    "none"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The article contains discussion/speculation about the government's promise to abolish KEKVA foundations but reports no new official act implementing or reversing that promise.",
+    "about_promise": true,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-06-12",
+    "quote": "",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 363,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "69",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-001",
+   "entry_id": "44e26713ebc53f95450e4cd1aa374af37b2e0d72",
+   "url": "https://www.vg.hu/vilaggazdasag-magyar-gazdasag/2026/10/imf-hitelfelvetel-tisza-kormany-erdobenye-kihelyezett?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Világgazdaság",
+   "published": "2026-10-06",
+   "title": "Súlyos állítás: Magyarország újabb hitelt vehet fel külföldről, nem jönnek elég gyorsan az uniós pénzek – kivel tárgyalhatott Kármán András?",
+   "gold": "none",
+   "accept": [
+    "delay"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government significantly raised the 2026 deficit target, after which the Government Debt Management Agency (ÁKK) modified its financing plan, increasing planned net issuance from 5,445 billion to 8,717 billion forints (an extra ~3,000 billion HUF) to help pre-finance projects funded by EU money.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "partial",
+    "event_date": "2026-10-06",
+    "quote": "Az Államadósság-kezelő Központ a közelmúltban módosította a finanszírozási tervét, miután a kormány jelentősen megemelte a 2026-os hiánycélt.",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 4511,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "70",
+   "group": "was_in_progress",
+   "promise_id": "OKT-009",
+   "entry_id": "a29cb0140e285d8066afb9f17f9cd602dcce3c16",
+   "url": "https://nepszava.hu/3324374_az-erasmusra-var-az-alberletpiac-is",
+   "outlet": "Népszava",
+   "published": "2026-06-02",
+   "title": "Az Erasmusra vár az albérletpiac is",
+   "gold": "intent",
+   "accept": [
+    "step",
+    "none"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Ursula von der Leyen announced that previously frozen EU funds would be released, and as a result Hungarian students can participate in the Erasmus programme again from the coming autumn.",
+    "about_promise": true,
+    "actor": "counterparty",
+    "evidence_type": "delivered",
+    "scope": "full",
+    "event_date": "2026-06-02",
+    "quote": "A korábban befagyasztott uniós források feloldásának egyenes következménye, hogy újraindul az Erasmus program a magyar diákok számára, ezt maga Ursula von der Leyen jelentette be a magyar kormányfővel történt megállapodása után.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 5275,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "71",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-001",
+   "entry_id": "8b3a0f148a39f5782e18efd4c902133e2246a96f",
+   "url": "https://hvg.hu/360/20260610_magantokealap-tulajdonosok-nyilvanossag-tisza-kormany-ner",
+   "outlet": "HVG",
+   "published": "2026-06-10",
+   "title": "2600 milliárd forintnyi közpénznek menne utána a Tisza – tényleg vége Mészáros és Tiborcz rejtőzködésének?",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government submitted a legislative proposal in the Tuesday evening omnibus bill aimed at recovering EU funds (and making private equity fund ownership more transparent).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-06-09",
+    "quote": "a jogszabályjavaslatra, amelyet az uniós pénzek megszerzése érdekében a kedd esti salátatörvényben nyújtott be a kormány.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 2253,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "72",
+   "group": "was_in_progress",
+   "promise_id": "KOR-002",
+   "entry_id": "68d057148e7b16a2ad1ddd822eae91a5c16be469",
+   "url": "https://www.portfolio.hu/gazdasag/20260827/tisza-kormany-kiderulnek-a-12-oras-kormanyules-dontesei-ma-dolhet-el-ki-vezeti-az-elszamoltatast-858562",
+   "outlet": "Portfolio",
+   "published": "2026-08-27",
+   "title": "Tisza-kormány: kiderülnek a 12 órás kormányülés döntései, ma dőlhet el, ki vezeti az elszámoltatást",
+   "gold": "step",
+   "accept": [
+    "kept"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Parliament's justice and constitutional committee proposed candidates for the leaders of the National Asset Recovery and Asset Protection Office, and the House will decide by secret ballot the following day (reported 2026-08-27).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "partial",
+    "event_date": "2026-08-27",
+    "quote": "Az igazságügyi és alkotmányügyi bizottság csütörtök délelőtt tesz javaslatot a Nemzeti Vagyonvisszaszerzési és Vagyonvédelmi Hivatal vezetőire, akikről pénteken titkos szavazással dönt a Ház.",
+    "confidence": 0.85
+   },
+   "recorded_body_chars": 1102,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "73",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-001",
+   "entry_id": "b3dd8f14aa9842ea6f38b3bf724e11b56c84154d",
+   "url": "https://www.vg.hu/vilaggazdasag-magyar-gazdasag/2026/05/eu-dontes-erasmus-magyar-egyetemek-magyar-von-der-leyen?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Világgazdaság",
+   "published": "2026-05-29",
+   "title": "Döntött az EU a magyar egyetemekről: szeptembertől már életbe is lép a változás – vége a harcnak",
+   "gold": "step",
+   "accept": [
+    "partial"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The European Commission announced it can ensure disbursement of a significant part of previously frozen EU funds for Hungary, with a first-step decision to release €4.2 billion.",
+    "about_promise": true,
+    "actor": "counterparty",
+    "evidence_type": "formal_step",
+    "scope": "partial",
+    "event_date": "2026-05-29",
+    "quote": "Ursula von der Leyen bejelentette, hogy az Európai Bizottság biztosítani tudja a korábban befagyasztott, összesen mintegy tízmilliárd eurónyi uniós forrás jelentős részének folyósítását.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 1926,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "74",
+   "group": "was_in_progress",
+   "promise_id": "JOG-003",
+   "entry_id": "019f6e15e06e3eeb869f3c9e330f6137603e85c9",
+   "url": "https://444.hu/2026/06/12/vege-az-mtva-nak-a-teljes-kozmedia-atalakul-jon-a-sajtoalap-es-a-fuggetlen-kozmedia-testulet?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication",
+   "outlet": "444.hu",
+   "published": "2026-06-12",
+   "title": "Vége az MTVA-nak, a teljes közmédia átalakul: jön a Sajtóalap és a Független Közmédia Testület",
+   "gold": "step",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Tisza party MPs submitted a draft law on 2026-06-12 to comprehensively transform the public media, including abolishing the Közszolgálati Közalapítvány and creating a Független Közmédia Testület.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-06-12",
+    "quote": "A Tisza képviselői, Hantosi István, Melléthei-Barna Márton és Kulcsár Krisztián benyújtották a közmédia teljes átalakítására vonatkozó törvényjavaslatukat (pdf).",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 4183,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "75",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-006",
+   "entry_id": "73e56d15e8fc32b46bf402061ff8f06df1e2880e",
+   "url": "https://hvg.hu/360/20260424_berezvai-zombor-gvh-ner-hvg-portre",
+   "outlet": "HVG",
+   "published": "2026-04-24",
+   "title": "„Előbb jött az eljárás megindításáról a hír a Magyar Nemzetben, mint hogy a belső kommunikációban megjelent volna” – így működött a politikai nyomás a GVH-ban",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "No official act by the current government was reported; the article is an April 24, 2026 interview in which a GVH economist described past political pressure.",
+    "about_promise": true,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-04-24",
+    "quote": "",
+    "confidence": 0.86
+   },
+   "recorded_body_chars": 1492,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "76",
+   "group": "was_in_progress",
+   "promise_id": "ADO-006",
+   "entry_id": "b5d35e16b30328fca408393dc3aa28dcf021a536",
+   "url": "https://168.hu/penz/kata-adozas-rendszer-gazdasag-visszaeles-hatas-szabalyok-karman-andras-297672",
+   "outlet": "168.hu",
+   "published": "2026-06-05",
+   "title": "Ekkor vezethetik vissza a KATA adózási rendszerét, erre lehet számítani",
+   "gold": "intent",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Finance Minister Kármán András stated in Parliament that the Tisza government plans to make the KATA tax scheme widely available again from 2027.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-06-05",
+    "quote": "Kármán András pénzügyminiszter az Országgyűlésben, a kormány 2027-től ismét széles körben elérhetővé tenné a kisadózó vállalkozások tételes adóját, vagyis a KATA adózási forma újra elérhetővé válna.",
+    "confidence": 0.86
+   },
+   "recorded_body_chars": 2599,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "77",
+   "group": "was_in_progress",
+   "promise_id": "JOG-003",
+   "entry_id": "b529fd16fe7c5c5930d262c87feba7b9d9c90819",
+   "url": "https://mandiner.hu/belfold/2026/06/benyujtottak-a-torvenyjavaslatot-igy-szerveznek-at-teljesen-a-kozmediat",
+   "outlet": "Mandiner",
+   "published": "2026-06-12",
+   "title": "Benyújtották a törvényjavaslatot: így szerveznék át teljesen a közmédiát",
+   "gold": "step",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "A draft media law was submitted on 2026-06-12 proposing a complete reorganisation of public media.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-06-12",
+    "quote": "Benyújtották a törvényjavaslatot: így szerveznék át teljesen a közmédiát",
+    "confidence": 0.7
+   },
+   "recorded_body_chars": 1168,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "78",
+   "group": "was_in_progress",
+   "promise_id": "KRN-003",
+   "entry_id": "e8aedb17046597f1ce257288fa7b11f42c1c52e5",
+   "url": "https://www.portfolio.hu/gazdasag/20260529/potom-penzert-sajatitja-ki-a-helyiek-foldjeit-a-godi-onkormanyzat-hogy-aztan-tovabbadja-a-samsungnak-lakossagi-forum-lesz-839816",
+   "outlet": "Portfolio",
+   "published": "2026-05-29",
+   "title": "Potom pénzért sajátítja ki a helyiek földjeit a gödi önkormányzat, hogy aztán továbbadja a Samsungnak – Lakossági fórum lesz",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The article reports no new action by the Tisza government on reviewing battery factory operations; it describes the Göd municipality expropriating farmland cheaply to later sell to Samsung SDI, but contains no government act on the promise.",
+    "about_promise": true,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-05-29",
+    "quote": "",
+    "confidence": 0.66
+   },
+   "recorded_body_chars": 382,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "79",
+   "group": "was_in_progress",
+   "promise_id": "ADO-003",
+   "entry_id": "1b80b1172bd5a28cbd729a5e8be6f32a1497e562",
+   "url": "https://hvg.hu/360/20260415_jellinek-daniel-indotek-ingatlan-tisza-vagyonado",
+   "outlet": "HVG",
+   "published": "2026-04-15",
+   "title": "Jellinek Dániel a Tisza-kormánynak: A vagyonadó elvével egyetértek, a mérték és a belépési küszöb arányosnak tűnik",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "No government action reported; on 2026-04-15 third-party Jellinek Dániel (Indotek CEO) expressed agreement with the principle and scale of the Tisza Party's wealth tax plan.",
+    "about_promise": true,
+    "actor": "third_party",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-04-15",
+    "quote": "",
+    "confidence": 0.76
+   },
+   "recorded_body_chars": 1668,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "80",
+   "group": "was_in_progress",
+   "promise_id": "ADO-003",
+   "entry_id": "0a97851768f96cb16782ac5b1d75089224ebef57",
+   "url": "https://www.portfolio.hu/gazdasag/20260614/megszolalt-a-vagyonadorol-a-tisza-kormany-penzugyminisztere-843178",
+   "outlet": "Portfolio",
+   "published": "2026-06-14",
+   "title": "Megszólalt a vagyonadóról a Tisza-kormány pénzügyminisztere",
+   "gold": "intent",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government (finance minister) initiated consultations with professional organizations and began analysing international practices on introducing a new wealth tax.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "full",
+    "event_date": "2026-06-14",
+    "quote": "Napirenden van a vagyonadó bevezetése is: a részletszabályok kidolgozása érdekében a kormány szakmai szervezetekkel egyeztet, és elemzi a nemzetközi gyakorlatokat.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 378,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "81",
+   "group": "was_in_progress",
+   "promise_id": "ADO-003",
+   "entry_id": "2133e117f035e4d54b570e5057612dc48fcb04f6",
+   "url": "https://www.portfolio.hu/befektetes/20260923/csapas-a-magyar-reszvenypiacnak-sulyos-figyelmeztetes-erkezett-a-tisza-kormany-bekeszitett-uj-adojarol-864800",
+   "outlet": "Portfolio",
+   "published": "2026-09-23",
+   "title": "Csapás a magyar részvénypiacnak? Súlyos figyelmeztetés érkezett a Tisza-kormány bekészített új adójáról",
+   "gold": "intent",
+   "accept": [
+    "step",
+    "none"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "On 2026-09-23 the Tisza government began preparations to introduce a wealth tax to be implemented in 2027.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-09-23",
+    "quote": "A vagyonadó 2027-es magyarországi bevezetésének előkészítése megkezdődött, a részletszabályok azonban jelenleg még nem ismertek.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 6486,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "82",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-001",
+   "entry_id": "fc23371860095cd48aba805ae6ff04801d24ac40",
+   "url": "https://www.portfolio.hu/gazdasag/20260531/megallapodott-a-tisza-kormany-az-europai-bizottsaggal-karman-andras-elarulta-mikor-erkezhetnek-az-unios-penzek-840154",
+   "outlet": "Portfolio",
+   "published": "2026-05-31",
+   "title": "Megállapodott a Tisza-kormány az Európai Bizottsággal, Kármán András elárulta, mikor érkezhetnek az uniós pénzek",
+   "gold": "step",
+   "accept": [
+    "partial"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government reached an agreement with the European Commission that freed previously frozen EU funds, announced at the end of May 2026.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "partial",
+    "event_date": "2026-05-29",
+    "quote": "Pénteken Magyar Péter bejelentette, hogy az Európai Bizottsággal folytatott tárgyalássorozat eredményeképp mintegy 6000 milliárd forint uniós forrást sikerült felszabadítani a a kormánynak.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 5509,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "83",
+   "group": "was_in_progress",
+   "promise_id": "KOL-002",
+   "entry_id": "830a0b191d1c930ca40c5d9e89a80d4dbf66f436",
+   "url": "https://www.portfolio.hu/deviza/20260420/nem-biztos-hogy-sokaig-hatradolhetnek-a-forintbefektetok-az-utobbi-hetek-erosodese-utan-831536",
+   "outlet": "Portfolio",
+   "published": "2026-04-20",
+   "title": "Nem biztos, hogy sokáig hátradőlhetnek a forintbefektetők az utóbbi hetek erősödése után",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The article contains no report of any new government act preparing the adoption of the euro.",
+    "about_promise": true,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-04-20",
+    "quote": "",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 284,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "84",
+   "group": "was_in_progress",
+   "promise_id": "OKT-005",
+   "entry_id": "66131d1c07b63780cceb17f12a02619367c9dd67",
+   "url": "https://24.hu/belfold/2026/05/26/magyar-peter-mindenki-megerdemli-a-mukode-es-emberseges-magyarorszagot/",
+   "outlet": "24.hu",
+   "published": "2026-05-26",
+   "title": "Magyar Péter: Mindenki megérdemli a működő és emberséges Magyarországot",
+   "gold": "intent",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Prime Minister Magyar Péter announced on 2026-05-26 that the government will abolish the current KEKVA model.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-05-26",
+    "quote": "Magyar elmondta, hogy megszüntetik a kekva-k jelenlegi rendszerét, mert az egyetemeknek és a közvagyonnak nem pártkatonákat kinevező kuratóriumokat, hanem a teljes társadalmat kell szolgálniuk.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 1071,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "85",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-001",
+   "entry_id": "17d4211d68cc9ed731c77990f914a8a5768fa357",
+   "url": "https://www.vg.hu/vilaggazdasag-magyar-gazdasag/2026/06/mbh-bank-szabo-levente-interju?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Világgazdaság",
+   "published": "2026-06-11",
+   "title": "Elhalasztott beruházások indulhatnak újra: az MBH Bank szerint fordulóponthoz érkezett a vállalati hitelpiac",
+   "gold": "none",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "MBH Bank (a bank's deputy CEO) said that the arrival of EU funds would help restart previously postponed investments and could speed economic growth.",
+    "about_promise": true,
+    "actor": "third_party",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-06-11",
+    "quote": "Azt is gondoljuk, hogy az uniós források beérkezése nemcsak a beruházásokat segítheti, hanem ezen keresztül a gazdasági növekedést is gyorsíthatja.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 9255,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "86",
+   "group": "was_in_progress",
+   "promise_id": "KUL-003",
+   "entry_id": "436ad21dedc4552194a52c961539265782c3d609",
+   "url": "https://444.hu/2026/06/24/magyarorszag-megakadalyozta-hogy-az-eu-egyseges-allaspontot-rogzitsen-ukrajna-csatlakozasarol?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_syndication",
+   "outlet": "444.hu",
+   "published": "2026-06-24",
+   "title": "Magyarország megakadályozta, hogy az EU egységes álláspontot rögzítsen Ukrajna csatlakozásáról",
+   "gold": "partial",
+   "accept": [
+    "step",
+    "kept"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza government (headed by Magyar Péter) blocked an EU27 joint letter to the European Council and Commission that would have recorded a common member-state position on Ukraine's accession, delaying the procedural step toward fast-tracking Ukraine's accession.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "partial",
+    "event_date": "2026-06-23",
+    "quote": "Magyarország kedden megakadályozta, hogy az EU 27 tagállama nevében levél menjen az Európai Tanácshoz és a Bizottsághoz, amely a tagállami fővárosok közös álláspontját rögzítette volna.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 2084,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "87",
+   "group": "was_in_progress",
+   "promise_id": "ADO-003",
+   "entry_id": "8ba6a01eaca26c5fbceb8dae81abf8c0b52a2c63",
+   "url": "https://index.hu/belfold/2026/06/11/vagyonado-tisza-part-fidesz-havasi-bertalan-reakcio/",
+   "outlet": "Index",
+   "published": "2026-06-11",
+   "title": "Havasi Bertalan nekiment a Tisza vagyonadó-tervezetének: Fékezzék meg a káoszt",
+   "gold": "none",
+   "accept": [
+    "step",
+    "intent"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The opposition KDNP submitted a bill implementing the Tisza Party's wealth-tax campaign promise (wealth tax on assets over HUF 1 billion).",
+    "about_promise": true,
+    "actor": "opposition",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-06-11",
+    "quote": "A Tisza Párt kampányígéretét adta be törvényjavaslatként a KDNP",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 2430,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "88",
+   "group": "was_in_progress",
+   "promise_id": "JOG-003",
+   "entry_id": "c354da1f01cd8ffc6fc3e88921695b9eb4961677",
+   "url": "https://nepszava.hu/3325776_mtva-vege-mediatorveny-javaslat-tisza-part-fuggetlen-kozmedia-testulet",
+   "outlet": "Népszava",
+   "published": "2026-06-12",
+   "title": "Vége az MTVA-nak, benyújtották a törvényjavaslatot a magyarországi közmédia átalakításáról",
+   "gold": "step",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Three Tisza MPs submitted a bill to amend the media law on 2026-06-12 to reorganise Hungary's public media.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "na",
+    "event_date": "2026-06-12",
+    "quote": "A cél visszaadni a közmédiát a köznek – jelentette be péntek délutáni Facebook-videójában Tarr Zoltán társadalmi kapcsolatokért és kultúráért felelős miniszter, hogy a Tisza három képviselője, Hantosi István, Melléthei-Barna Márton és Kulcsár Krisztián benyújtotta a médiatörvény módosítását célzó törvényjavaslatot.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 4739,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "89",
+   "group": "was_in_progress",
+   "promise_id": "KOZ-006",
+   "entry_id": "9d5b512154fc769dd52c51f1bbe8476b69cbdb82",
+   "url": "https://telex.hu/g7/kozelet/2026/04/26/vitezy-eu-kozlekedesi-beruhazasi-miniszter-budapest",
+   "outlet": "Telex",
+   "published": "2026-04-26",
+   "title": "Az EU-s pénzek és Vitézy kinevezése sokat lendíthet a fővárosi fejlesztéseken",
+   "gold": "none",
+   "accept": [
+    "intent"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "On 2026-04-26 Vitézy Dávid was announced as the new transport and investment minister and publicly expressed support for the Galvani Bridge project in Budapest.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-04-26",
+    "quote": "Igen, de: akad olyan tervezett budapesti beruházás, amelyet lakossági ellenállás övez, Vitézy Dávid mégis támogatja, például a Galvani híd.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 2844,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "90",
+   "group": "was_in_progress",
+   "promise_id": "JOG-006",
+   "entry_id": "21554a21981f4ac6cdc5b2b675310929a3879c8e",
+   "url": "https://hvg.hu/itthon/20260603_szuverenitasvedelmi-hivatal-megszuntetes-torvenyjavaslat-mellethei-barna-marton-orszaggyules",
+   "outlet": "HVG",
+   "published": "2026-06-03",
+   "title": "Itt a törvényjavaslat, ami megszüntetné a Szuverenitásvédelmi Hivatalt",
+   "gold": "step",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Melléthei-Barna Márton (on behalf of the governing side) submitted a bill to abolish the Sovereignty Protection Office.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "full",
+    "event_date": "2026-06-02",
+    "quote": "Kedden valamivel éjfél előtt Melléthei-Barna Márton benyújtotta azt a törvényjavaslatot, amivel megszüntetnék a Szuverenitásvédelmi Hivatalt.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 3797,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "91",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-006",
+   "entry_id": "14161c21ca29abc3dbe0661aabe6009f9c152327",
+   "url": "https://hvg.hu/360/20260424_bojar-gabor-tozsde-ner-valasztas-tisza-kisbefekteto",
+   "outlet": "HVG",
+   "published": "2026-04-24",
+   "title": "Bojár Gábor: A tőzsdei NER-es cégek kisbefektetőinek tisztában kellett lenniük a politikai kockázatokkal",
+   "gold": "none",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "Bojár Gábor (businessman) said the new government should appoint an independent president of the competition authority.",
+    "about_promise": true,
+    "actor": "third_party",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-04-24",
+    "quote": "",
+    "confidence": 0.72
+   },
+   "recorded_body_chars": 2518,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "92",
+   "group": "was_in_progress",
+   "promise_id": "GAZ-001",
+   "entry_id": "f76fc92209e010f28db1f19db014f0ea9358afc3",
+   "url": "https://nepszava.hu/3331072_dr-koteles-lajos-megyek-nelkul-nincs-teruletfejlesztes",
+   "outlet": "Népszava",
+   "published": "2026-08-19",
+   "title": "Megyék nélkül nincs vidékfejlesztés",
+   "gold": "none",
+   "accept": [
+    "step"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The article does not report any new official action to unfreeze or deploy the currently frozen EU funds.",
+    "about_promise": true,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-08-19",
+    "quote": "",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 8206,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "93",
+   "group": "was_in_progress",
+   "promise_id": "ADO-001",
+   "entry_id": "d8e3aa25e867c74a01d4f8cbeb99896f9dfdf605",
+   "url": "https://hvg.hu/gazdasag/20260512_niveus-tisza-szja-csokkentes-karman-andras-300-milliard-kieses",
+   "outlet": "HVG",
+   "published": "2026-05-12",
+   "title": "300 milliárdos kiesést okozna a Tisza-kormány szja-csökkentési terve",
+   "gold": "intent",
+   "accept": [],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "On 2026-05-12, Finance Minister András Kármán announced at his parliamentary hearing that the Tisza government plans to reduce personal income tax, implementing the change from 2027 so that the effective tax burden on the minimum wage would be 9%.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-05-12",
+    "quote": "A Tisza-kormány frissen kinevezett pénzügyminisztere, Kármán András a parlamenti meghallgatásán bejelentést tett a személyi jövedelemadó csökkentéséről, amit 2027-től léptetnének érvénybe.",
+    "confidence": 0.9
+   },
+   "recorded_body_chars": 2055,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "94",
+   "group": "was_in_progress",
+   "promise_id": "KOR-001",
+   "entry_id": "d784ba26049b1671788c4339f45950008fa6b61b",
+   "url": "https://magyarnemzet.hu/belfold/2026/04/sulyos-konfliktusok-es-hataskori-vitak-kiserik-az-europai-ugyeszseg-mukodeset-amelynek-vezetojere-korabban-a-korrupcio-arnyeka-vetult?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Magyar Nemzet",
+   "published": "2026-04-17",
+   "title": "Súlyos konfliktusok és hatásköri viták kísérik az Európai Ügyészség működését, amelynek vezetőjére korábban a korrupció árnyéka vetült",
+   "gold": "none",
+   "accept": [
+    "intent"
+   ],
+   "production_verdict": "in_progress",
+   "recorded": {
+    "what_happened": "The Tisza Party leader announced on the day after the election (2026-04-13) that Hungary will join the European Public Prosecutor's Office as soon as possible.",
+    "about_promise": true,
+    "actor": "third_party",
+    "evidence_type": "stated_intent",
+    "scope": "na",
+    "event_date": "2026-04-13",
+    "quote": "a Tisza Párt elnöke már a választások másnapján rendezett nemzetközi sajtótájékoztatóján bejelentette: hazánk mielőbb csatlakozik az Európai Ügyészséghez.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 2387,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "95",
+   "group": "unlinked_real",
+   "promise_id": "GAZ-004",
+   "entry_id": "484533fd152209683c07fcabe35b616b759f4f62",
+   "url": "https://www.vg.hu/vilaggazdasag-magyar-gazdasag/2026/06/vendegmunkas-terv-kormany-hatarido?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Világgazdaság",
+   "published": "2026-06-02",
+   "title": "Nem teljesült határidőre a Tisza egyik alapígérete a vendégmunkások ügyében, még csak meg sem szólalt a kormány",
+   "gold": "delay",
+   "accept": [],
+   "production_verdict": null,
+   "recorded": {
+    "what_happened": "By the 2026-06-01 deadline, the Tisza government had not implemented the promised suspension of importing non-EU guest workers and had not produced any official regulatory measure.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delay",
+    "scope": "na",
+    "event_date": "2026-06-02",
+    "quote": "A kormányzat még május közepén is döntést helyezett kilátásba, ám ebből eddig semmi nem jelent meg a hivatalos jogalkotási folyamatban.",
+    "confidence": 0.79
+   },
+   "recorded_body_chars": 3650,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "97",
+   "group": "unlinked_real",
+   "promise_id": "KOR-002",
+   "entry_id": "e3ec754d76d41dfe5d85d5e6a33d037f723932a8",
+   "url": "https://www.vg.hu/kozelet/2026/06/magyar-peter-vagyonvisszaszerzesi-hivatal-torveny?utm_source=hirstart&utm_medium=referral&utm_campaign=hiraggregator",
+   "outlet": "Világgazdaság",
+   "published": "2026-06-20",
+   "title": "Magyar Péter visszakozott: mégsem nyújtják be jövő héten a vagyonvisszaszerzési hivatalról szóló törvényjavaslatot",
+   "gold": "delay",
+   "accept": [
+    "intent",
+    "step"
+   ],
+   "production_verdict": null,
+   "recorded": {
+    "what_happened": "On 2026-06-20 Prime Minister Magyar Péter (Tisza government) announced they will not submit next week the draft law to create the National Asset Recovery Office and will instead put the draft out for public consultation.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delay",
+    "scope": "na",
+    "event_date": "2026-06-20",
+    "quote": "Az eredeti tervekkel szemben mégsem nyújta be jövő héten a parlamentnek a Vagyonvisszaszerzési Hivatalról szóló jogszabálytervezetet a Tisza Párt – erről beszélt az RTL Klubnak Magyar Péter miniszterelnök.",
+    "confidence": 0.86
+   },
+   "recorded_body_chars": 1311,
+   "recorded_quote_verbatim": true
+  },
+  {
+   "id": "98",
+   "group": "unlinked_real",
+   "promise_id": "ADO-005",
+   "entry_id": "7f73e87609a41f26f7349b6affe2b6d778ffc446",
+   "url": "https://mandiner.hu/belfold/2026/06/afacsokkentes-magyarorszagon-egyelore-semmi-nem-latszik-a-tisza-part-igeretebol",
+   "outlet": "Mandiner",
+   "published": "2026-06-22",
+   "title": "Áfacsökkentés Magyarországon? Egyelőre semmi nem látszik a Tisza Párt ígéretéből",
+   "gold": "none",
+   "accept": [
+    "delay"
+   ],
+   "production_verdict": null,
+   "recorded": {
+    "what_happened": "2026-06-22: Mandiner reported that the Agrár- és Élelmiszergazdaságért Felelős Minisztérium (part of the Tisza government) had not answered enquiries and that it was increasingly unlikely the promised cut of vegetables and fruits VAT to 5% would take effect by July 1.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-06-22",
+    "quote": "",
+    "confidence": 0.72
+   },
+   "recorded_body_chars": 3517,
+   "recorded_quote_verbatim": null
+  },
+  {
+   "id": "99",
+   "group": "unlinked_real",
+   "promise_id": "JOG-002",
+   "entry_id": "555fabeb708da31d081635d383d71cbd5e1a2698",
+   "url": "https://index.hu/belfold/2026/05/12/veszelyhelyzet-kulonleges-jogrend-orszaggyules-magyar-peter-hitelmoratorium-reklamado-allami-kezessegvallalas/",
+   "outlet": "Index",
+   "published": "2026-05-12",
+   "title": "Megalakult az új Országgyűlés, azonnal megszűnik a háborús veszélyhelyzet Magyarországon",
+   "gold": "kept",
+   "accept": [
+    "partial",
+    "step"
+   ],
+   "production_verdict": null,
+   "recorded": {
+    "what_happened": "The newly constituted National Assembly adopted a law on May 9, 2026 converting wartime emergency decrees into statutory law, with its provisions entering into force on 2026-05-14.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delivered",
+    "scope": "partial",
+    "event_date": "2026-05-09",
+    "quote": "Az új Országgyűlés megalakulása napján fogadta el Az Ukrajna területén fennálló fegyveres konfliktusra tekintettel kihirdetett veszélyhelyzeti rendeletek törvényi szintre emeléséről szóló 2026. évi XIV. törvényt, amelynek rendelkezései május 14-én lépnek hatályba.",
+    "confidence": 0.8
+   },
+   "recorded_body_chars": 7101,
+   "recorded_quote_verbatim": true
+  }
+ ],
+ "synthetic": [
+  {
+   "id": "S1",
+   "promise_id": "NYUG-006",
+   "outlet": "Hírportál",
+   "published": "2026-09-16",
+   "title": "A kormány letett a Férfiak 40 bevezetéséről",
+   "body": "A kormány ebben a ciklusban nem vezeti be a Férfiak 40 programot – jelentette be a pénzügyminiszter a szerdai kormányülés után. A tárcavezető szerint a költségvetés helyzete nem teszi lehetővé, hogy a férfiak negyven év szolgálati idő után korábban nyugdíjba vonulhassanak, ezért a kabinet úgy döntött, hogy a kampányban tett vállalást leveszi a napirendről. A kormányszóvivő megerősítette: a programról szóló törvényjavaslatot nem nyújtják be az Országgyűlésnek, és 2030-ig nem is tervezik az előkészítését. A miniszter hozzátette, hogy a nők kedvezményes nyugdíja változatlan marad.",
+   "gold": "reversal",
+   "accept": [],
+   "recorded": {
+    "what_happened": "The Tisza government announced it will not introduce the 'Férfiak 40' program in this term (announcement made after a cabinet meeting on 2026-09-16).",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "reversal",
+    "scope": "full",
+    "event_date": "2026-09-16",
+    "quote": "A kormány ebben a ciklusban nem vezeti be a Férfiak 40 programot – jelentette be a pénzügyminiszter a szerdai kormányülés után.",
+    "confidence": 0.9
+   }
+  },
+  {
+   "id": "S2",
+   "promise_id": "ADO-007",
+   "outlet": "Hírportál",
+   "published": "2026-09-22",
+   "title": "Megszavazta a parlament: januártól emelkedik a munkavállalói járulék",
+   "body": "Az Országgyűlés kormánypárti többsége kedden elfogadta a kormány által benyújtott adócsomagot, amely 2027. január 1-jétől a munkavállalók béréből levont társadalombiztosítási járulékot 18,5 százalékról 19,5 százalékra emeli. A pénzügyminiszter a zárószavazás előtt azt mondta, az emelésre a költségvetési hiány csökkentése miatt van szükség. A törvényt a köztársasági elnök aláírása után kihirdetik a Magyar Közlönyben. Az intézkedés mintegy 4,5 millió munkavállaló nettó bérét csökkenti.",
+   "gold": "reversal",
+   "accept": [],
+   "recorded": {
+    "what_happened": "The Tisza government's parliamentary majority passed a tax package on 2026-09-22 raising the employee social contribution from 18.5% to 19.5% effective 2027-01-01.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "reversal",
+    "scope": "full",
+    "event_date": "2026-09-22",
+    "quote": "Az Országgyűlés kormánypárti többsége kedden elfogadta a kormány által benyújtott adócsomagot, amely 2027. január 1-jétől a munkavállalók béréből levont társadalombiztosítási járulékot 18,5 százalékról 19,5 százalékra emeli.",
+    "confidence": 0.9
+   }
+  },
+  {
+   "id": "S3",
+   "promise_id": "EGU-008",
+   "outlet": "Hírportál",
+   "published": "2026-09-25",
+   "title": "Megjelent a rendelet: öt vidéki kórházban megszűnik a fekvőbeteg-ellátás",
+   "body": "Megjelent a Magyar Közlönyben az egészségügyi miniszter rendelete, amely szerint 2027. január 1-jétől öt vidéki városi kórház megszűnik önálló intézményként működni: a fekvőbeteg-osztályokat bezárják, az épületekben csak járóbeteg-szakrendelés marad. A minisztérium közleménye szerint a döntést a szakemberhiány és a betegbiztonság indokolja, az érintett betegeket a vármegyei kórházak látják el. A tárca megerősítette, hogy a kormány a bezárásokról múlt heti ülésén határozott.",
+   "gold": "reversal",
+   "accept": [],
+   "recorded": {
+    "what_happened": "The health minister's decree was published in the Magyar Közlöny stating that from 2027-01-01 five rural city hospitals will cease to operate as independent institutions and their inpatient wards will be closed, leaving only outpatient services.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "reversal",
+    "scope": "partial",
+    "event_date": "2026-09-25",
+    "quote": "Megjelent a Magyar Közlönyben az egészségügyi miniszter rendelete, amely szerint 2027. január 1-jétől öt vidéki városi kórház megszűnik önálló intézményként működni: a fekvőbeteg-osztályokat bezárják, az épületekben csak járóbeteg-szakrendelés marad.",
+    "confidence": 0.85
+   }
+  },
+  {
+   "id": "S8",
+   "promise_id": "JOG-004",
+   "outlet": "Hírportál",
+   "published": "2026-09-08",
+   "title": "Mégsem függesztik fel a közmédia hírműsorait",
+   "body": "A kormány nem függeszti fel a közmédia hírszolgáltatását – jelentette ki a Miniszterelnökséget vezető miniszter. A politikus szerint a kampányban tett ígérettel ellentétben a híradók és a hírcsatorna adása az új médiatörvény elfogadásáig változatlanul folytatódik, mert a felfüggesztés „jogilag kockázatos lenne”. A miniszter hozzátette: a kabinet erről a hétfői ülésén döntött, a kérdést lezártnak tekintik.",
+   "gold": "reversal",
+   "accept": [],
+   "recorded": {
+    "what_happened": "On 2026-09-08 the Tisza government, via the minister heading the Prime Minister's Office, announced that it will not suspend public media news and that the cabinet decided against suspension at its Monday meeting.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "reversal",
+    "scope": "full",
+    "event_date": "2026-09-08",
+    "quote": "A kormány nem függeszti fel a közmédia hírszolgáltatását – jelentette ki a Miniszterelnökséget vezető miniszter.",
+    "confidence": 0.87
+   }
+  },
+  {
+   "id": "S4",
+   "promise_id": "CSAL-001",
+   "outlet": "Hírportál",
+   "published": "2026-09-18",
+   "title": "Egy évvel később jön a családi pótlék duplázása",
+   "body": "A kormány 2027 helyett csak 2028. január 1-jétől emeli kétszeresére a családi pótlékot – közölte a kormányszóvivő a csütörtöki kormányinfón. Az indoklás szerint a jövő évi költségvetésben nincs fedezet az intézkedésre, de a kabinet továbbra is elkötelezett a vállalás mellett, és a 2028-as költségvetés tervezésekor már számol vele. A családügyi államtitkár hozzátette: a duplázásról szóló törvényjavaslatot jövő ősszel nyújtják be.",
+   "gold": "delay",
+   "accept": [
+    "intent"
+   ],
+   "recorded": {
+    "what_happened": "The current (Tisza) government announced on 2026-09-18 that the planned doubling of the family allowance will take effect from 2028-01-01 instead of 2027.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "delay",
+    "scope": "na",
+    "event_date": "2026-09-18",
+    "quote": "A kormány 2027 helyett csak 2028. január 1-jétől emeli kétszeresére a családi pótlékot – közölte a kormányszóvivő a csütörtöki kormányinfón.",
+    "confidence": 0.9
+   }
+  },
+  {
+   "id": "S5",
+   "promise_id": "NYUG-001",
+   "outlet": "Hírportál",
+   "published": "2026-09-10",
+   "title": "Fidesz: a kormány titokban a 13. havi nyugdíj eltörlésére készül",
+   "body": "A Fidesz frakcióvezetője sajtótájékoztatón azt állította, hogy a Tisza-kormány megszegi a nyugdíjasoknak tett ígéretét, és a 13. havi nyugdíj megszüntetésére készül. Az ellenzéki politikus szerint ezt „brüsszeli források” erősítették meg neki, bizonyítékot azonban nem mutatott be. A Pénzügyminisztérium a lapunknak küldött válaszában közölte: a 13. és a 14. havi nyugdíj megmarad, a jövő évi költségvetés tervezete mindkettő fedezetét tartalmazza.",
+   "gold": "none",
+   "accept": [
+    "intent",
+    "step"
+   ],
+   "recorded": {
+    "what_happened": "The Finance Ministry (current government) said the 13th and 14th monthly pensions will remain and that next year's budget draft contains funding for both.",
+    "about_promise": true,
+    "actor": "current_government",
+    "evidence_type": "formal_step",
+    "scope": "full",
+    "event_date": "2026-09-10",
+    "quote": "A Pénzügyminisztérium a lapunknak küldött válaszában közölte: a 13. és a 14. havi nyugdíj megmarad, a jövő évi költségvetés tervezete mindkettő fedezetét tartalmazza.",
+    "confidence": 0.9
+   }
+  },
+  {
+   "id": "S6",
+   "promise_id": "ENR-001",
+   "outlet": "Hírportál",
+   "published": "2026-09-12",
+   "title": "Közgazdászok: fenntarthatatlan a rezsicsökkentés, ki kellene vezetni",
+   "body": "A rezsicsökkentés jelenlegi formájában fenntarthatatlan, ezért fokozatosan ki kellene vezetni – áll egy gazdaságkutató intézet friss elemzésében. A kutatók szerint az állam évente több száz milliárd forintot költ az árak mesterséges alacsonyan tartására, ami az energiapazarlást ösztönzi. Az intézet vezető elemzője úgy véli, a kormány előbb-utóbb kénytelen lesz megszüntetni a támogatást. A kormány az elemzést nem kommentálta.",
+   "gold": "none",
+   "accept": [],
+   "recorded": {
+    "what_happened": "A economic research institute published an analysis on 2026-09-12 stating the current utility price cap is unsustainable and should be phased out; the government did not comment.",
+    "about_promise": false,
+    "actor": "third_party",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-09-12",
+    "quote": "",
+    "confidence": 0.62
+   }
+  },
+  {
+   "id": "S7",
+   "promise_id": "KOZ-002",
+   "outlet": "Hírportál",
+   "published": "2026-09-20",
+   "title": "Számvevőszék: lassultak a vonatok, az előző kormány ígérete nem teljesült",
+   "body": "Az Állami Számvevőszék jelentése szerint 2019 és 2025 között nem gyorsultak, hanem lassultak a vonatok a hazai fővonalakon: a lassújelek száma megduplázódott, az átlagsebesség több vonalon 70 km/h alá csökkent. A jelentés emlékeztet, hogy az Orbán-kormány 2019-ben azt ígérte, öt éven belül minden fővonalon legalább 100 km/h-s átlagsebességet ér el, ebből azonban semmi sem valósult meg, a pályafelújításokra szánt forrásokat átcsoportosították. Az új közlekedési miniszter a jelentésre reagálva azt mondta, a helyzetet örökölték.",
+   "gold": "none",
+   "accept": [],
+   "recorded": {
+    "what_happened": "No relevant new government act or formal step concerning the Tisza party's promise about 100 km/h average speed on main rail lines is reported in the article.",
+    "about_promise": false,
+    "actor": "none",
+    "evidence_type": "no_signal",
+    "scope": "na",
+    "event_date": "2026-09-20",
+    "quote": "",
+    "confidence": 0.9
+   }
+  }
+ ]
+}

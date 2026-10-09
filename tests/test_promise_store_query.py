@@ -1,7 +1,8 @@
 """Tests for ``PromiseStore.get_promises_with_articles``.
 
-Exercises the cross-database JOIN (ATTACH papers + history), LLM-verdict
-merging, irrelevant-dropping, top-N capping, and the confidence-first sort.
+Exercises the cross-database JOIN (ATTACH papers + history), LLM-signal
+merging, dropping of articles without evidence, top-N capping, and the
+evidence-then-confidence sort.
 """
 
 from __future__ import annotations
@@ -17,8 +18,8 @@ def test_articles_enriched_with_verdict_and_quote(
     ps.link_article("PROM-001", "E1", relevance_score=0.5)
     ps.upsert_classification(
         "PROM-001", "E1",
-        verdict="kept", confidence=0.8,
-        evidence_quote="idézet", reasoning="ok",
+        signal="kept", confidence=0.8,
+        evidence_quote="idézet", quote_verbatim=True, reasoning="ok",
         model="m", prompt_version="v1",
     )
 
@@ -29,9 +30,31 @@ def test_articles_enriched_with_verdict_and_quote(
     assert len(target["articles"]) == 1
     a = target["articles"][0]
     assert a["title"] == "Article 1"
+    assert a["signal"] == "kept"
     assert a["verdict"] == "kept"
     assert a["confidence"] == 0.8
     assert a["evidence_quote"] == "idézet"
+
+
+def test_quote_not_found_in_the_article_is_withheld(
+    seeded_promises, papers_db, history_db, insert_paper_entry,
+):
+    """Only quotes verified against the article text reach the report."""
+    ps = seeded_promises
+    for eid, verbatim in (("NO", False), ("OLD", None)):
+        insert_paper_entry(papers_db, eid, eid, f"https://{eid}")
+        ps.link_article("PROM-001", eid, relevance_score=0.5)
+        ps.upsert_classification(
+            "PROM-001", eid, signal="step", confidence=0.8,
+            evidence_quote="kitalált idézet", quote_verbatim=verbatim,
+            prompt_version="v1",
+        )
+
+    promises = ps.get_promises_with_articles(
+        str(papers_db), history_db_path=str(history_db),
+    )
+    target = next(p for p in promises if p["id"] == "PROM-001")
+    assert [a["evidence_quote"] for a in target["articles"]] == [None, None]
 
 
 def test_drop_irrelevant_default(
@@ -42,8 +65,8 @@ def test_drop_irrelevant_default(
     insert_paper_entry(papers_db, "DROP", "Drop", "https://drop")
     ps.link_article("PROM-001", "KEEP", relevance_score=0.5)
     ps.link_article("PROM-001", "DROP", relevance_score=0.6)
-    ps.upsert_classification("PROM-001", "KEEP", verdict="kept", confidence=0.9, prompt_version="v1")
-    ps.upsert_classification("PROM-001", "DROP", verdict="irrelevant", confidence=0.9, prompt_version="v1")
+    ps.upsert_classification("PROM-001", "KEEP", signal="kept", confidence=0.9, prompt_version="v1")
+    ps.upsert_classification("PROM-001", "DROP", signal="none", confidence=0.9, prompt_version="v1")
 
     promises = ps.get_promises_with_articles(
         str(papers_db), history_db_path=str(history_db),
@@ -59,7 +82,7 @@ def test_drop_irrelevant_can_be_disabled(
     ps = seeded_promises
     insert_paper_entry(papers_db, "E1", "A1", "https://a1")
     ps.link_article("PROM-001", "E1", relevance_score=0.5)
-    ps.upsert_classification("PROM-001", "E1", verdict="irrelevant", confidence=0.9, prompt_version="v1")
+    ps.upsert_classification("PROM-001", "E1", signal="none", confidence=0.9, prompt_version="v1")
 
     promises = ps.get_promises_with_articles(
         str(papers_db), history_db_path=str(history_db),
@@ -78,7 +101,7 @@ def test_max_per_promise_caps_output(
         ps.link_article("PROM-001", f"E{i}", relevance_score=0.5 - i * 0.01)
         ps.upsert_classification(
             "PROM-001", f"E{i}",
-            verdict="in_progress", confidence=0.5 - i * 0.05,
+            signal="step", confidence=0.5 - i * 0.05,
             prompt_version="v1",
         )
 
@@ -100,8 +123,8 @@ def test_sort_by_confidence_then_score(
     insert_paper_entry(papers_db, "B", "B", "https://b")
     ps.link_article("PROM-001", "A", relevance_score=0.9)
     ps.link_article("PROM-001", "B", relevance_score=0.3)
-    ps.upsert_classification("PROM-001", "A", verdict="in_progress", confidence=0.3, prompt_version="v1")
-    ps.upsert_classification("PROM-001", "B", verdict="in_progress", confidence=0.9, prompt_version="v1")
+    ps.upsert_classification("PROM-001", "A", signal="step", confidence=0.3, prompt_version="v1")
+    ps.upsert_classification("PROM-001", "B", signal="step", confidence=0.9, prompt_version="v1")
 
     promises = ps.get_promises_with_articles(
         str(papers_db), history_db_path=str(history_db),
@@ -109,6 +132,27 @@ def test_sort_by_confidence_then_score(
     target = next(p for p in promises if p["id"] == "PROM-001")
     ids = [a["entry_id"] for a in target["articles"]]
     assert ids == ["B", "A"]
+
+
+def test_sort_by_strength_of_evidence_first(
+    seeded_promises, papers_db, history_db, insert_paper_entry,
+):
+    """A delivery report outranks an announcement the model was surer about."""
+    ps = seeded_promises
+    for eid, signal, confidence in (
+        ("INTENT", "intent", 0.95), ("KEPT", "kept", 0.6), ("STEP", "step", 0.9),
+    ):
+        insert_paper_entry(papers_db, eid, eid, f"https://{eid}")
+        ps.link_article("PROM-001", eid, relevance_score=0.5)
+        ps.upsert_classification(
+            "PROM-001", eid, signal=signal, confidence=confidence, prompt_version="v1",
+        )
+
+    promises = ps.get_promises_with_articles(
+        str(papers_db), history_db_path=str(history_db),
+    )
+    target = next(p for p in promises if p["id"] == "PROM-001")
+    assert [a["entry_id"] for a in target["articles"]] == ["KEPT", "STEP", "INTENT"]
 
 
 def test_unclassified_articles_sort_after_classified(
@@ -120,7 +164,7 @@ def test_unclassified_articles_sort_after_classified(
     insert_paper_entry(papers_db, "U", "Unclassified", "https://u")
     ps.link_article("PROM-001", "C", relevance_score=0.3)
     ps.link_article("PROM-001", "U", relevance_score=0.9)
-    ps.upsert_classification("PROM-001", "C", verdict="kept", confidence=0.5, prompt_version="v1")
+    ps.upsert_classification("PROM-001", "C", signal="kept", confidence=0.5, prompt_version="v1")
     # No classification for "U"
 
     promises = ps.get_promises_with_articles(
@@ -138,7 +182,7 @@ def test_history_fallback_when_not_in_papers(
     insert_history_entry(history_db, "H1", "History Only", "https://h1")
     ps.link_article("PROM-001", "H1", relevance_score=0.5)
     ps.upsert_classification(
-        "PROM-001", "H1", verdict="broken", confidence=0.8, prompt_version="v1",
+        "PROM-001", "H1", signal="reversal", confidence=0.8, prompt_version="v1",
     )
 
     promises = ps.get_promises_with_articles(
@@ -164,7 +208,7 @@ def test_all_feeds_fallback_when_not_in_papers_or_history(
     insert_all_feeds_entry(all_feeds_db, "F1", "Feeds Only", "https://f1")
     ps.link_article("PROM-001", "F1", relevance_score=0.5)
     ps.upsert_classification(
-        "PROM-001", "F1", verdict="in_progress", confidence=0.7, prompt_version="v1",
+        "PROM-001", "F1", signal="step", confidence=0.7, prompt_version="v1",
     )
 
     promises = ps.get_promises_with_articles(
@@ -263,7 +307,7 @@ def test_sticky_survives_topn_cutoff(
     insert_paper_entry(papers_db, "CHAMP", "Champion", "https://champ")
     ps.link_article("PROM-001", "CHAMP", relevance_score=0.5)
     ps.upsert_classification(
-        "PROM-001", "CHAMP", verdict="kept", confidence=0.9, prompt_version="v1",
+        "PROM-001", "CHAMP", signal="kept", confidence=0.9, prompt_version="v1",
     )
     ps.update_best_articles()
 
@@ -272,7 +316,7 @@ def test_sticky_survives_topn_cutoff(
         insert_paper_entry(papers_db, eid, f"New {i}", f"https://n{i}")
         ps.link_article("PROM-001", eid, relevance_score=0.8)
         ps.upsert_classification(
-            "PROM-001", eid, verdict="in_progress", confidence=0.7, prompt_version="v1",
+            "PROM-001", eid, signal="step", confidence=0.7, prompt_version="v1",
         )
 
     # Top-3 cap: champion is highest confidence anyway, but test that with a
@@ -287,29 +331,29 @@ def test_sticky_survives_topn_cutoff(
     assert ids[0] == "CHAMP"  # sticky pinned to position 0
 
 
-def test_sticky_shown_even_when_verdict_flipped_to_irrelevant(
+def test_sticky_not_shown_once_reclassified_as_no_evidence(
     seeded_promises, papers_db, history_db, insert_paper_entry,
 ):
-    """A champion re-classified as 'irrelevant' must still appear."""
+    """A champion the classifier later dismisses must leave the report,
+    even before the sticky table has been refreshed."""
     ps = seeded_promises
     insert_paper_entry(papers_db, "CHAMP", "Champion", "https://champ")
     ps.link_article("PROM-001", "CHAMP", relevance_score=0.5)
     ps.upsert_classification(
-        "PROM-001", "CHAMP", verdict="kept", confidence=0.9, prompt_version="v1",
+        "PROM-001", "CHAMP", signal="kept", confidence=0.9, prompt_version="v1",
     )
     ps.update_best_articles()
 
-    # Later reclassification flips to irrelevant
+    # Later reclassification finds no evidence in it
     ps.upsert_classification(
-        "PROM-001", "CHAMP", verdict="irrelevant", confidence=0.9, prompt_version="v2",
+        "PROM-001", "CHAMP", signal="none", confidence=0.9, prompt_version="v2",
     )
 
     promises = ps.get_promises_with_articles(
         str(papers_db), history_db_path=str(history_db),
     )
     target = next(p for p in promises if p["id"] == "PROM-001")
-    ids = [a["entry_id"] for a in target["articles"]]
-    assert ids == ["CHAMP"]
+    assert target["articles"] == []
 
 
 def test_sticky_pinned_first_when_present(
@@ -321,7 +365,7 @@ def test_sticky_pinned_first_when_present(
     insert_paper_entry(papers_db, "CHAMP", "Champion", "https://champ")
     ps.link_article("PROM-001", "CHAMP", relevance_score=0.5)
     ps.upsert_classification(
-        "PROM-001", "CHAMP", verdict="kept", confidence=0.6, prompt_version="v1",
+        "PROM-001", "CHAMP", signal="kept", confidence=0.6, prompt_version="v1",
     )
     ps.update_best_articles()
 
@@ -333,7 +377,7 @@ def test_sticky_pinned_first_when_present(
     insert_paper_entry(papers_db, "NEW", "New", "https://new")
     ps.link_article("PROM-001", "NEW", relevance_score=0.5)
     ps.upsert_classification(
-        "PROM-001", "NEW", verdict="kept", confidence=0.9, prompt_version="v1",
+        "PROM-001", "NEW", signal="kept", confidence=0.9, prompt_version="v1",
     )
 
     promises = ps.get_promises_with_articles(
@@ -354,8 +398,8 @@ def test_no_sticky_means_baseline_sort(
     insert_paper_entry(papers_db, "B", "B", "https://b")
     ps.link_article("PROM-001", "A", relevance_score=0.5)
     ps.link_article("PROM-001", "B", relevance_score=0.5)
-    ps.upsert_classification("PROM-001", "A", verdict="kept", confidence=0.5, prompt_version="v1")
-    ps.upsert_classification("PROM-001", "B", verdict="kept", confidence=0.9, prompt_version="v1")
+    ps.upsert_classification("PROM-001", "A", signal="kept", confidence=0.5, prompt_version="v1")
+    ps.upsert_classification("PROM-001", "B", signal="kept", confidence=0.9, prompt_version="v1")
     # Deliberately skip update_best_articles.
 
     promises = ps.get_promises_with_articles(
@@ -364,3 +408,54 @@ def test_no_sticky_means_baseline_sort(
     target = next(p for p in promises if p["id"] == "PROM-001")
     ids = [a["entry_id"] for a in target["articles"]]
     assert ids == ["B", "A"]
+
+
+def test_sticky_leads_only_among_equally_strong_evidence(
+    seeded_promises, papers_db, history_db, insert_paper_entry,
+):
+    """A pinned announcement must not be listed ahead of a delivery report."""
+    ps = seeded_promises
+    insert_paper_entry(papers_db, "PINNED", "Pinned", "https://pinned")
+    ps.link_article("PROM-001", "PINNED", relevance_score=0.9)
+    ps.upsert_classification(
+        "PROM-001", "PINNED", signal="intent", confidence=0.95, prompt_version="v1",
+    )
+    ps.update_best_articles()
+
+    for eid, signal, confidence in (("KEPT", "kept", 0.6), ("TALK", "intent", 0.99)):
+        insert_paper_entry(papers_db, eid, eid, f"https://{eid}")
+        ps.link_article("PROM-001", eid, relevance_score=0.5)
+        ps.upsert_classification(
+            "PROM-001", eid, signal=signal, confidence=confidence, prompt_version="v1",
+        )
+
+    promises = ps.get_promises_with_articles(
+        str(papers_db), history_db_path=str(history_db),
+    )
+    target = next(p for p in promises if p["id"] == "PROM-001")
+    assert [a["entry_id"] for a in target["articles"]] == ["KEPT", "PINNED", "TALK"]
+
+
+def test_unconfirmed_reversal_report_ranks_last_until_marked_broken(
+    seeded_promises, papers_db, history_db, insert_paper_entry,
+):
+    """A reversal claim is review material; it heads the row only once a
+    person has marked the promise broken."""
+    ps = seeded_promises
+    for eid, signal in (("REV", "reversal"), ("STEP", "step"), ("TALK", "intent")):
+        insert_paper_entry(papers_db, eid, eid, f"https://{eid}")
+        ps.link_article("PROM-001", eid, relevance_score=0.5)
+        ps.upsert_classification(
+            "PROM-001", eid, signal=signal, confidence=0.9, prompt_version="v1",
+        )
+
+    def order():
+        promises = ps.get_promises_with_articles(
+            str(papers_db), history_db_path=str(history_db),
+        )
+        target = next(p for p in promises if p["id"] == "PROM-001")
+        return [a["entry_id"] for a in target["articles"]]
+
+    assert order() == ["STEP", "TALK", "REV"]
+    ps.update_status("PROM-001", "broken", evidence="confirmed by hand")
+    assert order() == ["REV", "STEP", "TALK"]

@@ -8,6 +8,7 @@ promises:
     text_en: "Abolish 'county' (vármegye) name and lord-lieutenant (főispán) position."
     source: "Tisza program 2026"
     category: altalanos
+    kind: one_off
     filter_pattern: "(vármegye|főispán|közigazgatás.?reform|megye.?elnevez)"
     ranking_query: "vármegye megszüntetés főispán közigazgatási reform megye"
 
@@ -16,6 +17,7 @@ promises:
     text_en: "Eliminate public-private salary gap by 2030."
     source: "Tisza program 2026"
     category: altalanos
+    kind: target
     deadline: "2030"
     filter_pattern: "(közigazgatás.?bér|köztisztviselő.?fizetés|közszféra.?bér|piaci.?bér.?különbség)"
     ranking_query: "közigazgatási bérek köztisztviselő fizetés közszféra piaci bér különbség"
@@ -25,6 +27,7 @@ promises:
     text_en: "Enact a Budapest Law for government-capital partnership."
     source: "Tisza program 2026"
     category: altalanos
+    kind: one_off
     filter_pattern: "(Budapest.?törvény|főváros.?partnerség|kormány.?Budapest|főváros.?önkormányzat)"
     ranking_query: "Budapest törvény főváros partnerség kormány önkormányzat együttműködés"
 
@@ -33,6 +36,7 @@ promises:
     text_en: "Return withdrawn powers and resources to local governments."
     source: "Tisza program 2026"
     category: altalanos
+    kind: one_off
     filter_pattern: "(önkormányzat.?(hatáskör|forrás|feladat)|decentralizá|helyi.?önkormányzat.?jogkör)"
     ranking_query: "önkormányzat hatáskör forrás visszaadás decentralizáció helyi feladatok"
 
@@ -42,6 +46,7 @@ promises:
     text_en: "No soldiers sent to the Russia-Ukraine war."
     source: "Tisza program 2026"
     category: altalanos
+    kind: ongoing
     filter_pattern: "(katona.?küld|háború.?katona|orosz.?ukrán.?háború|katonai.?részvétel)"
     ranking_query: "katona küldés orosz ukrán háború katonai részvétel"
 
@@ -50,6 +55,7 @@ promises:
     text_en: "No conscription reinstatement."
     source: "Tisza program 2026"
     category: altalanos
+    kind: ongoing
     filter_pattern: "(sorkötele|sorozás|katonai.?szolgálat.?kötelez|hadkötele)"
     ranking_query: "sorkötelezettség katonai szolgálat kötelező sorozás hadkötelezettség"
 
@@ -58,6 +64,7 @@ promises:
     text_en: "Increase defence spending to NATO 5% of GDP by 2035."
     source: "Tisza program 2026"
     category: altalanos
+    kind: target
     deadline: "2035"
     filter_pattern: "(védelmi.?kiadás|NATO.?százalék|honvédelmi.?költségvetés|GDP.?honvédelem)"
     ranking_query: "védelmi kiadás NATO GDP honvédelmi költségvetés emelés"
@@ -67,6 +74,7 @@ promises:
     text_en: "Reduce registered crimes below 150,000."
     source: "Tisza program 2026"
     category: altalanos
+    kind: target
     filter_pattern: "(bűneset|bűnözés.?csökken|közbiztonság|bűnmegelőzés|regisztrált.?bűn)"
     ranking_query: "bűncselekmény bűnözés csökkentés közbiztonság bűnmegelőzés regisztrált bűneset"
 
@@ -76,6 +84,7 @@ promises:
     text_en: "Maintain southern border fence, strengthen border protection."
     source: "Tisza program 2026"
     category: altalanos
+    kind: ongoing
     filter_pattern: "(határkerítés|határvédelem|déli.?határ|illegális.?bevándorl|határsértő)"
     ranking_query: "határkerítés határvédelem déli határ illegális bevándorlás"
 
@@ -84,6 +93,7 @@ promises:
     text_en: "Ban new work permits for non-EU guest workers from June 1, 2026."
     source: "Tisza program 2026"
     category: altalanos
+    kind: one_off
     deadline: "2026-06-01"
     filter_pattern: "(vendégmunkás|munkavállalási.?engedély|nem.?EU.?munka|külföldi.?munkás)"
     ranking_query: "vendégmunkás munkavállalási engedély nem EU külföldi munkás felfüggesztés"
@@ -93,6 +103,7 @@ promises:
     text_en: "Abolish the residency bond system."
     source: "Tisza program 2026"
     category: altalanos
+    kind: one_off
     filter_pattern: "(letelepedési.?kötvény|aranymandátum|rezidencia.?kötvény|befektetői.?vízum)"
     ranking_query: "letelepedési kötvény felszámolás aranymandátum rezidencia befektetői vízum"
 
@@ -102,6 +113,7 @@ promises:
     text_en: "Halt population decline by 2035, exceed 10 million by 2050."
     source: "Tisza program 2026"
     category: altalanos
+    kind: target
     deadline: "2035"
     filter_pattern: "(népességfogyás|demográfi|születésszám|népesedés|lakosság.?csökken)"
     ranking_query: "népességfogyás demográfia születésszám népesedési politika lakosságszám"
@@ -111,6 +123,7 @@ promises:
     text_en: "\"Your Homeland Awaits\": bring back 200,000 Hungarians within 8 years."
     source: "Tisza program 2026"
     category: altalanos
+    kind: target
     filter_pattern: "(hazahív|külföldi.?magyar.?haza|kivándorl|visszavándorl|Vár.?a.?hazád)"
     ranking_query: "külföldön élő magyar hazahívás kivándorlás visszavándorlás Vár a hazád"
 
@@ -119,6 +132,7 @@ promises:
     text_en: "Raise life expectancy at birth to 80 years."
     source: "Tisza program 2026"
     category: altalanos
+    kind: target
     filter_pattern: "(várható.?élettartam|életkor.?emel|halandóság|élettartam)"
     ranking_query: "várható élettartam emelés halandóság születéskor életkor"
 
@@ -128,6 +142,7 @@ promises:
     text_en: "Develop personal AI assistant for every citizen."
     source: "Tisza program 2026"
     category: altalanos
+    kind: one_off
     filter_pattern: "(MI.?asszisztens|mesterséges.?intelligencia.?állampolgár|AI.?közszolgálat|digitális.?asszisztens)"
     ranking_query: "mesterséges intelligencia AI asszisztens állampolgár közszolgáltatás digitális"
 
@@ -136,6 +151,7 @@ promises:
     text_en: "Build comprehensive Hungarian language model for AI applications."
     source: "Tisza program 2026"
     category: altalanos
+    kind: one_off
     filter_pattern: "(magyar.?nyelvi.?modell|magyar.?MI|magyar.?AI|nyelvi.?modell|nagy.?nyelvi)"
     ranking_query: "magyar nyelvi modell mesterséges intelligencia AI fejlesztés"
 
@@ -144,5 +160,6 @@ promises:
     text_en: "Train 50,000 public employees in practical AI use."
     source: "Tisza program 2026"
     category: altalanos
+    kind: target
     filter_pattern: "(közszolgálat.?MI|MI.?képzés|mesterséges.?intelligencia.?képzés|AI.?oktatás.?köz)"
     ranking_query: "közszolgálati dolgozó mesterséges intelligencia képzés AI oktatás"

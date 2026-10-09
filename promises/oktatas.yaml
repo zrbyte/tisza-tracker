@@ -7,6 +7,7 @@ promises:
     text_en: "Create independent Ministry of Education."
     source: "Tisza program 2026"
     category: oktatas
+    kind: one_off
     filter_pattern: "(Oktatási.?Minisztérium|oktatási.?tárca|oktatási.?miniszter)"
     ranking_query: "Oktatási Minisztérium önálló tárca miniszter létrehozás"
 
@@ -15,6 +16,7 @@ promises:
     text_en: "Raise compulsory education age to 18."
     source: "Tisza program 2026"
     category: oktatas
+    kind: one_off
     filter_pattern: "(tanköteles.?kor|tankötelezettség.?18|iskolakötelez|tanköteles.?emel)"
     ranking_query: "tanköteles kor tankötelezettség 18 év emelés iskolakötelezettség"
 
@@ -23,6 +25,7 @@ promises:
     text_en: "25% pay raise for educational support staff."
     source: "Tisza program 2026"
     category: oktatas
+    kind: one_off
     filter_pattern: "(nevelést.?segítő|pedagógiai.?asszisztens|dajka.?bér|iskolai.?dolgozó.?bér)"
     ranking_query: "nevelést segítő dolgozó bér emelés pedagógiai asszisztens dajka"
 
@@ -31,6 +34,7 @@ promises:
     text_en: "Abolish state textbook monopoly."
     source: "Tisza program 2026"
     category: oktatas
+    kind: one_off
     filter_pattern: "(tankönyv.?monopólium|tankönyv.?piac|tankönyv.?szabad|OH.?tankönyv)"
     ranking_query: "tankönyv monopólium megszüntetés állami szabad piac"
 
@@ -39,6 +43,7 @@ promises:
     text_en: "Restore university autonomy, abolish KEKVA model."
     source: "Tisza program 2026"
     category: oktatas
+    kind: one_off
     filter_pattern: "(egyetemi.?autonóm|KEKVA|alapítványi.?egyetem|modellváltás.?egyetem|kuratórium.?egyetem)"
     ranking_query: "egyetem autonómia KEKVA alapítványi modellváltás visszaállítás"
 
@@ -47,6 +52,7 @@ promises:
     text_en: "Place at least one Hungarian university in global TOP 200 by 2035."
     source: "Tisza program 2026"
     category: oktatas
+    kind: target
     deadline: "2035"
     filter_pattern: "(egyetem.?TOP.?200|világranglista.?egyetem|egyetem.?rangsor|felsőoktatás.?rangsor)"
     ranking_query: "egyetem TOP 200 világranglista rangsor felsőoktatás"
@@ -56,6 +62,7 @@ promises:
     text_en: "Recover state assets transferred to MCC."
     source: "Tisza program 2026"
     category: oktatas
+    kind: one_off
     filter_pattern: "(MCC.?vagyon|Mathias.?Corvinus|MCC.?visszaszerzés|MCC.?állami)"
     ranking_query: "MCC Mathias Corvinus Collegium vagyon visszaszerzés állami"
 
@@ -64,6 +71,7 @@ promises:
     text_en: "Make first bachelor's degree tuition-free for the broadest population."
     source: "Tisza program 2026"
     category: oktatas
+    kind: one_off
     filter_pattern: "(tandíjmentes|tandíj.?eltörl|ingyenes.?felsőoktatás|alapdiploma.?ingyenes)"
     ranking_query: "tandíjmentes ingyenes felsőoktatás alapdiploma első diploma"
 
@@ -72,6 +80,7 @@ promises:
     text_en: "Re-enable Erasmus and Horizon participation for Hungarian students."
     source: "Tisza program 2026"
     category: oktatas
+    kind: one_off
     filter_pattern: "(Erasmus|Horizon|Erasmus.?részvétel|Horizon.?program|EU.?kutatási.?program)"
     ranking_query: "Erasmus Horizon program magyar diák kutató részvétel visszaállítás"
 
@@ -81,6 +90,7 @@ promises:
     text_en: "25% general raise and housing programme for cultural workers."
     source: "Tisza program 2026"
     category: oktatas
+    kind: one_off
     filter_pattern: "(kulturális.?dolgozó.?bér|kultúra.?béremelés|kulturális.?szektor.?fizetés)"
     ranking_query: "kulturális dolgozó bér emelés lakhatás kultúra szektor"
 
@@ -89,6 +99,7 @@ promises:
     text_en: "Depoliticize cultural governance."
     source: "Tisza program 2026"
     category: oktatas
+    kind: ongoing
     filter_pattern: "(NKA.?függetlenség|Filmintézet.?függetlenség|kulturális.?irányítás|kultúra.?depolitizál)"
     ranking_query: "NKA Filmintézet kulturális irányítás függetlenség depolitizálás"
 
@@ -97,5 +108,6 @@ promises:
     text_en: "Create politically neutral National Press Fund."
     source: "Tisza program 2026"
     category: oktatas
+    kind: one_off
     filter_pattern: "(Nemzeti.?Sajtóalap|sajtótámogatás|médiaalap|sajtó.?alap.?független)"
     ranking_query: "Nemzeti Sajtóalap sajtó támogatás médiaalap pártsemleges"

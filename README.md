@@ -211,46 +211,113 @@ Article badges: ✓ kept | → in progress | ✗ broken (LLM verdict; evidence q
 
 ```
 tt filter  →  tt rank  →  tt fetch  →  tt match  →  tt classify  →  tt report
-  (RSS)      (scoring)   (full text)  (promises)    (LLM verdict)   (README table)
+  (RSS)      (scoring)   (full text)  (promises)    (LLM evidence)  (README table)
 ```
 
 - **filter** — fetch RSS feeds, apply per-topic regex patterns to title + summary
 - **rank** — compute semantic similarity (Sentence-Transformers) between topic query and article titles
 - **fetch** — store RSS summaries for all ranked entries; download full article text (via trafilatura) for entries above `fetch_threshold`
 - **match** — link articles to government promises using per-promise regex pre-filter + semantic scoring against title + summary
-- **classify** — two-pass LLM verdict on each matched article (see below)
+- **classify** — two-pass LLM evidence extraction on each matched article, then a status rollup (see below)
 - **report** — render the promise tracker markdown table into README.md
 
 ### LLM classification (`tt classify`)
 
 Semantic similarity catches *topically related* articles, but many of those only
-glance off the promise. A cheap OpenAI-compatible model (default `gpt-5-nano`)
-reads each match and assigns a verdict.
+glance off the promise, and a critical tone is not a broken promise. Two passes
+through an OpenAI-compatible model, cached per `prompt_version`:
 
-Two-pass cascade, idempotent per `prompt_version`:
+1. **Relevance gate** (`model`, default `gpt-5-nano`) — title + summary only.
+   Returns `{relevant, confidence, reason}`. Articles that fail the gate are
+   recorded with signal `none` without calling pass 2.
+2. **Evidence extraction** (`pass2_model`, default `gpt-5-mini` at low
+   reasoning effort) — the full article text. An article that passes the gate
+   without a stored body has it downloaded first. The model is told who
+   governs and since when, and the article's outlet, publication date and the
+   promise's deadline. It does not pick a verdict; it reports *who did what*:
+   `actor`, `evidence_type` (delivered / formal step / stated intent / delay /
+   reversal / no signal), `scope`, `event_date` and a verbatim `quote`.
 
-1. **Relevance gate** — title + summary only. Returns `{relevant, confidence, reason}`.
-   Articles that fail the gate are marked `irrelevant` without calling pass 2.
-2. **Verdict** — full article text (from `article_text.db`) if available.
-   Returns `{verdict, confidence, evidence_quote, reasoning}` where verdict ∈
-   `kept | in_progress | broken | irrelevant`.
+Code then turns that record into a **signal**
+(`kept | partial | step | intent | delay | reversal | none`) under fixed rules:
 
-Results are cached in `promises.db` (`llm_classifications` table). Re-running
-`tt classify` only processes new links or ones whose `prompt_version` is stale.
-Use `--force` to reclassify everything, `--limit N` for testing, or
-`--promise ID` to scope to one promise.
+- only acts of the current government count (or of a counterparty such as the
+  European Commission whose decision delivers or blocks the outcome); opinions,
+  opposition claims and the previous government's record are `none`;
+- nothing published or dated before the government took office counts;
+- the quote must be found verbatim in the article, otherwise the evidence is
+  dropped;
+- a headline without a body never yields `kept`, `partial` or `reversal`.
 
-After classification, a **rollup** aggregates verdicts per promise and updates
-`current_status` (broken wins on any confident broken vote; ≥N confident kept
-votes → kept; any confident in-progress/kept → in_progress).
+Results are stored in `promises.db` (`llm_classifications` table). Re-running
+`tt classify` only processes new links, links whose extraction is from an older
+prompt, and links whose last attempt failed (up to `max_attempts` runs). The gate
+is asked once per link: its rejections stay, and an article that passed goes
+straight to extraction when it is re-read. Use `--force` to redo everything
+including the gate, `--limit N` for testing, or `--promise ID` to scope to one
+promise.
+
+### Status rollup
+
+After classification the status of every promise is recomputed from **all** of
+its evidence since the government took office. There is no sliding window and
+no confidence threshold; what counts is the kind of evidence and how many
+distinct outlets report it:
+
+| Status | Needs |
+|---|---|
+| kept | delivery reported by 2 outlets |
+| partially kept | full or partial delivery reported by 2 outlets |
+| in progress | 1 formal step, or an intention reported by 2 outlets |
+| not started | anything less |
+| broken | never set automatically (see below) |
+
+Some findings are not published but listed by `tt promise review` for a human
+decision:
+
+- a government **reversal** reported by 2 outlets with no later progress
+  (confirm with `tt promise status ID broken --evidence "..."`);
+- a **deadline** that lapsed more than `deadline_grace_days` ago with no
+  delivery on record — the matcher may simply have missed the story;
+- delivery reported by a **single** outlet;
+- a manual status that disagrees with the evidence.
+
+A status set with `tt promise status` is **locked**: the rollup leaves it alone
+until `tt promise unlock ID`. Every automatic change is written to the history
+with the IDs of the articles it rests on. A promise is not re-rated while some
+of its links still wait to be classified.
+
+Each promise has a `kind` in its YAML:
+
+- `one_off` — a deliverable (a law, an institution, a payment); done once it exists.
+- `target` — a measurable outcome due by `deadline` or by the end of the term.
+  It cannot be judged broken before that date.
+- `ongoing` — a standing commitment ("we will not…", "we keep…"). It is never
+  `kept` before the term ends; evidence of compliance keeps it in progress.
+
+Without a `kind`, a year-only deadline means `target` and anything else `one_off`.
+
+### Checking a prompt or model change (`tt eval`)
+
+`src/tisza_tracker/system/eval/labelled_set.json` holds 99 hand-labelled
+promise–article pairs and 8 synthetic articles (four of them genuine reversals,
+which the real corpus does not contain). `tt eval` runs the extraction over them
+and fails if more than one real article reads as a reversal, a synthetic reversal
+is missed, or agreement with the labels drops below 85%. `tt eval --recorded`
+scores the stored model outputs without API calls; the test suite does the same.
+Article bodies are not in the repository: they are read from
+`<data dir>/eval_bodies/`, then `article_text.db`, then the article URL.
 
 ### Report behaviour
 
 `tt report` only shows the top **`top_n_in_report`** articles per promise
-(default 3), ranked by LLM confidence then semantic score. Articles classified
-as `irrelevant` are excluded entirely. Each article row gets a verdict badge
-(`✓ kept`, `→ in_progress`, `✗ broken`) and — when available — the verbatim
-Hungarian sentence the model cited as evidence.
+(default 3), ranked by strength of evidence, then LLM confidence, then semantic
+score. A reversal report ranks last until the promise has been marked broken.
+Articles with signal `none` are excluded entirely. Each article gets a
+badge for what it reports (`✓` delivered, `◐` partly delivered, `→` formal step,
+`○` announced, `⏳` delayed, `⚠` reversal reported but not confirmed) and the
+Hungarian sentence the model cited, which is only shown when it was found
+verbatim in the article.
 
 ## Databases
 
@@ -258,7 +325,7 @@ Hungarian sentence the model cited as evidence.
 - `papers.db` — current run processing (filter → rank → match)
 - `matched_entries_history.db` — long-term archive of matched articles
 - `article_text.db` — extracted article body text (separate to keep main DBs lean)
-- `promises.db` — promise definitions, status tracking, article-promise links, LLM verdicts
+- `promises.db` — promise definitions, status tracking, article-promise links, LLM evidence
 
 `tt filter` writes a timestamped backup of `matched_entries_history.db` before
 purging (keeps the 3 most recent). The RSS dedup archive
@@ -271,7 +338,12 @@ Main config: `config.yaml` (feeds, defaults, database paths)
 
 Topic configs: `topics/*.yaml` (per-topic regex patterns, ranking queries, feed selection)
 
-Promise configs: `promises/*.yaml` (per-promise regex filter + semantic ranking query)
+Promise configs: `promises/*.yaml` (per-promise kind, deadline, regex filter + semantic ranking query)
+
+At run time everything is read from the data directory (`~/.tisza_tracker/config/`, or
+`$TISZA_TRACKER_DATA_DIR/config/`), which is seeded once from
+`src/tisza_tracker/system/config/`. Later edits to the copies in the repository have to
+be copied there to take effect.
 
 ### Key defaults
 
@@ -282,16 +354,25 @@ Promise configs: `promises/*.yaml` (per-promise regex filter + semantic ranking 
 
 ### LLM classification config (`llm_classification:` block)
 
-- `model` — OpenAI-compatible model name (default `gpt-5-nano`)
+- `model` — OpenAI-compatible model for the relevance gate (default `gpt-5-nano`)
+- `pass2_model` — model for the evidence extraction (default `gpt-5-mini`)
+- `pass2_reasoning_effort: "low"` — set to `null` for endpoints that reject the parameter
 - `base_url` — override to point at a local endpoint; falls back to `OPENAI_BASE_URL` env or OpenAI
 - `api_key_env` / `api_key_file` — key source; defaults to `OPENAI_API_KEY` env var
-- `max_candidates_per_promise: 20` — cap links sent to the LLM per promise (cost control)
+- `max_candidates_per_promise: 20` — cap links sent to the LLM per promise per run (cost control)
 - `top_n_in_report: 3` — articles shown per promise in the tracker table
-- `prompt_version: "v1"` — bump to invalidate the classification cache
+- `prompt_version: "v1"` — bump to invalidate cached extractions (gate results are kept;
+  `--force` redoes those too). A prompt change in the code invalidates them by itself.
+- `max_attempts: 3` — runs after which a link that keeps failing is given up
+- `min_body_chars: 300` — a shorter body counts as headline-only
 - `pass1_enabled` / `pass2_enabled` — toggle either pass independently
-- `rollup.broken_min_confidence: 0.7` — any broken verdict above this flips the promise
-- `rollup.kept_min_votes: 2`, `rollup.kept_min_confidence: 0.6` — quorum for `kept`
-- `rollup.in_progress_min_confidence: 0.5`
+- `rollup.min_outlets: 2` — outlets needed for kept, partially kept and a reversal
+- `rollup.deadline_grace_days: 30`
+- `rollup.auto_publish_broken: false` — `true` publishes a corroborated reversal as broken
+  without review
+
+The top-level `government:` block (`election_date`, `took_office`) sets the date
+before which nothing counts as evidence.
 
 ## RSS feeds
 
@@ -307,7 +388,9 @@ Promise configs: `promises/*.yaml` (per-promise regex filter + semantic ranking 
 
 `made` → `in_progress` → `kept` / `broken` / `partially_kept` / `abandoned` / `modified`
 
-Status changes are tracked with timestamps and evidence in an audit trail.
+The rollup assigns `made`, `in_progress`, `partially_kept` and `kept`; `broken`,
+`abandoned` and `modified` are set by hand. Status changes are tracked with
+timestamps, source (rollup or manual), evidence and article IDs in an audit trail.
 
 ## CLI reference
 
@@ -316,6 +399,8 @@ tt filter   [--topic NAME] [--json]
 tt rank     [--topic NAME] [--json]
 tt fetch    [--topic NAME] [--threshold 0.4] [--force] [--json]
 tt match    [--topic NAME] [--threshold 0.3] [--json]
+tt classify [--force] [--limit N] [--promise ID] [--skip-rollup] [--json]
+tt eval     [--recorded] [--model NAME] [--limit N] [--json]
 tt report   [--readme PATH] [-o FILE]
 tt query    [--history|--all-feeds] [--search TERM] [--fuzzy TERM] [--min-rank 0.3] [--since DATE] [--json]
 tt purge    [--days N | --all]
@@ -323,7 +408,8 @@ tt export-recent [--days 60]
 tt status   [--json]
 tt config   show | get KEY | set KEY VALUE | validate
 tt topic    list | show NAME | add NAME
-tt promise  list | show ID | sync | status ID STATUS | link ID ENTRY_ID | stats
+tt promise  list | show ID | sync | status ID STATUS [--no-lock] | unlock ID | review
+            | link ID ENTRY_ID | stats
 ```
 
 ## Tech stack

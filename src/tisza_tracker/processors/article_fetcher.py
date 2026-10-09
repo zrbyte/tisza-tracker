@@ -9,11 +9,25 @@ databases stay lean.
 from __future__ import annotations
 
 import logging
+import re
 from typing import Optional
 
 from ..core.http_client import RetryableHTTPClient
 
 logger = logging.getLogger(__name__)
+
+# Boilerplate that trafilatura keeps on paywalled / archived pages.  Everything
+# from the marker on is the site's notice, not the article.
+_PAYWALL = re.compile(
+    r"(Kedves Olvasónk!|A keresett cikk a portfolio\.hu hírarchívumához)", re.S
+)
+
+
+def strip_paywall(text: Optional[str]) -> str:
+    """Return *text* without a trailing paywall or archive notice."""
+    text = text or ""
+    match = _PAYWALL.search(text)
+    return (text[: match.start()] if match else text).strip()
 
 # Lazy-load trafilatura so import errors are caught gracefully.
 _trafilatura = None

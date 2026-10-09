@@ -6,6 +6,7 @@ promises:
     text_en: "Bring home frozen EU billions."
     source: "Tisza program 2026"
     category: kulpolitika
+    kind: one_off
     filter_pattern: "(uniós.?forrás.?befagyaszt|EU.?pénz.?visszaszerz|Brüsszel.?pénz|EU.?alap.?felold)"
     ranking_query: "uniós forrás befagyasztott EU pénz Brüsszel visszaszerzés feloldás"
 
@@ -14,6 +15,7 @@ promises:
     text_en: "Stop ICC withdrawal process."
     source: "Tisza program 2026"
     category: kulpolitika
+    kind: one_off
     filter_pattern: "(ICC|Nemzetközi.?Büntetőbíróság|Hágai.?bíróság|ICC.?kilépés)"
     ranking_query: "ICC Nemzetközi Büntetőbíróság kilépés megállítás Hága"
 
@@ -22,6 +24,7 @@ promises:
     text_en: "No fast-track Ukraine EU accession; binding referendum."
     source: "Tisza program 2026"
     category: kulpolitika
+    kind: ongoing
     filter_pattern: "(Ukrajna.?EU.?felvétel|Ukrajna.?csatlakoz|ukrán.?EU.?tagság|népszavazás.?Ukrajna)"
     ranking_query: "Ukrajna EU felvétel csatlakozás népszavazás gyorsított tagság"
 
@@ -30,5 +33,6 @@ promises:
     text_en: "Build strategic partnership with the USA."
     source: "Tisza program 2026"
     category: kulpolitika
+    kind: ongoing
     filter_pattern: "(USA.?partnerség|Amerika.?kapcsolat|magyar.?amerikai|transzatlanti|Washington)"
     ranking_query: "USA stratégiai partnerség amerikai kapcsolat transzatlanti Washington"

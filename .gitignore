@@ -23,6 +23,9 @@ env/
 *.db-journal
 *.backup.db
 
+# Claude Code session worktrees (run_pipeline.sh does `git add -A`)
+.claude/worktrees/
+
 # OS
 .DS_Store
 Thumbs.db

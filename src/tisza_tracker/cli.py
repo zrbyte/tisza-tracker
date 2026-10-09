@@ -12,6 +12,7 @@ import click
 from . import __version__
 from .commands import classify as classify_cmd
 from .commands import config_cmd
+from .commands import evaluate as evaluate_cmd
 from .commands import promise_cmd
 from .commands import export_recent as export_recent_cmd
 from .commands import fetch as fetch_cmd
@@ -134,6 +135,32 @@ def fetch(ctx: click.Context, topic: str | None, threshold: float | None,
         sys.exit(ERR_RUNTIME)
 
 
+@cli.command("eval")
+@click.option("--recorded", is_flag=True,
+              help="Score the model outputs stored with the labels (no API calls)")
+@click.option("--model", default=None, help="Override the pass-2 model for this run")
+@click.option("--limit", type=int, default=None, help="Only the first N items (for testing)")
+@click.option("--json", "output_json", is_flag=True, help="Output results as JSON")
+@click.pass_context
+def evaluate(ctx: click.Context, recorded: bool, model: str | None,
+             limit: int | None, output_json: bool) -> None:
+    """Score the evidence extraction against the hand-labelled regression set.
+
+    Run after changing the pass-2 prompt, the signal rules or the model.
+    Makes one LLM call per labelled article unless --recorded is given.
+    """
+    try:
+        result = evaluate_cmd.run(
+            ctx.obj["config_path"],
+            recorded=recorded, model=model, limit=limit, output_json=output_json,
+        )
+    except Exception as exc:
+        click.echo(f"Eval command failed: {exc}", err=True)
+        sys.exit(ERR_RUNTIME)
+    if result["failures"]:
+        sys.exit(ERR_RUNTIME)
+
+
 @cli.command("match")
 @click.option("--topic", help="Match a specific topic only")
 @click.option("--threshold", default=0.3, type=float, help="Minimum relevance score (default: 0.3)")
@@ -154,15 +181,16 @@ def match(ctx: click.Context, topic: str | None, threshold: float, output_json: 
 
 
 @cli.command("classify")
-@click.option("--force", is_flag=True, help="Reclassify all links regardless of cached prompt_version")
+@click.option("--force", is_flag=True,
+              help="Reclassify all links, including ones the relevance gate rejected")
 @click.option("--limit", type=int, default=None, help="Max links to process (for testing)")
 @click.option("--promise", "promise_id", default=None, help="Restrict to a single promise ID")
-@click.option("--skip-rollup", is_flag=True, help="Skip updating promise status from verdicts")
+@click.option("--skip-rollup", is_flag=True, help="Skip updating promise status from the evidence")
 @click.option("--json", "output_json", is_flag=True, help="Output results as JSON")
 @click.pass_context
 def classify(ctx: click.Context, force: bool, limit: int | None,
              promise_id: str | None, skip_rollup: bool, output_json: bool) -> None:
-    """Classify matched articles as kept/in_progress/broken/irrelevant via LLM."""
+    """Extract evidence from matched articles via LLM and roll up promise statuses."""
     try:
         result = classify_cmd.run(
             ctx.obj["config_path"],
@@ -179,7 +207,7 @@ def classify(ctx: click.Context, force: bool, limit: int | None,
             else:
                 click.echo(
                     f"Classified {result.get('classified', 0)} links "
-                    f"(irrelevant={result.get('irrelevant', 0)}, "
+                    f"(no evidence={result.get('irrelevant', 0)}, "
                     f"errors={result.get('errors', 0)})"
                 )
     except Exception as exc:
@@ -491,18 +519,54 @@ def promise_sync(ctx: click.Context) -> None:
 @click.argument("new_status")
 @click.option("--evidence", help="Evidence for the status change")
 @click.option("--articles", help="Comma-separated article entry IDs as evidence")
+@click.option("--no-lock", is_flag=True,
+              help="Let the automatic rollup change this status again on its next run")
 @click.pass_context
 def promise_status_update(ctx: click.Context, promise_id: str, new_status: str,
-                          evidence: str | None, articles: str | None) -> None:
-    """Update a promise's status (made/in_progress/kept/broken/partially_kept/abandoned/modified)."""
+                          evidence: str | None, articles: str | None,
+                          no_lock: bool) -> None:
+    """Set a promise's status by hand (made/in_progress/kept/broken/partially_kept/abandoned/modified).
+
+    The status is locked against the automatic rollup until `tt promise unlock`.
+    """
     try:
         article_ids = [a.strip() for a in articles.split(",")] if articles else None
         promise_cmd.update_status(ctx.obj["config_path"], promise_id, new_status,
-                                  evidence=evidence, article_ids=article_ids)
-        click.echo(f"Promise {promise_id} status updated to '{new_status}'")
+                                  evidence=evidence, article_ids=article_ids,
+                                  lock=not no_lock)
+        suffix = "" if no_lock else " (locked)"
+        click.echo(f"Promise {promise_id} status updated to '{new_status}'{suffix}")
     except ValueError as exc:
         click.echo(f"{exc}", err=True)
         sys.exit(ERR_USAGE)
+    except Exception as exc:
+        click.echo(f"Error: {exc}", err=True)
+        sys.exit(ERR_RUNTIME)
+
+
+@promise_group.command("unlock")
+@click.argument("promise_id")
+@click.pass_context
+def promise_unlock(ctx: click.Context, promise_id: str) -> None:
+    """Hand a manually set status back to the automatic rollup."""
+    try:
+        promise_cmd.unlock_status(ctx.obj["config_path"], promise_id)
+        click.echo(f"Promise {promise_id} unlocked")
+    except ValueError as exc:
+        click.echo(f"{exc}", err=True)
+        sys.exit(ERR_USAGE)
+    except Exception as exc:
+        click.echo(f"Error: {exc}", err=True)
+        sys.exit(ERR_RUNTIME)
+
+
+@promise_group.command("review")
+@click.option("--json", "output_json", is_flag=True, help="Output as JSON")
+@click.pass_context
+def promise_review(ctx: click.Context, output_json: bool) -> None:
+    """List promises that need a human decision (reported reversals, lapsed deadlines, ...)."""
+    try:
+        promise_cmd.review(ctx.obj["config_path"], output_json)
     except Exception as exc:
         click.echo(f"Error: {exc}", err=True)
         sys.exit(ERR_RUNTIME)

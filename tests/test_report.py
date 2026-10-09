@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from tisza_tracker.commands.report import (
-    _VERDICT_BADGE_MD,
+    _SIGNAL_BADGE_MD,
     _article_md,
     _render_md,
 )
@@ -19,22 +19,34 @@ def test_article_md_no_verdict_no_quote():
     assert _article_md(article) == "[Headline](https://example.com/a)"
 
 
-def test_article_md_with_verdict_badge():
+def test_article_md_with_signal_badge():
     article = {
         "title": "Headline", "link": "https://example.com/a",
-        "verdict": "kept",
+        "signal": "kept", "verdict": "kept",
     }
     out = _article_md(article)
-    assert out.startswith(f"{_VERDICT_BADGE_MD['kept']} ")
+    assert out.startswith(f"{_SIGNAL_BADGE_MD['kept']} ")
     assert "[Headline](https://example.com/a)" in out
 
 
+def test_article_md_every_signal_but_none_has_a_badge():
+    for signal in ("kept", "partial", "step", "intent", "delay", "reversal"):
+        article = {"title": "T", "link": "https://x", "signal": signal}
+        assert _article_md(article) == f"{_SIGNAL_BADGE_MD[signal]} [T](https://x)"
+
+
+def test_article_md_old_verdict_without_signal_gets_no_badge():
+    """Verdicts of the superseded prompt are not presented as evidence."""
+    article = {"title": "T", "link": "https://x", "signal": None, "verdict": "broken"}
+    assert _article_md(article) == "[T](https://x)"
+
+
 def test_article_md_irrelevant_badge_not_rendered():
-    """Irrelevant verdicts have no visible badge (they shouldn't reach the
-    renderer anyway, but guard the code)."""
+    """Articles without evidence have no visible badge (they shouldn't reach
+    the renderer anyway, but guard the code)."""
     article = {
         "title": "T", "link": "https://x",
-        "verdict": "irrelevant",
+        "signal": "none", "verdict": "irrelevant",
     }
     out = _article_md(article)
     assert "[T](https://x)" in out
