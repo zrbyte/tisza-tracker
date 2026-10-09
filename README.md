@@ -310,7 +310,8 @@ Article bodies are not in the repository: they are read from
 
 `tt report` only shows the top **`top_n_in_report`** articles per promise
 (default 3), ranked by strength of evidence, then LLM confidence, then semantic
-score. Articles with signal `none` are excluded entirely. Each article gets a
+score. A reversal report ranks last until the promise has been marked broken.
+Articles with signal `none` are excluded entirely. Each article gets a
 badge for what it reports (`✓` delivered, `◐` partly delivered, `→` formal step,
 `○` announced, `⏳` delayed, `⚠` reversal reported but not confirmed) and the
 Hungarian sentence the model cited, which is only shown when it was found

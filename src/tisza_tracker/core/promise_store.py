@@ -39,8 +39,9 @@ SIGNAL_TO_VERDICT = {
 SIGNALS = tuple(SIGNAL_TO_VERDICT)
 
 # Strength of evidence, used to order a promise's articles in the report.
+# Articles without a signal (not yet extracted) rank 0.
 _EVIDENCE_RANK = {
-    "kept": 6, "partial": 5, "reversal": 4, "step": 3, "delay": 2, "intent": 1,
+    "kept": 6, "partial": 5, "step": 4, "delay": 3, "intent": 2, "reversal": 1,
 }
 
 # A failed LLM call is retried on later runs until it has been tried this often.
@@ -779,10 +780,12 @@ class PromiseStore:
         When ``drop_irrelevant`` is True (default), articles that carry no
         evidence (signal ``'none'``) are excluded.
 
-        When ``max_per_promise`` is set, only the top-N articles per promise
-        are kept, ranked by strength of evidence, then LLM confidence
-        (descending, NULLs last), then relevance_score.  The sticky winner (if
-        any) is always placed first and counts against the top-N quota.
+        Articles are ranked by strength of evidence, then LLM confidence
+        (descending, NULLs last), then relevance_score; the sticky winner (if
+        any) comes first among articles with equally strong evidence.  An
+        unconfirmed reversal report ranks last unless the promise is marked
+        broken.  When ``max_per_promise`` is set, only the top-N articles per
+        promise are kept.
         """
         with self._connection() as conn:
             conn.execute("ATTACH ? AS papers", (papers_db_path,))
@@ -889,23 +892,22 @@ class PromiseStore:
                             and a.get("verdict") != "irrelevant"
                         ]
 
+                    # A reversal report heads the row only once the promise
+                    # has been marked broken; until then it is a claim under
+                    # review and ranks below everything else.
+                    rank = dict(_EVIDENCE_RANK)
+                    if promise["current_status"] == "broken":
+                        rank["reversal"] = max(rank.values()) + 1
+
                     articles.sort(
                         key=lambda a: (
-                            _EVIDENCE_RANK.get(a.get("signal") or "", 0),
+                            rank.get(a.get("signal") or "", 0),
+                            a.get("entry_id") == sticky_eid,
                             a.get("confidence") if a.get("confidence") is not None else -1.0,
                             a.get("relevance_score") or 0,
                         ),
                         reverse=True,
                     )
-
-                    if sticky_eid:
-                        sticky_idx = next(
-                            (i for i, a in enumerate(articles)
-                             if a.get("entry_id") == sticky_eid),
-                            None,
-                        )
-                        if sticky_idx is not None and sticky_idx != 0:
-                            articles.insert(0, articles.pop(sticky_idx))
 
                     if max_per_promise is not None:
                         articles = articles[:max_per_promise]

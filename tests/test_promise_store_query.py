@@ -408,3 +408,54 @@ def test_no_sticky_means_baseline_sort(
     target = next(p for p in promises if p["id"] == "PROM-001")
     ids = [a["entry_id"] for a in target["articles"]]
     assert ids == ["B", "A"]
+
+
+def test_sticky_leads_only_among_equally_strong_evidence(
+    seeded_promises, papers_db, history_db, insert_paper_entry,
+):
+    """A pinned announcement must not be listed ahead of a delivery report."""
+    ps = seeded_promises
+    insert_paper_entry(papers_db, "PINNED", "Pinned", "https://pinned")
+    ps.link_article("PROM-001", "PINNED", relevance_score=0.9)
+    ps.upsert_classification(
+        "PROM-001", "PINNED", signal="intent", confidence=0.95, prompt_version="v1",
+    )
+    ps.update_best_articles()
+
+    for eid, signal, confidence in (("KEPT", "kept", 0.6), ("TALK", "intent", 0.99)):
+        insert_paper_entry(papers_db, eid, eid, f"https://{eid}")
+        ps.link_article("PROM-001", eid, relevance_score=0.5)
+        ps.upsert_classification(
+            "PROM-001", eid, signal=signal, confidence=confidence, prompt_version="v1",
+        )
+
+    promises = ps.get_promises_with_articles(
+        str(papers_db), history_db_path=str(history_db),
+    )
+    target = next(p for p in promises if p["id"] == "PROM-001")
+    assert [a["entry_id"] for a in target["articles"]] == ["KEPT", "PINNED", "TALK"]
+
+
+def test_unconfirmed_reversal_report_ranks_last_until_marked_broken(
+    seeded_promises, papers_db, history_db, insert_paper_entry,
+):
+    """A reversal claim is review material; it heads the row only once a
+    person has marked the promise broken."""
+    ps = seeded_promises
+    for eid, signal in (("REV", "reversal"), ("STEP", "step"), ("TALK", "intent")):
+        insert_paper_entry(papers_db, eid, eid, f"https://{eid}")
+        ps.link_article("PROM-001", eid, relevance_score=0.5)
+        ps.upsert_classification(
+            "PROM-001", eid, signal=signal, confidence=0.9, prompt_version="v1",
+        )
+
+    def order():
+        promises = ps.get_promises_with_articles(
+            str(papers_db), history_db_path=str(history_db),
+        )
+        target = next(p for p in promises if p["id"] == "PROM-001")
+        return [a["entry_id"] for a in target["articles"]]
+
+    assert order() == ["STEP", "TALK", "REV"]
+    ps.update_status("PROM-001", "broken", evidence="confirmed by hand")
+    assert order() == ["REV", "STEP", "TALK"]

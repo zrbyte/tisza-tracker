@@ -18,7 +18,9 @@ evidence with :func:`~.processors.evidence_ledger.assess` and update
 
 from __future__ import annotations
 
+import html
 import logging
+import re
 from collections import Counter
 from datetime import date
 from pathlib import Path
@@ -27,7 +29,6 @@ from typing import Any, Dict, Optional
 from ..core.config import ConfigManager
 from ..core.database import DatabaseManager
 from ..core.promise_store import DEFAULT_MAX_ATTEMPTS, PromiseStore
-from ..core.text_utils import clean_html
 from ..processors.article_fetcher import ArticleFetcher, strip_paywall
 from ..processors.evidence_ledger import REVIEW_PREFIX, assess, promise_kind
 from ..processors.llm_classifier import LLMClassifier, effective_prompt_version
@@ -49,6 +50,15 @@ _ARTICLE_SOURCES = (
      "SELECT title, summary, link, feed_name, published_date "
      "FROM feed_entries WHERE entry_id = ?"),
 )
+
+
+_TAG = re.compile(r"<[^>]+>")
+_WS = re.compile(r"\s+")
+
+
+def _plain(text: Optional[str]) -> str:
+    """RSS titles and teasers as one line of plain text."""
+    return _WS.sub(" ", html.unescape(_TAG.sub(" ", text or ""))).strip()
 
 
 def _col(row: Any, key: str) -> Any:
@@ -102,8 +112,8 @@ def _resolve_article(
 
     if not found:
         return None
-    article["title"] = clean_html(article["title"]) or ""
-    article["summary"] = clean_html(article["summary"]) or ""
+    article["title"] = _plain(article["title"])
+    article["summary"] = _plain(article["summary"])
     return article
 
 

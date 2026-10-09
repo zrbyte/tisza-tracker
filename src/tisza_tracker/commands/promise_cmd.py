@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+from collections import Counter
 from pathlib import Path
 from typing import Optional
 
@@ -14,6 +15,9 @@ from ..processors.evidence_ledger import REVIEW_PREFIX, promise_kind
 from ..processors.llm_classifier import effective_prompt_version
 
 logger = logging.getLogger(__name__)
+
+# Evidence a reviewer has to read to settle a review flag.
+_DECISIVE_SIGNALS = ("kept", "partial", "reversal", "delay")
 
 
 def _get_store(config_path: str) -> tuple[ConfigManager, PromiseStore]:
@@ -150,14 +154,22 @@ def review(config_path: str, output_json: bool) -> None:
         print(f"    Status: {item['status']} ({item['kind']}{deadline})")
         for flag in item["flags"]:
             print(f"    {flag}")
-        for e in item["evidence"]:
+        # Steps and announcements do not decide a review; count them only.
+        decisive = [e for e in item["evidence"] if e["signal"] in _DECISIVE_SIGNALS]
+        for e in decisive:
             print(f"      [{e['signal']}] {e['published'] or '?'} {e['outlet'] or '?'}: "
                   f"{e['title'] or e['article_entry_id'][:12]}")
             if e.get("reasoning"):
                 print(f"          {e['reasoning']}")
             if e.get("url"):
                 print(f"          {e['url']}")
-    print(f"\n  {len(items)} promise(s) to review. Confirm with: "
+        others = Counter(
+            e["signal"] for e in item["evidence"] if e["signal"] not in _DECISIVE_SIGNALS
+        )
+        if others:
+            print("      also on record: "
+                  + ", ".join(f"{n} {signal}" for signal, n in sorted(others.items())))
+    print(f"\n  {len(items)} promise(s) to review (--json lists all evidence). Confirm with: "
           "tt promise status ID STATUS --evidence '...'")
 
 

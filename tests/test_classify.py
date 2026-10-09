@@ -516,11 +516,11 @@ def test_resolve_article_handles_article_text_with_only_title():
 
 def test_resolve_article_strips_markup_and_paywall_notice():
     db = _FakeDB(article_text={
-        "E1": {"title": "T", "summary": "<p>Teaser&nbsp;text</p>",
+        "E1": {"title": "T", "summary": "<p>Teaser&nbsp;text</p><p>second\n line</p>",
                "full_text": "A cikk szövege. Kedves Olvasónk! Fizessen elő."},
     })
     article = _resolve_article(db, "E1")
-    assert article["summary"] == "Teaser\xa0text"
+    assert article["summary"] == "Teaser text second line"
     assert article["full_text"] == "A cikk szövege."
 
 

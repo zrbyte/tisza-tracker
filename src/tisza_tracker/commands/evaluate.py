@@ -24,6 +24,7 @@ from typing import Any, Dict, Iterator, List, Optional, Tuple
 
 from ..core.config import ConfigManager
 from ..core.paths import get_data_dir, get_system_path
+from .classify import _resolve_article
 from ..processors.article_fetcher import ArticleFetcher, strip_paywall
 from ..processors.llm_classifier import (
     DEFAULT_MIN_BODY_CHARS,
@@ -178,9 +179,10 @@ def _load_article(
         article["full_text"] = data.get("body") or ""
         return article
 
-    row = db.get_article_text(item["entry_id"]) or {}
-    article["summary"] = row.get("summary") or ""
-    body = strip_paywall(row.get("full_text"))
+    # No snapshot: read the article the way `tt classify` would.
+    resolved = _resolve_article(db, item["entry_id"]) or {}
+    article["summary"] = resolved.get("summary") or ""
+    body = resolved.get("full_text") or ""
     if not body:
         text, _status = fetcher.fetch_text(item["url"])
         body = strip_paywall(text)
