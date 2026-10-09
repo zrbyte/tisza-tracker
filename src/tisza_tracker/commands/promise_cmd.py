@@ -8,7 +8,10 @@ from pathlib import Path
 from typing import Optional
 
 from ..core.config import ConfigManager
+from ..core.database import DatabaseManager
 from ..core.promise_store import PromiseStore
+from ..processors.evidence_ledger import REVIEW_PREFIX, promise_kind
+from ..processors.llm_classifier import effective_prompt_version
 
 logger = logging.getLogger(__name__)
 
@@ -39,8 +42,9 @@ def list_promises(config_path: str, category: Optional[str], status: Optional[st
             "abandoned": "[-]", "modified": "[*]",
         }.get(p["current_status"], "[?]")
         deadline = f" (deadline: {p['deadline']})" if p.get("deadline") else ""
+        locked = " (locked)" if p.get("status_locked") else ""
         print(f"  {status_icon} {p['id']}: {p['text'][:80]}{deadline}")
-        print(f"      Category: {p['category']} | Status: {p['current_status']}")
+        print(f"      Category: {p['category']} | Status: {p['current_status']}{locked}")
 
 
 def show_promise(config_path: str, promise_id: str, output_json: bool) -> None:
@@ -61,7 +65,11 @@ def show_promise(config_path: str, promise_id: str, output_json: bool) -> None:
     if p.get("text_en"):
         print(f"  EN: {p['text_en']}")
     print(f"  Category: {p['category']}")
-    print(f"  Status: {p['current_status']}")
+    print(f"  Kind: {promise_kind(p)}")
+    locked = " (locked: set manually, rollup will not change it)" if p.get("status_locked") else ""
+    print(f"  Status: {p['current_status']}{locked}")
+    for flag in store.review_flags(p):
+        print(f"  Flag: {flag}")
     if p.get("source"):
         print(f"  Source: {p['source']}")
     if p.get("deadline"):
@@ -77,6 +85,8 @@ def show_promise(config_path: str, promise_id: str, output_json: bool) -> None:
             print(f"    {h['changed_at']}: {h['old_status']} -> {h['new_status']}")
             if h.get("evidence"):
                 print(f"      Evidence: {h['evidence']}")
+            if h.get("article_ids"):
+                print(f"      Articles: {h['article_ids']}")
 
     if links:
         print(f"\n  Linked articles ({len(links)}):")
@@ -91,9 +101,64 @@ def sync_promises(config_path: str) -> dict:
 
 
 def update_status(config_path: str, promise_id: str, new_status: str,
-                  evidence: Optional[str], article_ids: Optional[list[str]]) -> None:
+                  evidence: Optional[str], article_ids: Optional[list[str]],
+                  lock: bool = True) -> None:
     _, store = _get_store(config_path)
-    store.update_status(promise_id, new_status, evidence=evidence, article_ids=article_ids)
+    store.update_status(promise_id, new_status, evidence=evidence,
+                        article_ids=article_ids, source="manual", lock=lock)
+
+
+def unlock_status(config_path: str, promise_id: str) -> None:
+    _, store = _get_store(config_path)
+    store.set_status_lock(promise_id, False)
+
+
+def review(config_path: str, output_json: bool) -> None:
+    """List promises the rollup wants a person to look at, with the evidence."""
+    cm, store = _get_store(config_path)
+    config = cm.load_config()
+    prompt_version = effective_prompt_version(config.get("llm_classification") or {})
+    evidence = store.get_evidence(prompt_version)
+    db = DatabaseManager(config)
+
+    items = []
+    for p in store.list_promises():
+        flags = [f for f in store.review_flags(p) if f.startswith(REVIEW_PREFIX)]
+        if not flags:
+            continue
+        rows = []
+        for e in evidence.get(p["id"], []):
+            text_row = db.get_article_text(e["article_entry_id"]) or {}
+            rows.append({**e, "url": text_row.get("url"), "title": text_row.get("title")})
+        items.append({
+            "id": p["id"], "text": p["text"], "status": p["current_status"],
+            "locked": bool(p.get("status_locked")), "kind": promise_kind(p),
+            "deadline": p.get("deadline"), "flags": flags, "evidence": rows,
+        })
+    db.close_all_connections()
+
+    if output_json:
+        print(json.dumps(items, indent=2, default=str, ensure_ascii=False))
+        return
+    if not items:
+        print("Nothing to review.")
+        return
+
+    for item in items:
+        deadline = f", deadline {item['deadline']}" if item["deadline"] else ""
+        print(f"\n  {item['id']}: {item['text']}")
+        print(f"    Status: {item['status']} ({item['kind']}{deadline})")
+        for flag in item["flags"]:
+            print(f"    {flag}")
+        for e in item["evidence"]:
+            print(f"      [{e['signal']}] {e['published'] or '?'} {e['outlet'] or '?'}: "
+                  f"{e['title'] or e['article_entry_id'][:12]}")
+            if e.get("reasoning"):
+                print(f"          {e['reasoning']}")
+            if e.get("url"):
+                print(f"          {e['url']}")
+    print(f"\n  {len(items)} promise(s) to review. Confirm with: "
+          "tt promise status ID STATUS --evidence '...'")
 
 
 def link_article(config_path: str, promise_id: str, entry_id: str,

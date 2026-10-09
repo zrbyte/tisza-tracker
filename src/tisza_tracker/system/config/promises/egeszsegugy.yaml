@@ -6,6 +6,7 @@ promises:
     text_en: "Raise public health spending to 7% of GDP by 2030, adding 500bn HUF/year."
     source: "Tisza program 2026"
     category: egeszsegugy
+    kind: target
     deadline: "2030"
     filter_pattern: "(egészségügy.?kiadás|egészségügy.?GDP|egészségügy.?költségvetés|egészségügy.?finanszíroz)"
     ranking_query: "egészségügy kiadás GDP százalék költségvetés finanszírozás emelés"
@@ -15,6 +16,7 @@ promises:
     text_en: "Develop a super-hospital in every region."
     source: "Tisza program 2026"
     category: egeszsegugy
+    kind: one_off
     filter_pattern: "(szuperkórház|regionális.?kórház|kórház.?fejlesztés|kórház.?építés)"
     ranking_query: "szuperkórház regionális kórház fejlesztés építés egészségügy"
 
@@ -23,6 +25,7 @@ promises:
     text_en: "Reduce waiting lists by end 2027."
     source: "Tisza program 2026"
     category: egeszsegugy
+    kind: target
     deadline: "2027"
     filter_pattern: "(várólista|várakozási.?idő|fekvőbeteg.?várólista|járóbeteg.?várakoz)"
     ranking_query: "várólista csökkentés várakozási idő fekvőbeteg járóbeteg"
@@ -32,6 +35,7 @@ promises:
     text_en: "Ambulance arrives within 15 minutes everywhere by end 2027."
     source: "Tisza program 2026"
     category: egeszsegugy
+    kind: target
     deadline: "2027"
     filter_pattern: "(mentő.?(15|tizenöt).?perc|mentőszolgálat|mentő.?kiérkezés|mentő.?idő)"
     ranking_query: "mentő kiérkezési idő 15 perc mentőszolgálat fejlesztés"
@@ -41,6 +45,7 @@ promises:
     text_en: "Raise nurse-to-doctor ratio from 1.6 to 2.5."
     source: "Tisza program 2026"
     category: egeszsegugy
+    kind: target
     filter_pattern: "(nővér.?orvos.?arány|nővérhiány|ápolóhiány|egészségügyi.?személyzet)"
     ranking_query: "nővér orvos arány ápolóhiány nővérhiány egészségügyi személyzet"
 
@@ -49,6 +54,7 @@ promises:
     text_en: "Create independent Ministry of Health."
     source: "Tisza program 2026"
     category: egeszsegugy
+    kind: one_off
     filter_pattern: "(Egészségügyi.?Minisztérium|egészségügyi.?tárca|egészségügyi.?miniszter)"
     ranking_query: "Egészségügyi Minisztérium önálló tárca miniszter létrehozás"
 
@@ -57,6 +63,7 @@ promises:
     text_en: "Reduce cancer incidence by 10% within 4 years."
     source: "Tisza program 2026"
     category: egeszsegugy
+    kind: target
     filter_pattern: "(daganat|rák.?megelőzés|onkológ|rákszűrés|rák.?csökken)"
     ranking_query: "daganat rák megelőzés onkológia szűrés csökkentés"
 
@@ -65,6 +72,7 @@ promises:
     text_en: "Keep every rural hospital open."
     source: "Tisza program 2026"
     category: egeszsegugy
+    kind: ongoing
     filter_pattern: "(vidéki.?kórház|kórház.?bezár|kórház.?megtart|kistelepülés.?kórház)"
     ranking_query: "vidéki kórház megtartás bezárás megmentés kistelepülés"
 
@@ -73,5 +81,6 @@ promises:
     text_en: "30bn HUF/year healthcare scholarship programme for shortage specialties."
     source: "Tisza program 2026"
     category: egeszsegugy
+    kind: one_off
     filter_pattern: "(egészségügyi.?ösztöndíj|orvos.?ösztöndíj|hiányszakma.?egészségügy|orvos.?hiány)"
     ranking_query: "egészségügyi ösztöndíj hiányszakma orvos nővér képzés"

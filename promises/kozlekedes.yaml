@@ -8,6 +8,7 @@ promises:
     text_en: "Halve average age of rolling stock within 10 years."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(vasúti.?jármű|mozdony|vonat.?átlagéletkor|vasúti.?gördülőállomány|szerelvény.?csere)"
     ranking_query: "vasúti jármű átlagéletkor gördülőállomány mozdony korszerűsítés"
 
@@ -16,6 +17,7 @@ promises:
     text_en: "At least 100 km/h average speed on main rail lines."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(vasúti.?fővonal|vasút.?sebesség|pálya.?fejleszt|vasút.?korszerűsít|vasút.?100)"
     ranking_query: "vasúti fővonal sebesség pályafejlesztés korszerűsítés 100 km"
 
@@ -24,6 +26,7 @@ promises:
     text_en: "Increase electrified rail track to 50%."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(villamosított.?vasút|vasút.?villamosítás|felsővezeték|elektromos.?vasút)"
     ranking_query: "vasút villamosítás elektromos pálya felsővezeték arány"
 
@@ -32,6 +35,7 @@ promises:
     text_en: "National pothole programme, double road maintenance spending."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: one_off
     filter_pattern: "(kátyú|közút.?fenntart|útfelújítás|útjavítás|útburkolat)"
     ranking_query: "kátyú közút fenntartás útfelújítás útjavítás program"
 
@@ -40,6 +44,7 @@ promises:
     text_en: "Build M200-M8 expressways, begin M9 southern ring."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: one_off
     filter_pattern: "(M200|M8.?autópálya|M9.?gyorsforgalm|autópálya.?épít|gyorsforgalmi.?út)"
     ranking_query: "M200 M8 M9 autópálya gyorsforgalmi út építés"
 
@@ -48,6 +53,7 @@ promises:
     text_en: "Build Galvani Bridge and Soroksári Bridge (Budapest), new Tisza bridge (Szeged)."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: one_off
     filter_pattern: "(Galvani.?híd|Soroksári.?híd|Tisza.?híd.?Szeged|Duna.?híd.?Budapest|új.?híd)"
     ranking_query: "Galvani híd Soroksári Duna híd Tisza Szeged Budapest építés"
 
@@ -56,6 +62,7 @@ promises:
     text_en: "Review 35-year motorway concession, reduce tolls."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: one_off
     filter_pattern: "(autópálya.?koncesszió|útdíj|matricadíj|autópálya.?szerződés|koncesszió.?felülvizsg)"
     ranking_query: "autópálya koncesszió útdíj matrica felülvizsgálat csökkentés"
 
@@ -64,6 +71,7 @@ promises:
     text_en: "All-day hourly InterCity on 6 main lines."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: one_off
     filter_pattern: "(InterCity|IC.?vonat|óránkénti.?vonat|vasúti.?menetrend|fővonal.?közleked)"
     ranking_query: "InterCity óránkénti vonat fővonal menetrend Győr Szeged Debrecen Miskolc Pécs"
 
@@ -72,6 +80,7 @@ promises:
     text_en: "At least 5 daily public transport connections for settlements above 500."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(kistelepülés.?közleked|vidéki.?busz|falusi.?közleked|tömegközleked.?vidék)"
     ranking_query: "kistelepülés közlekedés vidéki busz tömegközlekedés település járat"
 
@@ -80,6 +89,7 @@ promises:
     text_en: "Build rail link between Budapest Airport and city centre."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: one_off
     filter_pattern: "(repülőtér.?vasút|Liszt.?Ferenc.?vasút|ferihegy.?vasút|airport.?rail|reptér.?vonat)"
     ranking_query: "repülőtér vasút Liszt Ferenc Budapest belváros összeköttetés vonat"
 
@@ -89,6 +99,7 @@ promises:
     text_en: "Maintain utility price cap, extend on social/means-tested basis."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: ongoing
     filter_pattern: "(rezsicsökken|rezsi.?támogatás|energia.?ár.?szociális|közüzemi.?ár|rezsi.?védelem)"
     ranking_query: "rezsicsökkentés közüzemi ár szociális támogatás energia rezsi"
 
@@ -97,6 +108,7 @@ promises:
     text_en: "Upgrade at least 25% of homes to higher energy efficiency within 10 years."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(energiahatékonyság|lakás.?felújítás.?energia|hőszigetelés|épület.?korszerűsít)"
     ranking_query: "energiahatékonyság lakás felújítás hőszigetelés épület korszerűsítés"
 
@@ -105,6 +117,7 @@ promises:
     text_en: "Eliminate Russian energy dependence by 2035."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     deadline: "2035"
     filter_pattern: "(orosz.?energi|energiafüggőség|orosz.?gáz|orosz.?olaj|energiadiverzifik)"
     ranking_query: "orosz energia függőség gáz olaj diverzifikáció megszüntetés"
@@ -114,6 +127,7 @@ promises:
     text_en: "Double share of renewables in energy mix by 2040."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     deadline: "2040"
     filter_pattern: "(megújuló.?energia|napenergia|szélenergia|zöld.?energia|megújuló.?arány)"
     ranking_query: "megújuló energia napenergia szélenergia zöld arány duplázás"
@@ -123,6 +137,7 @@ promises:
     text_en: "Spend ~HUF 1,000 billion on energy efficiency programmes."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(energiakorszerűsít|energetikai.?program|energia.?pályázat|energia.?felújítás)"
     ranking_query: "energiakorszerűsítés energetikai program pályázat lakossági vállalati"
 
@@ -131,6 +146,7 @@ promises:
     text_en: "100,000 home energy retrofits per year."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(lakás.?energetikai|otthonfelújítás.?energia|lakás.?szigetelés|Családi.?Energetikai)"
     ranking_query: "lakás energetikai korszerűsítés felújítás szigetelés Családi Energetikai Program"
 
@@ -139,6 +155,7 @@ promises:
     text_en: "Abolish restrictions blocking new wind power installations."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: one_off
     filter_pattern: "(szélerőmű|szélenergia.?korlátozás|szélerőmű.?tilalom|szélturbin)"
     ranking_query: "szélerőmű szélenergia korlátozás tilalom telepítés feloldás"
 
@@ -147,6 +164,7 @@ promises:
     text_en: "Full review of Paks II nuclear project and its financing."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: one_off
     filter_pattern: "(Paks.?II|Paks.?atomerőmű|Paks.?felülvizsg|atomerőmű.?bővítés|nukleáris.?projekt)"
     ranking_query: "Paks II atomerőmű felülvizsgálat finanszírozás nukleáris projekt"
 
@@ -156,6 +174,7 @@ promises:
     text_en: "Double the number of new housing units built."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(lakásépítés|új.?lakás.?épít|lakásszám|építési.?engedély.?lakás)"
     ranking_query: "lakásépítés új lakás építés duplázás lakásszám"
 
@@ -164,6 +183,7 @@ promises:
     text_en: "Build tens of thousands of new rental units."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(bérlakás|szociális.?lakás|önkormányzati.?lakás|bérlakás.?program)"
     ranking_query: "bérlakás szociális lakás önkormányzati lakás program építés"
 
@@ -172,6 +192,7 @@ promises:
     text_en: "Increase dormitory places by at least 50%."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(kollégium|diákszállás|kollégiumi.?férőhely|diáklakás)"
     ranking_query: "kollégium férőhely diákszállás fiatal lakhatás"
 
@@ -180,6 +201,7 @@ promises:
     text_en: "20,000 new places in modern retirement homes."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     filter_pattern: "(nyugdíjasotthon|idősek.?otthona|gondozóház|idősotthon)"
     ranking_query: "nyugdíjasotthon idősek otthona gondozóház új férőhely korszerű"
 
@@ -188,6 +210,7 @@ promises:
     text_en: "No permanent residence without basic comfort by end of decade."
     source: "Tisza program 2026"
     category: kozlekedes
+    kind: target
     deadline: "2030"
     filter_pattern: "(komfort.?nélküli|szubstandard.?lakás|lakás.?felújít.?program|lakhatás.?minőség)"
     ranking_query: "komfort nélküli lakás felújítás program szubstandard lakhatás"

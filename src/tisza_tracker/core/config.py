@@ -95,9 +95,12 @@ _KNOWN_MAIN_KEYS: Dict[str, Optional[Dict[str, Any]]] = {
         "fetch_threshold": None,
     },
     "promises": {"yaml_dir"},
+    "government": {"election_date", "took_office"},
     "llm_classification": {
         "enabled": None,
         "model": None,
+        "pass2_model": None,
+        "pass2_reasoning_effort": None,
         "base_url": None,
         "api_key_env": None,
         "api_key_file": None,
@@ -106,11 +109,12 @@ _KNOWN_MAIN_KEYS: Dict[str, Optional[Dict[str, Any]]] = {
         "prompt_version": None,
         "request_timeout": None,
         "max_retries": None,
+        "max_attempts": None,
+        "min_body_chars": None,
         "pass1_enabled": None,
         "pass2_enabled": None,
         "rollup": {
-            "enabled", "broken_min_confidence", "kept_min_votes",
-            "kept_min_confidence", "in_progress_min_confidence",
+            "enabled", "min_outlets", "deadline_grace_days", "auto_publish_broken",
         },
     },
 }

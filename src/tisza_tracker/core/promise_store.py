@@ -7,6 +7,7 @@ with history logging, and article-to-promise linking.
 
 from __future__ import annotations
 
+import json
 import logging
 import sqlite3
 from contextlib import contextmanager
@@ -22,6 +23,46 @@ logger = logging.getLogger(__name__)
 VALID_STATUSES = (
     "made", "in_progress", "kept", "broken",
     "partially_kept", "abandoned", "modified",
+)
+
+# Per-article evidence signals (see processors.llm_classifier.to_signal) and
+# the coarse label kept in the legacy ``verdict`` column for each of them.
+SIGNAL_TO_VERDICT = {
+    "kept": "kept",
+    "partial": "kept",
+    "step": "in_progress",
+    "intent": "in_progress",
+    "delay": "in_progress",
+    "reversal": "broken",
+    "none": "irrelevant",
+}
+SIGNALS = tuple(SIGNAL_TO_VERDICT)
+
+# Strength of evidence, used to order a promise's articles in the report.
+_EVIDENCE_RANK = {
+    "kept": 6, "partial": 5, "reversal": 4, "step": 3, "delay": 2, "intent": 1,
+}
+
+# A failed LLM call is retried on later runs until it has been tried this often.
+DEFAULT_MAX_ATTEMPTS = 3
+
+# Columns added after the first release: (table, column, declaration).
+_MIGRATIONS = (
+    ("promises", "filter_pattern", "TEXT"),
+    ("promises", "kind", "TEXT"),
+    ("promises", "status_locked", "INTEGER DEFAULT 0"),
+    ("promises", "review_flags", "TEXT"),
+    ("promise_status_history", "source", "TEXT"),
+    ("llm_classifications", "signal", "TEXT"),
+    ("llm_classifications", "actor", "TEXT"),
+    ("llm_classifications", "evidence_type", "TEXT"),
+    ("llm_classifications", "scope", "TEXT"),
+    ("llm_classifications", "event_date", "TEXT"),
+    ("llm_classifications", "quote_verbatim", "INTEGER"),
+    ("llm_classifications", "body_chars", "INTEGER"),
+    ("llm_classifications", "outlet", "TEXT"),
+    ("llm_classifications", "published_date", "TEXT"),
+    ("llm_classifications", "attempts", "INTEGER DEFAULT 0"),
 )
 
 
@@ -48,6 +89,7 @@ class PromiseStore:
                 date_made TEXT,
                 category TEXT NOT NULL,
                 subcategory TEXT,
+                kind TEXT,
                 deadline TEXT,
                 keywords TEXT,
                 ranking_query TEXT,
@@ -58,6 +100,8 @@ class PromiseStore:
                         'partially_kept','abandoned','modified'
                     )),
                 status_updated TEXT,
+                status_locked INTEGER DEFAULT 0,
+                review_flags TEXT,
                 notes TEXT,
                 created_at TEXT DEFAULT (datetime('now')),
                 updated_at TEXT DEFAULT (datetime('now'))
@@ -72,7 +116,8 @@ class PromiseStore:
                 new_status TEXT NOT NULL,
                 changed_at TEXT DEFAULT (datetime('now')),
                 evidence TEXT,
-                article_ids TEXT
+                article_ids TEXT,
+                source TEXT
             )
         """)
 
@@ -94,14 +139,24 @@ class PromiseStore:
                 article_entry_id TEXT NOT NULL,
                 verdict TEXT
                     CHECK(verdict IN ('kept','in_progress','broken','irrelevant')),
+                signal TEXT,
                 confidence REAL,
                 evidence_quote TEXT,
+                quote_verbatim INTEGER,
                 reasoning TEXT,
+                actor TEXT,
+                evidence_type TEXT,
+                scope TEXT,
+                event_date TEXT,
+                outlet TEXT,
+                published_date TEXT,
+                body_chars INTEGER,
                 model TEXT,
                 prompt_version TEXT,
                 pass1_relevant INTEGER,
                 pass1_confidence REAL,
                 error TEXT,
+                attempts INTEGER DEFAULT 0,
                 classified_at TEXT DEFAULT (datetime('now')),
                 PRIMARY KEY (promise_id, article_entry_id)
             )
@@ -116,14 +171,21 @@ class PromiseStore:
             )
         """)
 
-        # Lightweight migration: add filter_pattern if missing
-        cursor.execute("PRAGMA table_info(promises)")
-        columns = {row[1] for row in cursor.fetchall()}
-        if 'filter_pattern' not in columns:
+        # Lightweight migration: add columns missing from older databases
+        for table, column, declaration in _MIGRATIONS:
+            cursor.execute(f"PRAGMA table_info({table})")
+            if column in {row[1] for row in cursor.fetchall()}:
+                continue
             try:
-                cursor.execute("ALTER TABLE promises ADD COLUMN filter_pattern TEXT")
+                cursor.execute(f"ALTER TABLE {table} ADD COLUMN {column} {declaration}")
             except Exception as e:
-                logger.debug("Column filter_pattern may already exist: %s", e)
+                logger.debug("Column %s.%s may already exist: %s", table, column, e)
+
+        # Rows written before signals existed: a gate rejection carries none.
+        cursor.execute(
+            "UPDATE llm_classifications SET signal = 'none' "
+            "WHERE signal IS NULL AND verdict = 'irrelevant'"
+        )
 
         cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_promises_category
@@ -148,6 +210,10 @@ class PromiseStore:
         cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_llm_promise
             ON llm_classifications(promise_id)
+        """)
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_llm_signal
+            ON llm_classifications(signal)
         """)
 
         conn.commit()
@@ -207,9 +273,9 @@ class PromiseStore:
         with self._connection() as conn:
             conn.execute("""
                 INSERT INTO promises (id, text, text_en, source, source_url,
-                    date_made, category, subcategory, deadline, keywords,
+                    date_made, category, subcategory, kind, deadline, keywords,
                     ranking_query, filter_pattern, notes)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(id) DO UPDATE SET
                     text = excluded.text,
                     text_en = excluded.text_en,
@@ -218,6 +284,7 @@ class PromiseStore:
                     date_made = excluded.date_made,
                     category = excluded.category,
                     subcategory = excluded.subcategory,
+                    kind = excluded.kind,
                     deadline = excluded.deadline,
                     keywords = excluded.keywords,
                     ranking_query = excluded.ranking_query,
@@ -227,7 +294,7 @@ class PromiseStore:
             """, (
                 p["id"], p["text"], p.get("text_en"), p.get("source"),
                 p.get("source_url"), p.get("date_made"), p.get("category", ""),
-                p.get("subcategory"), p.get("deadline"), keywords,
+                p.get("subcategory"), p.get("kind"), p.get("deadline"), keywords,
                 p.get("ranking_query"), p.get("filter_pattern"), p.get("notes"),
             ))
 
@@ -274,9 +341,20 @@ class PromiseStore:
         new_status: str,
         evidence: Optional[str] = None,
         article_ids: Optional[List[str]] = None,
+        *,
+        source: str = "manual",
+        lock: Optional[bool] = None,
     ) -> None:
+        """Change a promise's status and log the transition.
+
+        A ``manual`` change locks the status so the automatic rollup leaves it
+        alone (pass ``lock=False`` to keep it unlocked); a ``rollup`` change
+        never touches the lock.
+        """
         if new_status not in VALID_STATUSES:
             raise ValueError(f"Invalid status '{new_status}'. Must be one of: {VALID_STATUSES}")
+        if lock is None:
+            lock = True if source == "manual" else None
 
         with self._connection() as conn:
             row = conn.execute(
@@ -290,18 +368,52 @@ class PromiseStore:
 
             conn.execute("""
                 INSERT INTO promise_status_history
-                    (promise_id, old_status, new_status, evidence, article_ids)
-                VALUES (?, ?, ?, ?, ?)
-            """, (promise_id, old_status, new_status, evidence, article_ids_str))
+                    (promise_id, old_status, new_status, evidence, article_ids, source)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (promise_id, old_status, new_status, evidence, article_ids_str, source))
 
             conn.execute("""
                 UPDATE promises
                 SET current_status = ?, status_updated = datetime('now'),
+                    status_locked = COALESCE(?, status_locked),
                     updated_at = datetime('now')
                 WHERE id = ?
-            """, (new_status, promise_id))
+            """, (new_status, None if lock is None else int(lock), promise_id))
 
-        logger.info("Promise %s: %s -> %s", promise_id, old_status, new_status)
+        logger.info("Promise %s: %s -> %s (%s)", promise_id, old_status, new_status, source)
+
+    def set_status_lock(self, promise_id: str, locked: bool) -> None:
+        """Lock or unlock a promise's status against the automatic rollup."""
+        with self._connection() as conn:
+            cur = conn.execute(
+                "UPDATE promises SET status_locked = ?, updated_at = datetime('now') "
+                "WHERE id = ?",
+                (int(locked), promise_id),
+            )
+            if cur.rowcount == 0:
+                raise ValueError(f"Promise '{promise_id}' not found")
+
+    def set_review_flags(self, promise_id: str, flags: List[str]) -> None:
+        """Replace the rollup's flags for a promise (empty list clears them)."""
+        value = json.dumps(flags, ensure_ascii=False) if flags else None
+        with self._connection() as conn:
+            conn.execute(
+                "UPDATE promises SET review_flags = ? "
+                "WHERE id = ? AND review_flags IS NOT ?",
+                (value, promise_id, value),
+            )
+
+    @staticmethod
+    def review_flags(promise: Dict[str, Any]) -> List[str]:
+        """Decode the ``review_flags`` column of a promise row."""
+        raw = promise.get("review_flags")
+        if not raw:
+            return []
+        try:
+            flags = json.loads(raw)
+        except (TypeError, ValueError):
+            return []
+        return [str(f) for f in flags] if isinstance(flags, list) else []
 
     def get_status_history(self, promise_id: str) -> List[Dict[str, Any]]:
         with self._connection() as conn:
@@ -353,28 +465,64 @@ class PromiseStore:
         promise_id: str,
         article_entry_id: str,
         *,
+        signal: Optional[str] = None,
         verdict: Optional[str] = None,
         confidence: Optional[float] = None,
         evidence_quote: Optional[str] = None,
+        quote_verbatim: Optional[bool] = None,
         reasoning: Optional[str] = None,
+        actor: Optional[str] = None,
+        evidence_type: Optional[str] = None,
+        scope: Optional[str] = None,
+        event_date: Optional[str] = None,
+        outlet: Optional[str] = None,
+        published_date: Optional[str] = None,
+        body_chars: Optional[int] = None,
         model: Optional[str] = None,
         prompt_version: Optional[str] = None,
         pass1_relevant: Optional[bool] = None,
         pass1_confidence: Optional[float] = None,
         error: Optional[str] = None,
     ) -> None:
+        """Insert or replace the classification of one promise-article link.
+
+        ``attempts`` counts classifications under the same ``prompt_version``
+        so that failed rows are retried a bounded number of times.
+        """
+        if verdict is None and signal is not None:
+            verdict = SIGNAL_TO_VERDICT.get(signal)
+
+        def flag(value: Optional[bool]) -> Optional[int]:
+            return int(value) if value is not None else None
+
         with self._connection() as conn:
             conn.execute("""
                 INSERT INTO llm_classifications (
-                    promise_id, article_entry_id, verdict, confidence,
-                    evidence_quote, reasoning, model, prompt_version,
-                    pass1_relevant, pass1_confidence, error, classified_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    promise_id, article_entry_id, verdict, signal, confidence,
+                    evidence_quote, quote_verbatim, reasoning, actor,
+                    evidence_type, scope, event_date, outlet, published_date,
+                    body_chars, model, prompt_version, pass1_relevant,
+                    pass1_confidence, error, attempts, classified_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                          1, datetime('now'))
                 ON CONFLICT(promise_id, article_entry_id) DO UPDATE SET
+                    attempts = CASE
+                        WHEN llm_classifications.prompt_version IS excluded.prompt_version
+                        THEN COALESCE(llm_classifications.attempts, 0) + 1
+                        ELSE 1 END,
                     verdict = excluded.verdict,
+                    signal = excluded.signal,
                     confidence = excluded.confidence,
                     evidence_quote = excluded.evidence_quote,
+                    quote_verbatim = excluded.quote_verbatim,
                     reasoning = excluded.reasoning,
+                    actor = excluded.actor,
+                    evidence_type = excluded.evidence_type,
+                    scope = excluded.scope,
+                    event_date = excluded.event_date,
+                    outlet = excluded.outlet,
+                    published_date = excluded.published_date,
+                    body_chars = excluded.body_chars,
                     model = excluded.model,
                     prompt_version = excluded.prompt_version,
                     pass1_relevant = excluded.pass1_relevant,
@@ -382,9 +530,10 @@ class PromiseStore:
                     error = excluded.error,
                     classified_at = datetime('now')
             """, (
-                promise_id, article_entry_id, verdict, confidence,
-                evidence_quote, reasoning, model, prompt_version,
-                int(pass1_relevant) if pass1_relevant is not None else None,
+                promise_id, article_entry_id, verdict, signal, confidence,
+                evidence_quote, flag(quote_verbatim), reasoning, actor,
+                evidence_type, scope, event_date, outlet, published_date,
+                body_chars, model, prompt_version, flag(pass1_relevant),
                 pass1_confidence, error,
             ))
 
@@ -402,12 +551,22 @@ class PromiseStore:
         self,
         prompt_version: str,
         max_per_promise: Optional[int] = None,
+        *,
+        max_attempts: int = DEFAULT_MAX_ATTEMPTS,
+        force: bool = False,
     ) -> List[Dict[str, Any]]:
-        """Return promise_article_links lacking a current-version classification.
+        """Return promise_article_links that still need classifying.
 
-        A link qualifies if it has no classification row OR the stored row has
-        a different prompt_version (stale cache).  Results are ordered by
-        promise_id, descending relevance_score.
+        A link qualifies if
+
+        * it has no classification row, or
+        * the stored row has a different prompt_version (stale cache), unless
+          the relevance gate rejected the article: ``prompt_version`` covers
+          the extraction pass, so gate rejections stay valid, or
+        * the last attempt failed and fewer than *max_attempts* were made.
+
+        With *force* every link qualifies.  Results are ordered by promise_id,
+        descending relevance_score.
 
         ``lc.prompt_version IS NOT ?`` is NULL-safe: it is TRUE when the stored
         value is NULL *or* differs from ``prompt_version``.
@@ -421,10 +580,15 @@ class PromiseStore:
                 LEFT JOIN llm_classifications lc
                   ON lc.promise_id = pal.promise_id
                  AND lc.article_entry_id = pal.article_entry_id
-                WHERE lc.promise_id IS NULL
-                   OR lc.prompt_version IS NOT ?
+                WHERE ?
+                   OR lc.promise_id IS NULL
+                   OR (lc.error IS NOT NULL AND COALESCE(lc.attempts, 0) < ?)
+                   OR (lc.error IS NULL
+                       AND lc.prompt_version IS NOT ?
+                       AND lc.pass1_relevant IS NOT 0)
+                   OR (lc.error IS NOT NULL AND lc.prompt_version IS NOT ?)
                 ORDER BY pal.promise_id, pal.relevance_score DESC
-            """, (prompt_version,)).fetchall()
+            """, (int(force), max_attempts, prompt_version, prompt_version)).fetchall()
             links = [dict(r) for r in rows]
 
         if max_per_promise is None:
@@ -440,84 +604,101 @@ class PromiseStore:
             trimmed.append(link)
         return trimmed
 
-    def get_verdict_counts(self, promise_id: str) -> Dict[str, int]:
+    def get_signal_counts(self, promise_id: str) -> Dict[str, int]:
         with self._connection() as conn:
             rows = conn.execute("""
-                SELECT verdict, COUNT(*) AS cnt
+                SELECT signal, COUNT(*) AS cnt
                 FROM llm_classifications
-                WHERE promise_id = ? AND verdict IS NOT NULL
-                GROUP BY verdict
+                WHERE promise_id = ? AND signal IS NOT NULL
+                GROUP BY signal
             """, (promise_id,)).fetchall()
-            return {r["verdict"]: r["cnt"] for r in rows}
+            return {r["signal"]: r["cnt"] for r in rows}
 
-    def iter_nonirrelevant_classifications(
+    def get_evidence(
         self,
-    ) -> List[tuple[str, List[Dict[str, Any]]]]:
-        """Group non-irrelevant classifications by promise_id.
+        prompt_version: Optional[str] = None,
+        promise_id: Optional[str] = None,
+    ) -> Dict[str, List[Dict[str, Any]]]:
+        """Group signal-bearing classifications by promise_id.
 
-        Returns a list of ``(promise_id, [{"verdict":..., "confidence":...}])``
-        entries.  One DB query total; callers can iterate without reopening
-        connections per promise.
+        Only rows that carry a signal other than ``none`` are evidence.  When
+        *prompt_version* is given, rows extracted under another version are
+        left out, so verdicts of a superseded prompt never reach the rollup.
+        One DB query total.
         """
-        with self._connection() as conn:
-            rows = conn.execute("""
-                SELECT promise_id, verdict, confidence, classified_at
-                FROM llm_classifications
-                WHERE verdict IS NOT NULL AND verdict != 'irrelevant'
-                ORDER BY promise_id, classified_at DESC
-            """).fetchall()
+        query = """
+            SELECT promise_id, article_entry_id, signal, outlet,
+                   published_date AS published, confidence, evidence_quote,
+                   quote_verbatim, reasoning, body_chars, classified_at
+            FROM llm_classifications
+            WHERE signal IS NOT NULL AND signal != 'none' AND error IS NULL
+        """
+        params: list = []
+        if prompt_version is not None:
+            query += " AND prompt_version IS ?"
+            params.append(prompt_version)
+        if promise_id is not None:
+            query += " AND promise_id = ?"
+            params.append(promise_id)
+        query += " ORDER BY promise_id, published_date, article_entry_id"
 
-        groups: List[tuple[str, List[Dict[str, Any]]]] = []
-        current_pid: Optional[str] = None
-        bucket: List[Dict[str, Any]] = []
+        with self._connection() as conn:
+            rows = conn.execute(query, params).fetchall()
+
+        groups: Dict[str, List[Dict[str, Any]]] = {}
         for r in rows:
-            pid = r["promise_id"]
-            if pid != current_pid:
-                if current_pid is not None:
-                    groups.append((current_pid, bucket))
-                current_pid = pid
-                bucket = []
-            bucket.append({
-                "verdict": r["verdict"],
-                "confidence": r["confidence"],
-                "classified_at": r["classified_at"],
-            })
-        if current_pid is not None and bucket:
-            groups.append((current_pid, bucket))
+            groups.setdefault(r["promise_id"], []).append(dict(r))
         return groups
 
     # ---- Sticky best article per promise ----
 
     def update_best_articles(self) -> Dict[str, int]:
-        """Pin the highest-confidence non-irrelevant classification per promise.
+        """Pin the highest-confidence piece of evidence per promise.
 
         For each promise, finds the current argmax of ``confidence`` over
-        classifications whose verdict is not NULL and not 'irrelevant'.  The
-        stored row in ``promise_best_article`` is replaced **only if** the new
+        classifications that carry a signal other than ``none``.  The stored
+        row in ``promise_best_article`` is replaced **only if** the new
         candidate's confidence is strictly greater than the stored value — ties
         keep the existing champion, and a champion's later re-classification to
         a lower confidence does not demote it.
 
-        Returns counts: ``{"inserted": N, "promoted": N, "unchanged": N}``.
+        A champion is dropped when its article no longer counts as evidence
+        (re-classified to ``none``, or never extracted under the signal
+        scheme), so an article the classifier has dismissed cannot keep
+        heading the promise's row in the report.
+
+        Returns counts: ``{"inserted": N, "promoted": N, "unchanged": N,
+        "dropped": N}``.
         """
         inserted = 0
         promoted = 0
         unchanged = 0
 
         with self._connection() as conn:
+            dropped = conn.execute("""
+                DELETE FROM promise_best_article
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM llm_classifications lc
+                    WHERE lc.promise_id = promise_best_article.promise_id
+                      AND lc.article_entry_id = promise_best_article.article_entry_id
+                      AND lc.signal IS NOT NULL
+                      AND lc.signal != 'none'
+                )
+            """).rowcount
+
             candidates = conn.execute("""
                 SELECT promise_id,
                        article_entry_id,
                        confidence
                 FROM llm_classifications
-                WHERE verdict IS NOT NULL
-                  AND verdict != 'irrelevant'
+                WHERE signal IS NOT NULL
+                  AND signal != 'none'
                   AND confidence IS NOT NULL
                   AND (promise_id, confidence) IN (
                       SELECT promise_id, MAX(confidence)
                       FROM llm_classifications
-                      WHERE verdict IS NOT NULL
-                        AND verdict != 'irrelevant'
+                      WHERE signal IS NOT NULL
+                        AND signal != 'none'
                         AND confidence IS NOT NULL
                       GROUP BY promise_id
                   )
@@ -554,7 +735,10 @@ class PromiseStore:
                 else:
                     unchanged += 1
 
-        return {"inserted": inserted, "promoted": promoted, "unchanged": unchanged}
+        return {
+            "inserted": inserted, "promoted": promoted,
+            "unchanged": unchanged, "dropped": dropped,
+        }
 
     def get_best_article(self, promise_id: str) -> Optional[Dict[str, Any]]:
         """Return the sticky winner row for *promise_id*, or None."""
@@ -587,17 +771,18 @@ class PromiseStore:
         never enabled archiving.
 
         Each article dict contains: title, link, relevance_score, entry_id,
-        and the LLM classification fields (verdict, confidence,
-        evidence_quote) if a row exists in ``llm_classifications``.
+        and the LLM classification fields (signal, verdict, confidence,
+        evidence_quote) if a row exists in ``llm_classifications``.  The
+        evidence quote is only passed on when it was found verbatim in the
+        article.
 
-        When ``drop_irrelevant`` is True (default), articles whose LLM verdict
-        is ``'irrelevant'`` are excluded, except when the article is the
-        promise's sticky winner in ``promise_best_article``.
+        When ``drop_irrelevant`` is True (default), articles that carry no
+        evidence (signal ``'none'``) are excluded.
 
         When ``max_per_promise`` is set, only the top-N articles per promise
-        are kept, ranked by LLM confidence (descending, NULLs last) then by
-        relevance_score.  The sticky winner (if any) is always placed first
-        and counts against the top-N quota.
+        are kept, ranked by strength of evidence, then LLM confidence
+        (descending, NULLs last), then relevance_score.  The sticky winner (if
+        any) is always placed first and counts against the top-N quota.
         """
         with self._connection() as conn:
             conn.execute("ATTACH ? AS papers", (papers_db_path,))
@@ -625,7 +810,8 @@ class PromiseStore:
                     link_rows = conn.execute("""
                         SELECT pal.article_entry_id AS entry_id,
                                pal.relevance_score,
-                               lc.verdict, lc.confidence, lc.evidence_quote
+                               lc.signal, lc.verdict, lc.confidence,
+                               lc.evidence_quote, lc.quote_verbatim
                         FROM promise_article_links pal
                         LEFT JOIN llm_classifications lc
                           ON lc.promise_id = pal.promise_id
@@ -686,9 +872,12 @@ class PromiseStore:
                             "link": link,
                             "relevance_score": r["relevance_score"],
                             "entry_id": eid,
+                            "signal": r["signal"],
                             "verdict": r["verdict"],
                             "confidence": r["confidence"],
-                            "evidence_quote": r["evidence_quote"],
+                            "evidence_quote": (
+                                r["evidence_quote"] if r["quote_verbatim"] else None
+                            ),
                         })
 
                     sticky_eid = best_map.get(promise["id"])
@@ -696,12 +885,13 @@ class PromiseStore:
                     if drop_irrelevant:
                         articles = [
                             a for a in articles
-                            if a.get("verdict") != "irrelevant"
-                            or a.get("entry_id") == sticky_eid
+                            if a.get("signal") != "none"
+                            and a.get("verdict") != "irrelevant"
                         ]
 
                     articles.sort(
                         key=lambda a: (
+                            _EVIDENCE_RANK.get(a.get("signal") or "", 0),
                             a.get("confidence") if a.get("confidence") is not None else -1.0,
                             a.get("relevance_score") or 0,
                         ),

@@ -80,10 +80,14 @@ def _load_promises(config_path: str) -> List[Dict[str, Any]]:
     return promises
 
 
-_VERDICT_BADGE_MD = {
+# Per-article evidence badges, keyed by signal.
+_SIGNAL_BADGE_MD = {
     "kept": "✓",
-    "in_progress": "→",
-    "broken": "✗",
+    "partial": "◐",
+    "step": "→",
+    "intent": "○",
+    "delay": "⏳",
+    "reversal": "⚠",
 }
 
 
@@ -95,8 +99,7 @@ def _article_md(article: Dict[str, Any]) -> str:
     title = title.replace("|", "\\|")
     link_md = f"[{title}]({article['link']})"
 
-    verdict = article.get("verdict")
-    badge = _VERDICT_BADGE_MD.get(verdict or "")
+    badge = _SIGNAL_BADGE_MD.get(article.get("signal") or "")
     if badge:
         link_md = f"{badge} {link_md}"
 
@@ -119,13 +122,15 @@ def _render_md(promises: List[Dict[str, Any]]) -> str:
     lines.append("### Promise tracker")
     lines.append("")
     lines.append(
-        "Status legend: :white_check_mark: kept | :hourglass_flowing_sand: in progress "
-        "| :x: broken | :black_square_button: not yet started"
+        "Status legend: :white_check_mark: kept | :yellow_circle: partially kept "
+        "| :hourglass_flowing_sand: in progress | :x: broken "
+        "| :black_square_button: not yet started"
     )
     lines.append("")
     lines.append(
-        "Article badges: ✓ kept | → in progress | ✗ broken "
-        "(LLM verdict; evidence quote in italics)"
+        "Article badges: ✓ delivered | ◐ partly delivered | → formal step "
+        "| ○ announced | ⏳ delayed | ⚠ reversal reported, not yet confirmed "
+        "(what the article reports the government did; quotes are verbatim)"
     )
 
     for cat in CATEGORY_ORDER:
