@@ -1,6 +1,15 @@
 # Tisza Tracker
 
-Hungarian government promise tracker. Monitors daily media coverage via RSS feeds, ranks articles by relevance using semantic similarity, and links them to specific campaign promises made by the Tisza party.
+Hungarian government promise tracker. Monitors daily media coverage via RSS feeds, links articles to specific campaign promises made by the Tisza party, and derives each promise's status from what those articles report the government did.
+
+**How to read the statuses.** A status is computed from all coverage since the government took office on 12 May 2026, not from the tone of the latest article:
+
+- **Kept** and **partially kept** need delivery reported by two outlets.
+- **In progress** needs one formal step (a bill submitted, a draft published for consultation), or an intention reported by two outlets.
+- **Not yet started** means no such evidence has been found. The article matcher misses stories, so it is not proof that nothing happened.
+- **Broken** is never assigned automatically. A reversal reported by two outlets is reviewed by a person first.
+
+Criticism, opposition claims, expert opinion and the previous government's record do not count as evidence, and a headline without the article text is never enough for kept or broken. The rules are described under [Status rollup](#status-rollup).
 
 <!-- PROMISES_START -->
 ### Promise tracker
@@ -417,6 +426,7 @@ tt promise  list | show ID | sync | status ID STATUS [--no-lock] | unlock ID | r
 - Python 3.10+
 - SQLite (5 databases, FTS5 trigram + keyword indexes)
 - Sentence-Transformers (paraphrase-multilingual-MiniLM-L12-v2)
+- OpenAI-compatible chat API (`gpt-5-nano` relevance gate, `gpt-5-mini` evidence extraction)
 - feedparser, trafilatura, requests, Click, PyYAML
 
 ## Setup
@@ -425,3 +435,13 @@ tt promise  list | show ID | sync | status ID STATUS [--no-lock] | unlock ID | r
 pip install -e .
 tt status
 ```
+
+### Scheduled runs
+
+`run_pipeline.sh` runs the six stages, lists the promises awaiting review, rewrites
+the tracker table at the top of this README and pushes the result to `main`. It
+runs from a local checkout and does not pull. After merging a pull request on
+GitHub, run `git pull` in that checkout before the next run: until then the old
+code is still in use, and the run's push is rejected because the branches have
+diverged. Changes to `config.yaml`, `topics/` or `promises/` also have to be
+copied to the data directory (see [Configuration](#configuration)).
