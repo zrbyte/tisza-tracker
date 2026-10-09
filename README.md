@@ -438,10 +438,11 @@ tt status
 
 ### Scheduled runs
 
-`run_pipeline.sh` runs the six stages, lists the promises awaiting review, rewrites
-the tracker table at the top of this README and pushes the result to `main`. It
-runs from a local checkout and does not pull. After merging a pull request on
-GitHub, run `git pull` in that checkout before the next run: until then the old
-code is still in use, and the run's push is rejected because the branches have
-diverged. Changes to `config.yaml`, `topics/` or `promises/` also have to be
-copied to the data directory (see [Configuration](#configuration)).
+`run_pipeline.sh` runs from a local checkout. It starts with `git pull --rebase`,
+so a pull request merged on GitHub is in use from the next run (a change to the
+script itself from the run after that). It then runs the six stages, lists the
+promises awaiting review, rewrites the tracker table at the top of this README
+and pushes the result to `main`. If the pull fails (no network, or a conflict
+with a local commit) the run continues on the code already checked out and says
+so. Changes to `config.yaml`, `topics/` or `promises/` still have to be copied to
+the data directory (see [Configuration](#configuration)).

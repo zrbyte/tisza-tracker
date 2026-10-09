@@ -6,6 +6,19 @@ set +u; [[ -f "$HOME/.profile" ]] && source "$HOME/.profile"; set -u
 
 export PATH="$HOME/.local/bin:$PATH"
 
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
+
+echo "=== git pull ==="
+# `tt` is an editable install of this checkout, so pulling is what puts a pull
+# request merged on GitHub into use (a change to this script itself applies
+# from the next run).  --rebase also replays a tracker commit that an earlier
+# run could not push.  Non-fatal: offline, or if the rebase conflicts, the run
+# goes ahead with the code already checked out.
+if ! git -C "$SCRIPT_DIR" pull --rebase; then
+    git -C "$SCRIPT_DIR" rebase --abort 2>/dev/null || true
+    echo "  WARN: git pull failed — continuing with the checked-out code"
+fi
+
 echo "=== filter ==="
 tt filter
 
@@ -58,7 +71,6 @@ if ! tt promise review; then
 fi
 
 echo "=== report ==="
-SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
 tt report --readme "$SCRIPT_DIR/README.md"
 
 echo "=== git sync ==="
