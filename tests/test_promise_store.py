@@ -302,6 +302,18 @@ def test_list_unclassified_retry_success_clears_the_link(promise_store):
     assert promise_store.get_classification("P", "E1")["error"] is None
 
 
+def test_list_unclassified_carries_the_stored_gate_result(promise_store):
+    promise_store.link_article("P", "NEW", relevance_score=0.9)
+    promise_store.link_article("P", "STALE", relevance_score=0.5)
+    promise_store.upsert_classification(
+        "P", "STALE", signal="step", pass1_relevant=True, pass1_confidence=0.8,
+        prompt_version="v0",
+    )
+    new, stale = promise_store.list_unclassified_links("v1")
+    assert (new["pass1_relevant"], new["pass1_confidence"]) == (None, None)
+    assert (stale["pass1_relevant"], stale["pass1_confidence"]) == (1, 0.8)
+
+
 def test_list_unclassified_max_per_promise_caps(promise_store):
     for i in range(5):
         promise_store.link_article("P", f"E{i}", relevance_score=0.5 - i * 0.01)

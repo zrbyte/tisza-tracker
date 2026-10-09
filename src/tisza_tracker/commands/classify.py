@@ -217,10 +217,17 @@ def run(
                 errors += 1
                 continue
 
+            # The gate prompt is not versioned: an article that passed it
+            # before goes straight to extraction (--force asks again).
+            gate_passed = None
+            if not force and link.get("pass1_relevant") == 1:
+                gate_passed = link.get("pass1_confidence") or 0.0
+
             logger.info("Classifying %s ↔ %s (score=%.2f)", pid, eid[:8], link["relevance_score"])
             result = classifier.classify(
                 promise, article,
                 body_loader=lambda: _fetch_body(db, fetcher, eid, article),
+                gate_passed=gate_passed,
             )
 
             ps.upsert_classification(

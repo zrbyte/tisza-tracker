@@ -434,6 +434,17 @@ def test_classify_fetches_body_only_after_the_gate(monkeypatch):
     assert result["body_chars"] == len(BODY.strip())
 
 
+def test_classify_skips_the_gate_for_an_article_that_passed_it_before(monkeypatch):
+    classifier, fake = _make_classifier([EXTRACTED], monkeypatch=monkeypatch)
+
+    result = classifier.classify(PROMISE, _article(), gate_passed=0.8)
+    assert len(fake.calls) == 1
+    assert fake.calls[0]["response_format"]["type"] == "json_schema"
+    assert result["signal"] == "kept"
+    assert result["pass1_relevant"] is True
+    assert result["pass1_confidence"] == 0.8
+
+
 def test_classify_skips_loader_when_body_is_stored(monkeypatch):
     classifier, _ = _make_classifier([GATE_OK, EXTRACTED], monkeypatch=monkeypatch)
 

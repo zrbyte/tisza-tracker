@@ -567,7 +567,8 @@ class PromiseStore:
         * the last attempt failed and fewer than *max_attempts* were made.
 
         With *force* every link qualifies.  Results are ordered by promise_id,
-        descending relevance_score.
+        descending relevance_score, and carry the stored gate result
+        (``pass1_relevant``, ``pass1_confidence``; None without a row).
 
         ``lc.prompt_version IS NOT ?`` is NULL-safe: it is TRUE when the stored
         value is NULL *or* differs from ``prompt_version``.
@@ -576,7 +577,9 @@ class PromiseStore:
             rows = conn.execute("""
                 SELECT pal.promise_id,
                        pal.article_entry_id,
-                       pal.relevance_score
+                       pal.relevance_score,
+                       lc.pass1_relevant,
+                       lc.pass1_confidence
                 FROM promise_article_links pal
                 LEFT JOIN llm_classifications lc
                   ON lc.promise_id = pal.promise_id

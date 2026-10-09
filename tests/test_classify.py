@@ -667,10 +667,37 @@ def test_run_retries_a_failed_link_on_the_next_run(pipeline):
     # One link failed, so the promise waits rather than settle on half the evidence.
     assert pipeline.ps.get_promise("P-1")["current_status"] == "made"
 
-    result, fake = pipeline.run([GATE_OK, DELIVERED])
+    # The article already passed the gate, so the retry is one extraction call.
+    result, fake = pipeline.run([DELIVERED])
     assert result["classified"] == 1
+    assert len(fake.calls) == 1
+    row = pipeline.ps.get_classification("P-1", "E-HVG")
+    assert row["error"] is None
+    assert row["pass1_relevant"] == 1
+    assert pipeline.ps.get_promise("P-1")["current_status"] == "kept"
+
+
+def test_run_new_prompt_version_re_extracts_without_asking_the_gate_again(pipeline):
+    """A prompt change must not lose articles to gate noise, nor pay for
+    the gate twice."""
+    pipeline.ps.link_article("P-1", "E-GATED", relevance_score=0.1)
+    with sqlite3.connect(pipeline.db.db_paths["all_feeds"]) as conn:
+        conn.execute(
+            "INSERT INTO feed_entries (entry_id, feed_name, title, link, summary, "
+            "published_date) VALUES ('E-GATED', 'Index', 'Időjárás', 'https://i', '', '2026-06-10')"
+        )
+        conn.commit()
+    pipeline.run([GATE_OK, DELIVERED, GATE_OK, DELIVERED, GATE_NO])
+
+    with sqlite3.connect(pipeline.ps.db_path) as conn:  # as if the prompt had changed
+        conn.execute("UPDATE llm_classifications SET prompt_version = 'older'")
+        conn.commit()
+
+    result, fake = pipeline.run([DELIVERED, DELIVERED])
+    assert result["classified"] == 2
     assert len(fake.calls) == 2
-    assert pipeline.ps.get_classification("P-1", "E-HVG")["error"] is None
+    assert all(c["response_format"]["type"] == "json_schema" for c in fake.calls)
+    assert pipeline.ps.get_classification("P-1", "E-GATED")["prompt_version"] == "older"
     assert pipeline.ps.get_promise("P-1")["current_status"] == "kept"
 
 

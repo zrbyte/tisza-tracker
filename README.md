@@ -251,9 +251,11 @@ Code then turns that record into a **signal**
 
 Results are stored in `promises.db` (`llm_classifications` table). Re-running
 `tt classify` only processes new links, links whose extraction is from an older
-prompt, and links whose last attempt failed (up to `max_attempts` runs). Use
-`--force` to redo everything including gate rejections, `--limit N` for testing,
-or `--promise ID` to scope to one promise.
+prompt, and links whose last attempt failed (up to `max_attempts` runs). The gate
+is asked once per link: its rejections stay, and an article that passed goes
+straight to extraction when it is re-read. Use `--force` to redo everything
+including the gate, `--limit N` for testing, or `--promise ID` to scope to one
+promise.
 
 ### Status rollup
 
@@ -359,7 +361,7 @@ be copied there to take effect.
 - `api_key_env` / `api_key_file` — key source; defaults to `OPENAI_API_KEY` env var
 - `max_candidates_per_promise: 20` — cap links sent to the LLM per promise per run (cost control)
 - `top_n_in_report: 3` — articles shown per promise in the tracker table
-- `prompt_version: "v1"` — bump to invalidate cached extractions (gate rejections are kept;
+- `prompt_version: "v1"` — bump to invalidate cached extractions (gate results are kept;
   `--force` redoes those too). A prompt change in the code invalidates them by itself.
 - `max_attempts: 3` — runs after which a link that keeps failing is given up
 - `min_body_chars: 300` — a shorter body counts as headline-only

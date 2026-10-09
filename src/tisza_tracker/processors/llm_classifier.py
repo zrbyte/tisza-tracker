@@ -440,13 +440,16 @@ class LLMClassifier:
         promise: Dict[str, Any],
         article: Dict[str, Any],
         body_loader: Optional[Callable[[], Optional[str]]] = None,
+        gate_passed: Optional[float] = None,
     ) -> Dict[str, Any]:
         """Run the two-pass cascade and return a normalized result dict.
 
         *article* carries ``title``, ``summary``, ``full_text``, ``outlet`` and
         ``published``.  *body_loader* is called to fetch the body when the
         article passes the gate without one, so only relevant articles cost a
-        download.
+        download.  *gate_passed* is the gate's confidence from an earlier run
+        in which the article passed; the gate is then not asked again, so
+        re-extracting under a new prompt cannot lose an article to gate noise.
         """
         result: Dict[str, Any] = {
             "signal": None,
@@ -470,7 +473,10 @@ class LLMClassifier:
         summary = article.get("summary") or ""
 
         # Pass 1: gate
-        if self.pass1_enabled:
+        if gate_passed is not None:
+            result["pass1_relevant"] = True
+            result["pass1_confidence"] = _as_float(gate_passed)
+        elif self.pass1_enabled:
             try:
                 p1 = self.relevance_gate(promise["text"], title, summary)
             except Exception as exc:
